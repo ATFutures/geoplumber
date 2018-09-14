@@ -11,7 +11,7 @@ geoplumber is R package that extends
 [`plumber`](https://github.com/trestletech/plumber), which was designed
 for creating web APIs with R. It supports [React](https://reactjs.org/)
 frontends at present (it may support other frontend frameworks such as
-Veu in the future) and geographic data, building on
+VueJS in the future) and geographic data, building on
 [`sf`](https://github.com/r-spatial/sf).
 
 In other words, geoplumber is a lightweight geographic data server, like
