@@ -1,7 +1,5 @@
 
-\[\[Travis-CI Build Status\]
-(<https://travis-ci.org/ATFutures/geoplumber.svg?branch=master>)\]
-(<https://travis-ci.org/ATFutures/geoplumber>)
+[![Build Status](https://travis-ci.org/ATFutures/geoplumber.svg)](https://travis-ci.org/ATFutures/geoplumber)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
