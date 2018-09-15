@@ -1,10 +1,12 @@
 context("test-gp_endpoint_from_clip")
-test_that("gp_endpoint_from_clip fails on empty clip", {
-  clip <- clipr::read_clip()
-  clipr::clear_clip()
-  expect_error(gp_endpoint_from_clip())
-  clipr::write_clip(clip)
-})
+if(clipr::clipr_available()) {
+  test_that("gp_endpoint_from_clip fails on empty clip", {
+    clip <- clipr::read_clip()
+    clipr::clear_clip()
+    expect_error(gp_endpoint_from_clip())
+    clipr::write_clip(clip)
+  })
+}
 # test_that("gp_endpoint_from_clip works", {
   # gp_create() # to create a new app and change dir into it.
   # above would be too slow just simulate
