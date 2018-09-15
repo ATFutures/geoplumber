@@ -4,6 +4,13 @@ warnings_are_errors: true
 sudo: required
 cache: packages
 
+addons:
+  apt:
+    packages:
+      - libprotobuf-dev
+      - libprotoc-dev
+      - protobuf-compiler
+
 before_install:
     - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
     - sudo apt-get --yes --force-yes update -qq
