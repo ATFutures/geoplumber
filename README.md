@@ -16,7 +16,7 @@ devtools::install_github("ATFutures/geoplumber")
 #> Installing geoplumber
 #> '/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file  \
 #>   --no-environ --no-save --no-restore --quiet CMD INSTALL  \
-#>   '/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpI8h68Q/devtools47d178e7fb4/ATFutures-geoplumber-d1053bd'  \
+#>   '/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpGrtp56/devtools13f670c75723/ATFutures-geoplumber-7c503d6'  \
 #>   --library='/Library/Frameworks/R.framework/Versions/3.5/Resources/library'  \
 #>   --install-tests
 #> 
@@ -120,7 +120,7 @@ To achive this copy the following endpoint/API to the clipboard of your machine.
 #' Serve geoplumber::traffic from /api/data
 #' @get /api/data
 get_traffic <- function(res) {
-  geojson <- geojsonio::geojson_json(geoplumber::traffic)
+  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
   res$body <- geojson
   res
 }
@@ -131,14 +131,12 @@ Then run (re-copied into clipboard just in case):
 ``` r
 setwd("my_app")
 old_clip <- clipr::read_clip()
-#> Warning in clipr::read_clip(): System clipboard contained no readable text.
-#> Returning NULL.
 # adding above to clipboard
  clipr::write_clip(c(
  "#' Serve geoplumber::traffic from /api/data",
  "#' @get /api/data",
  "get_traffic <- function(res) {",
- "  geojson <- geojsonio::geojson_json(geoplumber::traffic)",
+ "  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)",
  "  res$body <- geojson",
  "  res",
  "}"
@@ -149,7 +147,7 @@ old_clip <- clipr::read_clip()
 #> #' Serve geoplumber::traffic from /api/data
 #> #' @get /api/data
 #> get_traffic <- function(res) {
-#>   geojson <- geojsonio::geojson_json(geoplumber::traffic)
+#>   geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
 #>   res$body <- geojson
 #>   res
 #> }
@@ -158,7 +156,6 @@ old_clip <- clipr::read_clip()
 #> Success.
 #> Please restart your server: gp_plumb()
  clipr::write_clip(old_clip)
-#> Warning in flat_str(content, breaks): Coercing content to character
 ```
 
 This has now added a new endpoint at: `/api/data`. To consume it, we can simply run:

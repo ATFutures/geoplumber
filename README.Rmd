@@ -111,7 +111,7 @@ To achive this copy the following endpoint/API to the clipboard of your machine.
 #' Serve geoplumber::traffic from /api/data
 #' @get /api/data
 get_traffic <- function(res) {
-  geojson <- geojsonio::geojson_json(geoplumber::traffic)
+  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
   res$body <- geojson
   res
 }
@@ -125,7 +125,7 @@ old_clip <- clipr::read_clip()
  "#' Serve geoplumber::traffic from /api/data",
  "#' @get /api/data",
  "get_traffic <- function(res) {",
- "  geojson <- geojsonio::geojson_json(geoplumber::traffic)",
+ "  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)",
  "  res$body <- geojson",
  "  res",
  "}"

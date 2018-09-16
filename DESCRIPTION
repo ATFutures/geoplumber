@@ -17,5 +17,5 @@ RoxygenNote: 6.1.0
 Imports: 
     plumber,
     clipr,
-    geojsonio
+    geojsonsf
 Roxygen: list(markdown = TRUE)
