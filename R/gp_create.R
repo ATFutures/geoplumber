@@ -60,7 +60,7 @@ gp_create <- function(project_name = "geoplumber") {
   pkg_json[2] <- sub("geoplumber", dir_name, pkg_json[2]) # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
   # setwd("~/code/geoplumber/") # comment out!
-  message(paste0("Ready to build app in directory: ", project_name))
+  message(paste0("To build/run app, set working directory to: ", project_name))
   message("Standard output from create-react-app above works.\n",
           "You can run gp_ functions from directory: ", project_name,
           "\nTo build the front end run: gp_build()\n",
