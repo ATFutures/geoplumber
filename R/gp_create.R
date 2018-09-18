@@ -70,7 +70,7 @@ gp_create <- function(project_name = "geoplumber") {
   setwd(wd_old)
 
   # write dir_name to `tempfile_name()`
-  write_tempfile()
+  write_tempfile(dir_name)
 }
 
 #' Remove a plumber project and clean associated directories
