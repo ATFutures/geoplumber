@@ -6,6 +6,7 @@
 /coverage
 # production
 /build
+!build.R
 # misc
 .DS_Store
 .env.local
