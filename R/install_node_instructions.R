@@ -7,7 +7,7 @@
 #' gp_install_node_instructions()
 #' }
 gp_install_node_instructions <- function() {
-  message(
+  paste0(
     "You will need NodeJS and npm to use geoplumber.\n\n",
     "To install node and npm on debian 64 bit machines using apt: \n",
     "sudo apt-get install nodejs\n",

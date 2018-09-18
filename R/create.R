@@ -12,9 +12,9 @@
 #' }
 gp_create <- function(project_name = "geoplumber") {
   if(!gp_npm_exists()) {
-    stop("geoplumber requires node and npm to work.")
-    # show UNIX instructions.
-    gp_install_node_instructions()
+    msg <- paste0 ("geoplumber requires node and npm to work.\n",
+                   gp_install_node_instructions()) # UNIX only
+    stop (msg)
   }
   dir_name <- project_name
   if(project_name == ".") {
