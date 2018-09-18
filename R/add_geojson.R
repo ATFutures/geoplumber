@@ -42,11 +42,15 @@ gp_add_geojson <- function(endpoint = "/api/data"){
   # Import new component
   # Above 'export default'
   export.index <- grep("export default", welcome)
-  welcome <- c(welcome[1:export.index - 1],
-               # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
-               paste0("import ", component.name, " from './", component.path, "';"),
-               welcome[export.index:length(welcome)]
-  )
+  # check for duplicate
+  component.name.added <- grepl(paste0("import ", component.name), welcome)
+  if(!any(component.name.added)) {
+    welcome <- c(welcome[1:export.index - 1],
+                 # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
+                 paste0("import ", component.name, " from './", component.path, "';"),
+                 welcome[export.index:length(welcome)]
+    )
+  }
   # find end map component tag
   map.end.index <- grep(pattern = "</Map>", x = welcome)
   # TODO: more checks as file could be corrupt
