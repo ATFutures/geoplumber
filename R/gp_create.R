@@ -18,14 +18,15 @@ gp_create <- function(project_name = "geoplumber") {
   }
   dir_name <- project_name
   if(project_name == ".") {
-    # stop("Sorry! Current version does not support creating within existing directory.")
-    dir_name <- basename(getwd())
+    dir_name <- getwd()
   }
-  if(grepl("/", project_name)) {
-    # path given
-    # TODO: check if path exists
-    dir_name <- basename(project_name)
-  }
+  if (!file.exists (dirname (dir_name)))
+      stop ("The path ", dirname (dir_name), "does not exist")
+
+  project_name <- basename(dir_name)
+  if (identical (basename(dir_name), dir_name))
+      dir_name <- file.path(getwd(), dir_name)
+
   # check if create-react-app package is installed.
   npmList <- "npm list create-react-app"
   check <- system(paste0(npmList, " -g"))
@@ -44,12 +45,12 @@ gp_create <- function(project_name = "geoplumber") {
   }
   # TODO: manage project path along with npm
   # for now let npm do the lifting
-  message(paste0("Initializing project at: ", project_name))
+  message(paste0("Initializing project at: ", dir_name))
   # TODO: give geoplumber failed message
   # For now npm gives an error if dir exists.
-  system(paste0("npx create-react-app ", project_name))
-  system(paste0("cd ", project_name))
-  wd_old <- setwd(project_name)
+  system(paste0("npx create-react-app ", dir_name))
+  system(paste0("cd ", dir_name))
+  wd_old <- setwd(dir_name)
   # copy plumber.R
   system("mkdir R")
   # cp plumber.R R
@@ -67,6 +68,17 @@ gp_create <- function(project_name = "geoplumber") {
           "To run the geoplumber app: gp_plumb()\n",
           "Happy coding.")
   setwd(wd_old)
+
+  # write dir_name to `tempfile_name()`
+  write_tempfile()
+}
+
+#' Remove a plumber project and clean associated directories
+#'
+#' @export
+gp_erase <- function() {
+    dir_name <- read_tempfile() # from R/utils.R
+    unlink (dir_name, recursive = TRUE)
 }
 
 #' Essential checks for certain functions of geoplumber.
