@@ -4,6 +4,9 @@ warnings_are_errors: true
 sudo: required
 cache: packages
 
+r_github_packages:
+    - jimhester/covr
+
 addons:
   apt:
     packages:
@@ -30,3 +33,9 @@ addons:
       - tk-dev
       - unixodbc-dev
       - libv8-dev
+
+before_install:
+    - sudo npm i -g create-react-app
+
+after_success:
+    - Rscript -e 'covr::codecov()'

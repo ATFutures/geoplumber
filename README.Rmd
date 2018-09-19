@@ -4,6 +4,9 @@ output: github_document
 
 
 [![Build Status](https://travis-ci.org/ATFutures/geoplumber.svg)](https://travis-ci.org/ATFutures/geoplumber)
+[![codecov](https://codecov.io/gh/ATFutures/dodgr/branch/master/graph/badge.svg)](https://codecov.io/gh/ATFutures/dodgr)
+[![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -35,7 +38,12 @@ geoplumber is built for Unix systems, we aim to support Windows in future.
 
 We have worked with Shiny and  [`plumber`](https://github.com/trestletech/plumber/) and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.
 
-Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates.
+Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
+
+```
+sudo npm i -g create-react-app
+```
+
 
 <!-- ## Installation -->
 
@@ -44,12 +52,6 @@ Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to dea
 
 <!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
 
-## Test
-Trying to test drive the package but it is not always the case.
-
-```{r, eval=FALSE}
-devtools::test()
-```
 
 ## npm packages included by default
 ```{js}
@@ -165,3 +167,10 @@ curl localhost:8000/api/helloworld
 #> {"msg":["The message is: 'nothing given'"]}
 ```
 
+## Test
+
+Tests currently only apply to very restricted components of full functionality.
+
+```{r, eval=FALSE}
+devtools::test()
+```
