@@ -4,7 +4,11 @@
 \alias{gp_erase}
 \title{Remove a plumber project and clean associated directories}
 \usage{
-gp_erase()
+gp_erase(dir_name = NULL)
+}
+\arguments{
+\item{dir_name}{Name of project directory (if NULL, previously-built
+directory will be erased)}
 }
 \description{
 Remove a plumber project and clean associated directories
