@@ -24,8 +24,6 @@ test_that ("full erase", {
                expect_silent (gp_erase ())
 })
 
-test_that("build fails for non geoplumber path", {
-  # expect_message takes character vector.
-  #expect_message(gp_build(), "Geoplumber failed to identify a package.json in working directory: ",
-  #               getwd(), "\nRun gp_create() to create a geoplumber app.")
+test_that("gp_build errs for non geoplumber path", {
+  expect_error(gp_build())
 })

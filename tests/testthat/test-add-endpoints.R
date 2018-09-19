@@ -7,26 +7,45 @@ if(clipr::clipr_available()) {
     clipr::write_clip(clip)
   })
 }
-# test_that("gp_endpoint_from_clip works", {
-  # gp_create() # to create a new app and change dir into it.
+
+test_that("gp_endpoint_from_clip works", {
+  temp.dir <- "tempdir"
+  # gp_create(temp.dir) # to create a new app and change dir into it.
   # above would be too slow just simulate
-  # project_name <- "geoplumber-test"
-  # system(paste0("mkdir ", project_name, "/R -p"))
-  # system(paste0("cd ", project_name))
-  # system(paste0("cp ", system.file("plumber.R", package = "geoplumber"), " R"))
-  # before <- length(readLines("R/plumber.R"))
-  # clipr::write_clip(c(
-  #   "# comment for a new endpoint",
-  #   "@get /api/test",
-  #   "function(){",
-  #   "  cat('test')",
-  #   "}"
-  # ), breaks = "\n")
-  # read from clip
-  # write to plumber.R file
-  # we add two line \n # endpoint -----
-  # added <- length(clipr::read_clip()) + 2
-  # after <- length(readLines("R/plumber.R"))
-  # compare before after
-  # expect_equal(before + added, after)
-# })
+  # project_name <- basename(temp.dir)
+  system(paste0("mkdir ", temp.dir, "/R -p")) # no harm in -p
+  system(paste0("cd ", temp.dir))
+  old_wd <- setwd(temp.dir)
+  system(paste0("cp ", system.file("plumber.R", package = "geoplumber"), " R"))
+  endpoint <- c(
+    "#' comment for a new endpoint",
+    "#' @get /api/test",
+    "function(){",
+    "  cat('test')",
+    "}"
+  )
+  m <- "Success.\nPlease restart your server: gp_plumb()"
+  if(clipr::clipr_available()) {
+    cat("\nclipr::clipr_available = TRUE")
+    old_clip <- clipr::read_clip()
+    clipr::write_clip(endpoint, breaks = "\n")
+
+    expect_message(gp_endpoint_from_clip(), m)
+    clipr::write_clip(old_clip)
+  } else {
+    # fake clipr or endpoint_from_clip()
+    cat("\nmocking...gp_endpoint_from_clip")
+    cat("\n", getwd())
+    mock_endpoint_from_clip <- function() {
+      write(endpoint, "R/plumber.R", append=TRUE)
+      message(m)
+    }
+    with_mock(
+      gp_endpoint_from_clip = mock_endpoint_from_clip,
+      expect_message(gp_endpoint_from_clip(), m)
+    )
+  }
+  # reset
+  setwd(old_wd)
+  unlink (temp.dir, recursive = TRUE)
+})
