@@ -30,3 +30,5 @@ addons:
       - tk-dev
       - unixodbc-dev
       - libv8-dev
+      - nodejs
+      - npm
