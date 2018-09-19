@@ -16,8 +16,15 @@ test_that ("full build", {
               expect_true (file.exists (build_dir))
 })
 
+test_that ("default endpoints", {
+  r <- plumber::plumber$new("junk/R/plumber.R")
+  expect_equal(length(r$endpoints[[1]]), 4)
+  expect_equal(r$endpoints[[1]][[1]]$exec(), list(msg="The message is: 'nothing given'"))
+})
+
 test_that ("full plumb", {
-               #gp_plumb() # MP: dunno how to test this?
+  # LH: last test is the only way, we dont need to check port availability etc.
+  #gp_plumb() # MP: dunno how to test this?
 })
 
 test_that ("full erase", {
