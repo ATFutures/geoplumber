@@ -27,6 +27,9 @@ gp_create <- function(project_name = "geoplumber") {
   if (identical (basename(dir_name), dir_name))
       dir_name <- file.path(getwd(), dir_name)
 
+  # project_name is the single name passed to npm;
+  # dir_name is the full expanded name of the directory holding the project
+
   # check if create-react-app package is installed.
   npmList <- "npm list create-react-app"
   check <- system(paste0(npmList, " -g"))
@@ -47,8 +50,9 @@ gp_create <- function(project_name = "geoplumber") {
   # for now let npm do the lifting
   message(paste0("Initializing project at: ", dir_name))
   # TODO: give geoplumber failed message
+  # TODO: (MP) Make directory construction more flexible
   # For now npm gives an error if dir exists.
-  system(paste0("npx create-react-app ", dir_name))
+  system(paste0("npx create-react-app ", project_name))
   system(paste0("cd ", dir_name))
   wd_old <- setwd(dir_name)
   # copy plumber.R
@@ -58,7 +62,7 @@ gp_create <- function(project_name = "geoplumber") {
   # cp -r inst/js .
   system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
   pkg_json <- readLines("package.json")
-  pkg_json[2] <- sub("geoplumber", dir_name, pkg_json[2]) # as it could be path or .
+  pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2]) # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
   # setwd("~/code/geoplumber/") # comment out!
   message(paste0("To build/run app, set working directory to: ", project_name))
@@ -78,7 +82,12 @@ gp_create <- function(project_name = "geoplumber") {
 #' @export
 gp_erase <- function() {
     dir_name <- read_tempfile() # from R/utils.R
+    wd <- getwd ()
+    setwd (dir_name)
+    setwd ("..")
     unlink (dir_name, recursive = TRUE)
+    if (file.exists (wd))
+        setwd (wd)
 }
 
 #' Essential checks for certain functions of geoplumber.
