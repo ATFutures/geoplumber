@@ -33,10 +33,10 @@ addons:
       - tk-dev
       - unixodbc-dev
       - libv8-dev
-      - npm
 
 before_install:
-    - sudo npm i -g create-react-app
+    - nvm install 8.9
+    - npm i -g create-react-app
 
 after_success:
     - Rscript -e 'covr::codecov()'
