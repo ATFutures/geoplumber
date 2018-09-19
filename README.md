@@ -26,10 +26,10 @@ devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
 #> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
 #> Installing geoplumber
-#> '/usr/lib64/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+#> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
 #>   --quiet CMD INSTALL  \
-#>   '/tmp/RtmpBGO7TW/devtools2b4a21ef7ca9/ATFutures-geoplumber-427a475'  \
-#>   --library='/home/markus/R/x86_64-pc-linux-gnu-library/3.5'  \
+#>   '/tmp/Rtmpkukbnf/devtools57a351361321/ATFutures-geoplumber-e774753'  \
+#>   --library='/home/layik/R/x86_64-pc-linux-gnu-library/3.4'  \
 #>   --install-tests
 #> 
 ```
@@ -89,7 +89,7 @@ To create a new web application:
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /data/mega/code/repos/atfutures/geoplumber/my_app
+#> Initializing project at: /home/user/code/geoplumber/my_app
 #> To build/run app, set working directory to: my_app
 #> Standard output from create-react-app above works.
 #> You can run gp_ functions from directory: my_app
@@ -121,10 +121,9 @@ gp_build() # the front end and create minified js files.
 #> To run the geoplumber app: gp_plumb()
 ```
 
-At this point, if you created an app using the above examples or set
-your working directory to a geoplumber app. You can then serve all
-endpoints and front end with one command: `gp_plumb()` \# provide custom
-port if you wish, default is 8000
+Please note, `gp_build()` produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development "serve" function which would use `gp_plumb_front()` but would have to also use `gp_plumb()` to serve the backend.
+
+At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with one command: `gp_plumb()` \# provide custom port if you wish, default is 8000.
 
 Then visit `localhost:8000` to see your app.
 

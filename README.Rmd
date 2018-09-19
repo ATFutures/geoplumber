@@ -96,6 +96,7 @@ setwd("my_app")
 gp_build() # the front end and create minified js files.
 
 ```
+Please note, `gp_build()` produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development "serve" function which would use `gp_plumb_front()` but would have to also use `gp_plumb()` to serve the backend.
 
 At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with one command:
 `gp_plumb()` \# provide custom port if you wish, default is 8000

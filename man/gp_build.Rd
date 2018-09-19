@@ -14,5 +14,12 @@ This function must be called to build
 React build for online front-end.
 }
 \details{
-Runs npm run build.
+Runs npm run build. This creates an optimized, production and minified JS front end
+which is ready to be deployed anywhere.
 }
+\section{TODO}{
+ this function will be used less and less during development.
+For now geoplumber does not have a development function. Once this becomes available,
+the two functions will work together but do totally different tasks.
+}
+

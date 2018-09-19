@@ -3,7 +3,12 @@
 #' This function must be called to build
 #' React build for online front-end.
 #'
-#' Runs npm run build.
+#' Runs npm run build. This creates an optimized, production and minified JS front end
+#' which is ready to be deployed anywhere.
+#'
+#' @section TODO: this function will be used less and less during development.
+#' For now geoplumber does not have a development function. Once this becomes available,
+#' the two functions will work together but do totally different tasks.
 #'
 #' @param clean clean build TODO
 #'
@@ -21,7 +26,7 @@ gp_build <- function(clean = FALSE) {
          getwd(), "\nEither change to directory of previously-created ",
          "geoplumger app,\nor run gp_create() to create one.")
   wd <- change_to_proj_dir ()
- 
+
   if(!file.exists("package.json")) {
     msg <- paste0("Geoplumber failed to identify a package.json in ",
                   "working directory:\n", getwd(),
