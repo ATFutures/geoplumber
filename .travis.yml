@@ -33,6 +33,7 @@ addons:
       - tk-dev
       - unixodbc-dev
       - libv8-dev
+      - npm
 
 before_install:
     - sudo npm i -g create-react-app
