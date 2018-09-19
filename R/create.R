@@ -79,15 +79,21 @@ gp_create <- function(project_name = "geoplumber") {
 
 #' Remove a plumber project and clean associated directories
 #'
+#' @param dir_name Name of project directory (if NULL, previously-built
+#' directory will be erased)
+#'
 #' @export
-gp_erase <- function() {
+gp_erase <- function(dir_name = NULL) {
+  if (is.null (dir_name))
     dir_name <- read_tempfile() # from R/utils.R
-    wd <- getwd ()
-    setwd (dir_name)
-    setwd ("..")
-    unlink (dir_name, recursive = TRUE)
-    if (file.exists (wd))
-        setwd (wd)
+  wd <- getwd ()
+  setwd (dir_name)
+  setwd ("..")
+  unlink (dir_name, recursive = TRUE)
+  if (file.exists (tempfile_name ()))
+    invisible (file.remove (tempfile_name ()))
+  if (file.exists (wd))
+    setwd (wd)
 }
 
 #' Essential checks for certain functions of geoplumber.

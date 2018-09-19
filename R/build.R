@@ -16,6 +16,10 @@ gp_build <- function(clean = FALSE) {
     stop (msg)
   }
 
+  if (!(file.exists ("package.json") | file.exists (tempfile_name ())))
+    stop("Geoplumber failed to identify a package.json in working directory:\n",
+         getwd(), "\nEither change to directory of previously-created ",
+         "geoplumger app,\nor run gp_create() to create one.")
   wd <- change_to_proj_dir ()
  
   if(!file.exists("package.json")) {
