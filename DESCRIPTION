@@ -8,7 +8,7 @@ Authors@R: c(
   )
 Description: Geoplumber is an R package abstraction layer on top of plumber and ReactJS.
 Depends: R (>= 3.4.0)
-License: GPL
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Suggests: 
