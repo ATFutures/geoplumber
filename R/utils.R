@@ -17,3 +17,18 @@ read_tempfile <- function (){
     close (con)
     return (dir_name)
 }
+
+change_to_proj_dir <- function () {
+  if (!(file.exists (tempfile_name ()) | file.exists ("package.json")))
+    stop ("If project was built in a previous R session, you must ",
+          "first manually change to project directory")
+
+  wd <- getwd ()
+  if (file.exists (tempfile_name ())) {
+    project_dir <- read_tempfile ()
+    if (!file.exists (project_dir))
+      stop ("Project directory ", project_dir, " does not exist")
+    wd <- setwd (project_dir)
+  }
+  return (wd)
+}

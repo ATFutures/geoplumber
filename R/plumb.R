@@ -10,6 +10,7 @@
 #' gp_plumb()
 #' }
 gp_plumb <- function(port = 8000, file = "R/plumber.R") {
+  wd <- change_to_proj_dir ()
   if(!gp_is_wd_geoplumber()) {
     stop("Is working directory a geoplumber app? ",
             getwd(), "\nEither change directory or run gp_create() to create one.")
