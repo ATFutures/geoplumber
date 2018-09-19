@@ -59,7 +59,7 @@ gp_add_geojson <- function(endpoint = "/api/data"){
   welcome <- c(welcome[1:map.end.index - 1],
                paste0("<", component.name, " fetchURL=",
                       paste0("'http://localhost:8000", endpoint, "'"),
-                      " map={map} />"), #TODO: HARDcoded.
+                      " map={ this.state.map } />"), #TODO: HARDcoded.
                welcome[map.end.index:length(welcome)]
                )
   # now write to project

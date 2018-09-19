@@ -23,8 +23,6 @@ export default class Welcome extends Component {
 
 
     render() {
-        /* #map = this.state.map 
-        const { map } = this.state; */
         return (
             <Map
                 zoom={13}
