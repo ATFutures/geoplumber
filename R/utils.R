@@ -1,3 +1,5 @@
+#' generates a temporary file name
+#' /tmp/HasHfolDER
 tempfile_name <- function (){
     file.path (tempdir(), ".geoplumber.dat")
 }
@@ -9,6 +11,7 @@ write_tempfile <- function (dir_name){
     close (con)
 }
 
+#' returns the project name from the temp file
 read_tempfile <- function (){
     if (!file.exists (tempfile_name()))
         stop ("No geoplumber project has been created")
@@ -18,6 +21,10 @@ read_tempfile <- function (){
     return (dir_name)
 }
 
+#' Useful function to find temp project name from
+#' temporary file in /tmp/HasHfolDER/.geoplumber.dat
+#' If that is not available (user could already be in a
+#' geoplumber directory) then just returns current wd.
 change_to_proj_dir <- function () {
   if (!(file.exists (tempfile_name ()) | file.exists ("package.json")))
     stop ("If project was built in a previous R session, you must ",

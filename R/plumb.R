@@ -2,18 +2,18 @@
 #'
 #' @param port to serve from
 #' @param file location of plumber.R file used by plumber
-#'
+#' @param run should plumber run the server or return it as an object
 #' @export
 #' @examples \dontrun{
 #' gp_install_react() # install react
 #' gp_build() # build frond-end
 #' gp_plumb()
 #' }
-gp_plumb <- function(port = 8000, file = "R/plumber.R") {
+gp_plumb <- function(run = TRUE, port = 8000, file = "R/plumber.R") {
   wd <- change_to_proj_dir ()
   if(!gp_is_wd_geoplumber()) {
     stop("Is working directory a geoplumber app? ",
-            getwd(), "\nEither change directory or run gp_create() to create one.")
+         getwd(), "\nEither change directory or run gp_create() to create one.")
   }
 
   # todo: when initiating project copy plumber.R file to somewhere sensible
@@ -33,12 +33,17 @@ gp_plumb <- function(port = 8000, file = "R/plumber.R") {
     })
   }
 
-  viewer <- getOption("viewer")
-  if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
-    viewer(paste0("http://localhost:", port))
+  if(run) {
+    viewer <- getOption("viewer")
+    if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
+      viewer(paste0("http://localhost:", port))
+    } else {
+      utils::browseURL(paste0("http://localhost:", port))
+    }
+    server$run(port = port, swagger = TRUE)
   } else {
-    utils::browseURL(paste0("http://localhost:", port))
+    return(server)
   }
-
-  server$run(port = port, swagger = TRUE)
 }
+
+

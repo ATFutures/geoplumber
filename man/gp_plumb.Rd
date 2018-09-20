@@ -4,9 +4,11 @@
 \alias{gp_plumb}
 \title{Launch a webserver via plumber to serve data}
 \usage{
-gp_plumb(port = 8000, file = "R/plumber.R")
+gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R")
 }
 \arguments{
+\item{run}{should plumber run the server or return it as an object}
+
 \item{port}{to serve from}
 
 \item{file}{location of plumber.R file used by plumber}

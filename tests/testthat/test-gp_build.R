@@ -17,7 +17,7 @@ test_that ("full build", {
 })
 
 test_that ("default endpoints", {
-  r <- plumber::plumber$new("junk/R/plumber.R")
+  r <- gp_plumb(run = FALSE, file = "R/plumber.R")
   expect_equal(length(r$endpoints[[1]]), 4)
   expect_equal(r$endpoints[[1]][[1]]$exec(), list(msg="The message is: 'nothing given'"))
 })
