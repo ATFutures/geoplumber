@@ -2,12 +2,21 @@ context("test-gp_build")
 
 testthat::skip_on_cran()
 
+test_that("gp_build errs for non geoplumber path", {
+  expect_error(gp_build())
+})
+
 test_that("full create", {
               expect_message (gp_create ("junk"))
               proj_dir <- read_tempfile ()
               expect_true (file.exists (proj_dir))
               js_file <- file.path (proj_dir, "package.json")
               expect_true (file.exists (js_file))
+})
+
+# test before build test
+test_that("gp_plumb can serve API only", {
+  expect_message(gp_plumb(run = FALSE, file = "R/plumber.R"))
 })
 
 test_that ("full build", {
@@ -28,9 +37,9 @@ test_that ("full plumb", {
 })
 
 test_that ("full erase", {
-               expect_silent (gp_erase ())
+  expect_silent (gp_erase ())
 })
 
-test_that("gp_build errs for non geoplumber path", {
-  expect_error(gp_build())
+test_that("gp_plumb errs for non geoplumber path", {
+  expect_error(gp_plumb())
 })
