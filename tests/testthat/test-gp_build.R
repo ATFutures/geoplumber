@@ -17,6 +17,8 @@ test_that("full create", {
 # test before build test
 test_that("gp_plumb can serve API only", {
   expect_message(gp_plumb(run = FALSE, file = "R/plumber.R"))
+  r <- gp_plumb(run = FALSE, file = "R/plumber.R")
+  expect_equal(length(r$endpoints[[1]]), 5) # added extra endpoint
 })
 
 test_that ("full build", {
