@@ -30,7 +30,7 @@ swagger <- function(req, res){
 }
 
 # Below is part of Welcome endpoint:
-uol <- rbind(uni_point, uni_poly)
+uol <- rbind(geoplumber::uni_point, geoplumber::uni_poly)
 uol <- geojsonsf::sf_geojson(uol)
 #' Welcome endpoint. Feel free to remove, relevant line in Welcome.js (line 41)
 #' @get /api/uol
