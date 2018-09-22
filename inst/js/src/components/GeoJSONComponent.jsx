@@ -12,10 +12,12 @@ export default class GeoJSONComponent extends React.Component {
         this.state = {
             geojson: null
         }
+        this._fetchData = this._fetchData.bind(this)
     }
 
-    componentDidMount() {
+    _fetchData() {
         const url = this.props.fetchURL ? this.props.fetchURL : 'http://localhost:8000/api/data'
+        // console.log("fetching... " + url)
         fetch(url)
             .then((response) => {
                 if (response.status !== 200) {
@@ -42,48 +44,57 @@ export default class GeoJSONComponent extends React.Component {
             });
     }
 
+    componentDidMount() {
+        this._fetchData()
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.fetchURL !== prevProps.fetchURL) this._fetchData()
+    }
+
     render() {
         const { geojson } = this.state;
         if (!geojson) {
             return (null) // as per React docs
         }
+
         return (
             geojson.features.map((feature, i) => {
                 return (
                     <GeoJSON
-                        key={i}
+                        key={JSON.stringify(feature)}
                         // style={
                         // }
                         data={feature}
                         onEachFeature={(feature, layer) => {
-                            const properties = Object.keys(feature.properties).map((key, index) => {
-                                return(key + " : " +feature.properties[key])
+                            const properties = Object.keys(feature.properties).map((key) => {
+                                return (key + " : " + feature.properties[key])
                             })
                             // console.log(feature.properties)
                             // console.log(properties)
                             layer.bindPopup(
                                 properties.join('<br/>')
-                            );                                
+                            );
                         }}
                         pointToLayer={
-                            // use cricles prop if not 10 markers is enough
+                            // use cricles prop if not 10 markers is enough                            
                             this.props.circle || geojson.features.length > 10 ?
-                            (feature, latlng ) => {
-                            // Change the values of these options to change the symbol's appearance
-                            let options = {
-                              radius: 8,
-                              fillColor: "lightgreen",
-                              color: "black",
-                              weight: 1,
-                              opacity: 1,
-                              fillOpacity: 0.8
-                            }
-                                return L.circleMarker( latlng, options );
-                            }
-                            :
-                            (geoJsonPoint, latlng) => {
-                                return L.marker(latlng);
-                            }
+                                (feature, latlng) => {
+                                    // Change the values of these options to change the symbol's appearance
+                                    let options = {
+                                        radius: 8,
+                                        fillColor: "green",
+                                        color: "black",
+                                        weight: 1,
+                                        opacity: 1,
+                                        fillOpacity: 0.8
+                                    }
+                                    return L.circleMarker(latlng, options);
+                                }
+                                :
+                                (geoJsonPoint, latlng) => {
+                                    return L.marker(latlng);
+                                }
                         }
                     />
                 )
