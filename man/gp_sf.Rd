@@ -17,7 +17,7 @@ The function (for now) takes one parameter to bounce back
 to the backend. For now just a dropdown list.
 }
 \examples{
-\dontrun {
+\dontrun{
 gp_sf()
 }
 }

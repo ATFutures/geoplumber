@@ -6,7 +6,7 @@
 #' @param sf a valid sf object that can be converted to geojson
 #' @param alist one named list of menuitmes to explore sf object with.
 #'
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' gp_sf()
 #' }
 #' @export
