@@ -1,4 +1,13 @@
 /**
+ * Add points from geojson from a URL to a given map.
+ *
+ *      <GeoJSONComponent map={map} fetchURL=/api/foo circle={true|false}>
+ *
+ * If there are >10 features or circle=true then features are displayed as
+ * circleMarkers, else Markers.
+ *
+ * @param fetchURL default = 'http://localhost:8000/api/data'
+ *
  * geoplumber R package code.
  */
 import React from 'react';
@@ -79,7 +88,7 @@ export default class GeoJSONComponent extends React.Component {
                         pointToLayer={
                             // use cricles prop if not 10 markers is enough                            
                             this.props.circle || geojson.features.length > 10 ?
-                                (feature, latlng) => {
+                                (_, latlng) => {
                                     // Change the values of these options to change the symbol's appearance
                                     let options = {
                                         radius: 8,
@@ -92,7 +101,7 @@ export default class GeoJSONComponent extends React.Component {
                                     return L.circleMarker(latlng, options);
                                 }
                                 :
-                                (geoJsonPoint, latlng) => {
+                                (_, latlng) => {
                                     return L.marker(latlng);
                                 }
                         }
