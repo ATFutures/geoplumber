@@ -1,10 +1,10 @@
 /**
- * Add points from geojson from a URL to a given map.
+ * Add features from geojson from a URL to a given map.
  *
  *      <GeoJSONComponent map={map} fetchURL=/api/foo circle={true|false}>
  *
- * If there are >10 features or circle=true then features are displayed as
- * circleMarkers, else Markers.
+ * If the features are points and there are >10 features or circle=true then
+ * features are displayed as circleMarkers, else Markers.
  *
  * @param fetchURL default = 'http://localhost:8000/api/data'
  *
