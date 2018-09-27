@@ -40,7 +40,7 @@ export default class RBDropDown extends React.Component {
                 title: props.title
             }
         }
-        if(props.hasOwnProperty('menuitems') && props.menuitems.length != state.menuitems.length) {
+        if(props.hasOwnProperty('menuitems') && props.menuitems.length !== state.menuitems.length) {
             return {
                 menuitems: props.menuitems
             }
