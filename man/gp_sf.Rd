@@ -4,13 +4,13 @@
 \alias{gp_sf}
 \title{Explore an sf R object on a leaflet map.}
 \usage{
-gp_sf(sf = geoplumber::traffic, alist = list(road =
+gp_sf(sf = geoplumber::traffic, a_list = list(road =
   geoplumber::traffic$road))
 }
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}
 
-\item{alist}{one named list of menuitmes to explore sf object with.}
+\item{a_list}{one named list of menuitmes to explore sf object with.}
 }
 \description{
 The function (for now) takes one parameter to bounce back
