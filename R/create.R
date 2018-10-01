@@ -52,7 +52,12 @@ gp_create <- function(project_name = "geoplumber") {
   # TODO: give geoplumber failed message
   # TODO: (MP) Make directory construction more flexible
   # For now npm gives an error if dir exists.
-  system(paste0("npx create-react-app ", project_name))
+  npx.cmd <- paste0("npx create-react-app ", project_name)
+  npx.result <- system(npx.cmd)
+  if(npx.result != 0) {
+    # fialed stop and provide the error
+    stop("Please refer to the ", npx.cmd, " error above.")
+  }
   system(paste0("cd ", dir_name))
   wd_old <- setwd(dir_name)
   # copy plumber.R
