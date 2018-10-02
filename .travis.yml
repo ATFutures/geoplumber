@@ -40,4 +40,4 @@ before_install:
     - npm i -g create-react-app
 
 after_success:
-    - Rscript -e "covr::codecov(line_exclusions = list('tests/testthat/test-gp_build.R' = c(17,28,35,42,54)))"
+    - Rscript -e "covr::codecov()"

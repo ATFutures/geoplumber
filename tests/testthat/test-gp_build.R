@@ -3,9 +3,11 @@ context("test-gp_build")
 
 skip_build <- function() {
   run_full_test = FALSE # swtich this on for full test.
-  if(!run_full_test)
-    skip("Not running full test.")
+  if(exists("run_full_test"))
+    if(!run_full_test)
+      skip("Not running full test.")
 }
+
 testthat::skip_on_cran()
 
 test_that("gp_build errs for non geoplumber path", {
@@ -53,8 +55,4 @@ test_that ("full plumb", {
 test_that ("full erase", {
   skip_build()
   expect_silent (gp_erase ())
-})
-
-test_that("gp_plumb errs for non geoplumber path", {
-  expect_error(gp_plumb())
 })
