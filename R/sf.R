@@ -46,13 +46,19 @@ gp_sf <- function(sf = geoplumber::traffic,
   param.index <- grep("?road=", welcome) # TODO: HARDcoded.
   param.line <- welcome[param.index]
   # skip sf default
-  if(!identical("road", names(a_list()))) {
+  if(!identical("road", names(a_list))) {
     param.line <- sub("road=", paste0(names(a_list), "="), param.line)
     welcome[param.index] <- param.line
   }
   # finally write before buildingı
   write(welcome, "src/Welcome.js")
   # build & serve
-  gp_build()
-  server$run(port = 8000)
+  if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
+
+    gp_build()
+    message("Serving data on at ", "http://localhost:8000", "/api/gp")
+    server$run(port = 8000)
+  } else {
+    return(TRUE)
+  }
 }

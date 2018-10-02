@@ -1,4 +1,5 @@
 context("test-gp_endpoint_from_clip")
+
 if(clipr::clipr_available()) {
   test_that("gp_endpoint_from_clip fails on empty clip", {
     clip <- clipr::read_clip()
@@ -9,7 +10,7 @@ if(clipr::clipr_available()) {
 }
 
 test_that("gp_endpoint_from_clip works", {
-  temp.dir <- "tempdir"
+  temp.dir <- "junk"
   # gp_create(temp.dir) # to create a new app and change dir into it.
   # above would be too slow just simulate
   # project_name <- basename(temp.dir)
@@ -31,6 +32,7 @@ test_that("gp_endpoint_from_clip works", {
     clipr::write_clip(endpoint, breaks = "\n")
 
     expect_message(gp_endpoint_from_clip(), m)
+    expect_error(gp_endpoint_from_clip(evaluate = TRUE), NA)
     clipr::write_clip(old_clip)
   } else {
     # fake clipr or endpoint_from_clip()

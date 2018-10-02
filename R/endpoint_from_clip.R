@@ -129,6 +129,8 @@ gp_check_clip_endpoint <- function(evaluate = FALSE) {
   }
 
   # 4. using eval(parse(text=clip)) returns something?
+  # TODO: try creating an endpoint from the clipr contents.
+  # following code is really useless.
   if(evaluate){
     evalClip <- try({
       # keep it inside try as it might be an expression rather than a function
@@ -152,7 +154,7 @@ gp_check_clip_endpoint <- function(evaluate = FALSE) {
   }
   # successful checks should get some feedback.
   if(warningCount == 0) {
-    message("No warnings given.")
+    message("Success.\nPlease restart your server: gp_plumb()")
   }
   warningCount
 }

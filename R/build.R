@@ -25,15 +25,9 @@ gp_build <- function(clean = FALSE) {
     stop("Geoplumber failed to identify a package.json in working directory:\n",
          getwd(), "\nEither change to directory of previously-created ",
          "geoplumger app,\nor run gp_create() to create one.")
+
   wd <- change_to_proj_dir ()
 
-  if(!file.exists("package.json")) {
-    msg <- paste0("Geoplumber failed to identify a package.json in ",
-                  "working directory:\n", getwd(),
-                  "\nEither change to project directory, or run gp_create() ",
-                  "to create a geoplumber app.")
-    stop (msg)
-  }
   # TODO: do more checks before actually running the command
   build_attempt <- try({
     message("Running: ", "npm run build")

@@ -52,6 +52,19 @@ test_that ("full plumb", {
   #gp_plumb() # MP: dunno how to test this?
 })
 
+context("test-gp_sf")
+
+test_that ("gp_sf can serve default sf object", {
+  skip_build()
+  expect_message (gp_build ())
+  Sys.setenv(DO_NOT_PLUMB = 'false')
+  on.exit(Sys.unsetenv("DO_NOT_PLUMB"))
+  expect_equal(gp_sf(), TRUE)
+  Sys.unsetenv("DO_NOT_PLUMB")
+})
+
+context("test-gp_erase")
+
 test_that ("full erase", {
   skip_build()
   expect_silent (gp_erase ())

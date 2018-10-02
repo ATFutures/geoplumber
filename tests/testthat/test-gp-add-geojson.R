@@ -6,14 +6,13 @@ test_that("gp_add_geojson fails on no geoplumber app path", {
 test_that("gp_add_geojson works on a geoplumber app path", {
   # create app at /tmp then delete
   # wd = /tests/testthat
-  target <- "geoplumber"
-  system("mkdir parent")
-  setwd("parent")
+  system("mkdir junk")
+  setwd("junk")
   system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
   cat("\n.......\n", "Mocking a geoplumber app\n", list.files(), "\n......\n")
   # run tests here
   expect_message(gp_add_geojson(), "Success. ")
   # end tests
   # clean up
-  system("cd .. && rm -rf parent")
+  system("cd .. && rm -rf junk")
 })
