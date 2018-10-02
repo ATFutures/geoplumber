@@ -36,7 +36,7 @@ addons:
       - xclip
 
 before_install:
-    - nvm install 8.9
+    - nvm install 8.10.0
     - npm i -g create-react-app
 
 after_success:
