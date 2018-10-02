@@ -2,10 +2,10 @@ context("test-gp_build")
 # all tests run from clean package env
 
 skip_build <- function() {
-  run_full_test = FALSE # swtich this on for full test.
-  if(exists("run_full_test"))
-    if(!run_full_test)
-      skip("Not running full test.")
+  # set RUN_FULL_TEST in ~/.Renviron as
+  # RUN_FULL_TEST = true for full test.
+  if(identical(Sys.getenv("RUN_FULL_TEST"), "false"))
+    skip("Not running full test.")
 }
 
 testthat::skip_on_cran()
