@@ -17,7 +17,7 @@ test_that("gp_build errs for non geoplumber path", {
 
 test_that("full create", {
   skip_build()
-  expect_message (gp_create ("junk"))
+  expect_message (gp_create (tolower(tempdir())))
   proj_dir <- read_tempfile ()
   expect_true (file.exists (proj_dir))
   js_file <- file.path (proj_dir, "package.json")

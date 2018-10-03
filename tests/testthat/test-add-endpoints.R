@@ -10,7 +10,7 @@ if(clipr::clipr_available()) {
 }
 
 test_that("gp_endpoint_from_clip works", {
-  temp.dir <- "junk"
+  temp.dir <- tolower(tempdir())
   # gp_create(temp.dir) # to create a new app and change dir into it.
   # above would be too slow just simulate
   # project_name <- basename(temp.dir)

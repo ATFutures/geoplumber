@@ -3,32 +3,34 @@
 #'
 #' Warning: may take several minutes depending on system and internet connection.
 #'
-#' @param project_name path of the new app, will be passed to `npx create-react-app `
+#' @param path path of the new app, will be passed to `npx create-react-app `
 #' TODO: allow current directory, with `.Rproj` for example.
 #'
 #' @export
 #' @examples \dontrun{
 #' gp_create()
 #' }
-gp_create <- function(project_name = "geoplumber") {
+gp_create <- function(path = "geoplumber") {
   if(!gp_npm_exists()) {
     msg <- paste0 ("geoplumber requires node and npm to work.\n",
                    gp_install_node_instructions()) # UNIX only
     stop (msg)
   }
-  dir_name <- project_name
-  if(project_name == ".") {
+  dir_name <- path
+  if(path == ".") {
     dir_name <- getwd()
   }
   if (!file.exists (dirname (dir_name)))
       stop ("The path ", dirname (dir_name), "does not exist")
 
   project_name <- basename(dir_name)
-  if (identical (basename(dir_name), dir_name))
+  # if either . or dirname given make it a path for write_tempfile and other use.
+  if (identical (basename(dir_name), dir_name)) # dir_name here is == path except for "."
       dir_name <- file.path(getwd(), dir_name)
 
-  # project_name is the single name passed to npm;
+  # project_name is the single name used for package.json etc.
   # dir_name is the full expanded name of the directory holding the project
+  # also used for npx commands
 
   # check if create-react-app package is installed.
   npmList <- "npm list create-react-app"
@@ -52,7 +54,7 @@ gp_create <- function(project_name = "geoplumber") {
   # TODO: give geoplumber failed message
   # TODO: (MP) Make directory construction more flexible
   # For now npm gives an error if dir exists.
-  npx.cmd <- paste0("npx create-react-app ", project_name)
+  npx.cmd <- paste0("npx create-react-app ", dir_name)
   npx.result <- system(npx.cmd)
   if(npx.result != 0) {
     # fialed stop and provide the error
@@ -70,9 +72,9 @@ gp_create <- function(project_name = "geoplumber") {
   pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2]) # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
   # setwd("~/code/geoplumber/") # comment out!
-  message(paste0("To build/run app, set working directory to: ", project_name))
+  message(paste0("To build/run app, set working directory to: ", path))
   message("Standard output from create-react-app above works.\n",
-          "You can run gp_ functions from directory: ", project_name,
+          "You can run gp_ functions from directory: ", path,
           "\nTo build the front end run: gp_build()\n",
           "To run the geoplumber app: gp_plumb()\n",
           "Happy coding.")
