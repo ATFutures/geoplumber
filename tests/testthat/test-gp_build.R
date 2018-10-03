@@ -3,12 +3,16 @@ context("test-gp_build")
 
 skip_build <- function() {
   # set RUN_FULL_TEST in ~/.Renviron as
-  # RUN_FULL_TEST = true for full test.
+  # RUN_FULL_TEST = false for skipping test.
   if(identical(Sys.getenv("RUN_FULL_TEST"), "false"))
     skip("Not running full test.")
 }
 
 testthat::skip_on_cran()
+#' Few different tests are included in this file.
+#' The reason is gp_create takes a while and it is best to do all the tests in the same repo.
+#' The alternative is to move gp_erase or unlink commands into the last running test.
+#' for `now` perhaps a big test file would cause no damage.
 
 test_that("gp_build errs for non geoplumber path", {
   # runs from a clean env so gp_is_wd_geoplumber == FALSE

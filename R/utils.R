@@ -39,3 +39,25 @@ change_to_proj_dir <- function () {
   }
   return (wd)
 }
+
+#' takes a vector of strings, adds another vector
+#' either before or after pattern provided.
+#' @param target the vector to add what to
+#' @param pattern where to add the what to
+#' @param what vector to add to target
+#' @param before or after the pattern
+add_lines <- function (target, pattern, what, before = TRUE) {
+  where.index <- grep(pattern, target)
+  if(before) {
+    target <- c(target[1:where.index - 1],
+                what,
+                target[where.index:length(target)]
+    )
+  } else {
+    target <- c(target[1:where.index],
+                what,
+                target[(where.index + 1):length(target)]
+    )
+  }
+  target
+}

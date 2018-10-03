@@ -24,6 +24,7 @@ export default class Welcome extends Component {
     }
 
     render() {
+        const { sfParam } =  this.state;
         return (
             <Map
                 zoom={13}
@@ -38,17 +39,13 @@ export default class Welcome extends Component {
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
                 <GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />
-                {/* for now below could be part of the boilerplace */}
-                <ControlComponent
-                    position="topright"
-                    menuitems={[]}
-                    onSelectCallback={(sfParam) => this.setState({sfParam})}
-                />
+                {/* for now below could be part of the boilerplate */}
                 <GeoJSONComponent
                     map={this.state.map}
                     fetchURL={"http://localhost:8000/api/gp" + 
-                    (this.state.sfParam ? 
-                        "?road=" + this.state.sfParam.split(' ').join("%20") : "")}
+                    (this.state.sfParam ?
+                        //encode the spaces. 
+                        "?road=" + sfParam.split(' ').join("%20") : "")}
                 />
                 {/* #ADD_COMPONENT */}
             </Map>

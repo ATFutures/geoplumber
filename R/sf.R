@@ -36,6 +36,18 @@ gp_sf <- function(sf = geoplumber::traffic,
   # must be done on clean Welcome.js
   # dropdown menu items
   welcome <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
+  # add the component.
+  welcome <- add_lines(
+    welcome,          # target
+    "</Map>",         # pattern
+    c(                # what
+      '<ControlComponent',
+      'position="topright"',
+      'menuitems={[]}',
+      'onSelectCallback={(sfParam) => this.setState({sfParam})}',
+      '/>'
+    )
+  )
   menuitems.index <- grep("menuitems=", welcome) # TODO: HARDcoded.
   menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
                            # using " quotes means we can avoid apostrophe wreck
