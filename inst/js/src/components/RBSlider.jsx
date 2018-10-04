@@ -4,6 +4,12 @@ import React, { Component } from 'react';
 import Control from 'react-leaflet-control';
 
 export default class RBSlider extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: null
+        }
+    }
 
     _handleChange(event) {
         if (typeof (this.props.onChange) === 'function') {
@@ -13,20 +19,29 @@ export default class RBSlider extends Component {
     }
 
     render() {
-        const { min, max } = this.props;
+        let { min, max } = this.props;
+        if(!min) {
+            min = 1
+        }
+        if(!max) {
+            max = 100
+        }
         const { value } = this.state;
         return (
             <Control position={
                 this.props.position || "topright"
             }>
-                <input
-                    id="typeinp"
-                    type="range"
-                    min={min ? min : 1}
-                    max={max ? max : 100}
-                    value={value ? value : 50}
-                    onChange={this._handleChange.bind(this)}
-                    step="1" />
+                <div style={{backgroundColor: 'white'}}>
+                    <input
+                        id="typeinp"
+                        type="range"
+                        min={min}
+                        max={max}
+                        value={value ? value : max / 2}
+                        onChange={this._handleChange.bind(this)}
+                        step="1" />
+                    <p style={{textAlign: 'center', fontSize:'2em'}}>{value ? value : max / 2}</p>
+                </div>
             </Control>
         )
     }
