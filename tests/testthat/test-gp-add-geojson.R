@@ -7,9 +7,10 @@ test_that("gp_add_geojson works on a geoplumber app path", {
   # create app at /tmp then delete
   # wd = /tests/testthat
   temp.dir <- tolower(tempdir())
-  cat(temp.dir)
+  # cat(temp.dir)
   system(paste0("mkdir ", temp.dir))
   oldwd <- setwd(temp.dir)
+  on.exit(oldwd)
   system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
   cat("\n.......\n", "Mocking a geoplumber app\n", list.files(), "\n......\n")
   # run tests here

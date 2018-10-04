@@ -1,8 +1,5 @@
-context("test-test-utils")
+context("test-utils")
 
-test_that("prints npm install instructions", {
-  expect_output(gp_install_node_instructions())
-})
 
 test_that("change_to_proj_dir needs a dir", {
   expect_error(change_to_proj_dir())
@@ -18,4 +15,9 @@ test_that("gp_install_npm_package fails on empty", {
 
 test_that("gp_install_npm_package fails on no package.json", {
   expect_message(gp_install_npm_package("testpackage"))
+})
+
+test_that("prints npm install instructions", {
+  out <- gp_install_node_instructions()
+  expect_equal(any(grepl(pattern = "NodeJS", out)), TRUE)
 })

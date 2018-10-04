@@ -61,3 +61,19 @@ add_lines <- function (target, pattern, what, before = TRUE) {
   }
   target
 }
+
+add_import_component <- function(target, component.name, component.path) {
+  # Import new component
+  # Above 'export default'
+  export.index <- grep("export default", target)
+  # check for duplicate
+  component.name.added <- grepl(paste0("import ", component.name), target)
+  if(!any(component.name.added)) {
+    target <- c(target[1:export.index - 1],
+                 # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
+                 paste0("import ", component.name, " from './", component.path, "';"),
+                 target[export.index:length(target)]
+    )
+  }
+  target
+}
