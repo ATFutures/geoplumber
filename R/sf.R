@@ -37,11 +37,25 @@ gp_sf <- function(sf = geoplumber::traffic,
   # dropdown menu items
   welcome <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
   # add the component.
+  # import first
+  # check for duplicate
+  component.name <- "RBDropdownComponent"
+  component.name.added <- grepl(paste0("import ", component.name), welcome)
+  export.index <- grep("export default", welcome)
+  component.path <- paste0("components/", component.name, ".jsx")
+  if(!any(component.name.added)) {
+    welcome <- c(welcome[1:export.index - 1],
+                 # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
+                 paste0("import ", component.name, " from './", component.path, "';"),
+                 welcome[export.index:length(welcome)]
+    )
+  }
+  # add content
   welcome <- add_lines(
     welcome,          # target
     "</Map>",         # pattern
     c(                # what
-      '<ControlComponent',
+      paste0('<', component.name), # one line
       'position="topright"',
       'menuitems={[]}',
       'onSelectCallback={(sfParam) => this.setState({sfParam})}',

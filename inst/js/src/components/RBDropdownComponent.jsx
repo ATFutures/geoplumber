@@ -2,19 +2,20 @@
 
 import React from 'react';
 import { MenuItem, DropdownButton, ButtonToolbar } from 'react-bootstrap';
+import Control from 'react-leaflet-control';
 
 export default class RBDropDown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             title: props.hasOwnProperty('title') ? props.title : "No Title",
-            menuitems: props.hasOwnProperty('menuitems') ? props.menuitems :[]
+            menuitems: props.hasOwnProperty('menuitems') ? props.menuitems : []
         }
         this._generateMenuItems = this._generateMenuItems.bind(this);
     }
 
     _generateMenuItems(menuitems) {
-        const isArray = menuitems && typeof(menuitems[0]) !== 'string';        
+        const isArray = menuitems && typeof (menuitems[0]) !== 'string';
         return menuitems.map((entry, i) => {
             let key, value;
             if (isArray) {
@@ -40,7 +41,7 @@ export default class RBDropDown extends React.Component {
                 title: props.title
             }
         }
-        if(props.hasOwnProperty('menuitems') && props.menuitems.length !== state.menuitems.length) {
+        if (props.hasOwnProperty('menuitems') && props.menuitems.length !== state.menuitems.length) {
             return {
                 menuitems: props.menuitems
             }
@@ -51,31 +52,35 @@ export default class RBDropDown extends React.Component {
     render() {
         const { title, menuitems } = this.state;
         const { size, classNames } = this.props;
-        const keyIsArray = menuitems && typeof(menuitems[0]) !== 'string';        
-        
+        const keyIsArray = menuitems && typeof (menuitems[0]) !== 'string';
+
         // console.log(title);
-        
+
         return (
-            <ButtonToolbar>
-                <DropdownButton 
-                    title={title}
-                    className={classNames && classNames.length > 0 && [...classNames]}
-                    id={typeof (size) === 'string' ? size : "dropdown-size-medium"}
-                    onSelect={(event) => {
-                        //update title
-                        this.setState({
-                            title: keyIsArray ? Object.values(event)[0] : event
-                        })
-                        if (typeof (this.props.onSelectCallback) === 'function') {
-                            this.props.onSelectCallback(keyIsArray ? Object.values(event)[0] : event)
+            <Control position={
+                this.props.position || "topright"
+            }>
+                <ButtonToolbar>
+                    <DropdownButton
+                        title={title}
+                        className={classNames && classNames.length > 0 && [...classNames]}
+                        id={typeof (size) === 'string' ? size : "dropdown-size-medium"}
+                        onSelect={(event) => {
+                            //update title
+                            this.setState({
+                                title: keyIsArray ? Object.values(event)[0] : event
+                            })
+                            if (typeof (this.props.onSelectCallback) === 'function') {
+                                this.props.onSelectCallback(keyIsArray ? Object.values(event)[0] : event)
+                            }
+                            //die gracefully
+                        }}>
+                        {
+                            this._generateMenuItems(menuitems)
                         }
-                        //die gracefully
-                    }}>
-                    {
-                        this._generateMenuItems(menuitems)
-                    }
-                </DropdownButton>
-            </ButtonToolbar>
+                    </DropdownButton>
+                </ButtonToolbar>
+            </Control>
         )
     }
 }

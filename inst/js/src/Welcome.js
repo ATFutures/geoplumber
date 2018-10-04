@@ -5,7 +5,6 @@
 import React, { Component } from 'react';
 import { Map, TileLayer } from 'react-leaflet';
 import GeoJSONComponent from './components/GeoJSONComponent.jsx';
-import ControlComponent from './components/ControlComponent.jsx';
 
 import './App.css';
 
