@@ -2,6 +2,7 @@
 #'
 #' The function (for now) takes one parameter to bounce back
 #' to the backend. For now just a dropdown list.
+#' The slider only works with circles.
 #'
 #' @param sf a valid sf object that can be converted to geojson
 #' @param a_list one named list of menuitmes to explore sf object with.
