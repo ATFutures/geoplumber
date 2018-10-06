@@ -34,14 +34,17 @@ gp_sf <- function(sf = geoplumber::traffic,
   })
   # prepare frontend
   # must be done on clean Welcome.js
-  # dropdown menu items
+  # 1. add a GeoJSONComponent
+  # 2. dropdown menu items
   welcome <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
-  # add the component.
   # import first
   component.name <- "RBDropdownComponent"
   component.path <- paste0("components/", component.name, ".jsx")
+  component2.name <- "GeoJSONComponent"
+  component2.path <- paste0("components/", component2.name, ".jsx")
   welcome <- add_import_component(welcome, component.name, component.path)
-  # add content
+  welcome <- add_import_component(welcome, component2.name, component2.path)
+  # add component 1
   welcome <- add_lines(
     welcome,          # target
     "</Map>",         # pattern
@@ -50,6 +53,22 @@ gp_sf <- function(sf = geoplumber::traffic,
       'position="topright"',
       'menuitems={[]}',
       'onSelectCallback={(sfParam) => this.setState({sfParam})}',
+      '/>'
+    )
+  )
+  # add component 2
+  welcome <- add_lines(
+    welcome,
+    "</Map>",         # pattern
+    c(
+      paste0('<', component2.name),
+      'circle={true}',                   # connecting GeoJSON with slider
+      'radius={this.state.sliderInput}', # connecting GeoJSON with slider
+      'map={this.state.map}',            # get the map from parent
+      paste0('fetchURL={"http://localhost:8000', endpoint,'" +'), #
+      '    (this.state.sfParam ?',
+      '       //encode the spaces.',
+      '     "?road=" + this.state.sfParam.split(" ").join("%20") : "")}',
       '/>'
     )
   )

@@ -4,10 +4,21 @@
 \alias{gp_add_slider}
 \title{Adds a basic slider with a callback function to parent.}
 \usage{
-gp_add_slider()
+gp_add_slider(min = 1L, max = 10L,
+  js_function = "onChange={(sliderInput) => this.setState({sliderInput})}")
+}
+\arguments{
+\item{min}{min to pass to the slider}
+
+\item{max}{max to pass to the slider}
+
+\item{js_function}{the function to run on React parent (Welcome).}
 }
 \description{
-Adds a basic slider with a callback function to parent.
+At this moment, there is no strategy to manage parent <> child
+interaction between what is main component (Welcome) and
+children. React does have strong tools for this but geoplumber
+is still young.
 }
 \examples{
 \dontrun{

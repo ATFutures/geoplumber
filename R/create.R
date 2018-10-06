@@ -16,6 +16,10 @@ gp_create <- function(path = "geoplumber") {
                    gp_install_node_instructions()) # UNIX only
     stop (msg)
   }
+  # TODO: is this allowed?
+  if(identical(tolower(tempdir()), path)) {
+    unlink(path, recursive = TRUE)
+  }
   dir_name <- path
   if(path == ".") {
     dir_name <- getwd()

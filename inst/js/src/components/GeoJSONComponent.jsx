@@ -1,14 +1,14 @@
 /**
  * Add features from geojson from a URL to a given map.
  *
- *      <GeoJSONComponent map={map} fetchURL=/api/foo circle={true|false}>
  *
  * If the features are points and there are >10 features or circle=true then
  * features are displayed as circleMarkers, else Markers.
  *
  * @param fetchURL default = 'http://localhost:8000/api/data'
+ * @param radius default 8
  *
- * geoplumber R package code.
+ * geoplumber R package React code.
  */
 import React from 'react';
 import { GeoJSON } from 'react-leaflet';
@@ -57,21 +57,29 @@ export default class GeoJSONComponent extends React.Component {
         this._fetchData()
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.fetchURL !== prevProps.fetchURL) this._fetchData()
+    componentDidUpdate(prevProps, prevState) {        
+        if (this.props.fetchURL !== prevProps.fetchURL) {
+            this._fetchData()
+        }
+        if(this.props.radius !== prevProps.radius) {
+            this.forceUpdate()
+        }
     }
 
     render() {
         const { geojson } = this.state;
+        let { radius } = this.props;
+        radius = radius || 8
+
         if (!geojson) {
             return (null) // as per React docs
         }
-
+        
         return (
             geojson.features.map((feature, i) => {
                 return (
                     <GeoJSON
-                        key={JSON.stringify(feature)}
+                        key={JSON.stringify(feature) + radius}
                         // style={
                         // }
                         data={feature}
@@ -91,7 +99,7 @@ export default class GeoJSONComponent extends React.Component {
                                 (_, latlng) => {
                                     // Change the values of these options to change the symbol's appearance
                                     let options = {
-                                        radius: 8,
+                                        radius: radius,
                                         fillColor: "green",
                                         color: "black",
                                         weight: 1,
