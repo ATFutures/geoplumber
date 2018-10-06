@@ -5,7 +5,8 @@
 \title{Adds a basic slider with a callback function to parent.}
 \usage{
 gp_add_slider(min = 1L, max = 10L,
-  js_function = "onChange={(sliderInput) => this.setState({sliderInput})}")
+  js_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
+  to_vector = "NA")
 }
 \arguments{
 \item{min}{min to pass to the slider}
@@ -13,6 +14,8 @@ gp_add_slider(min = 1L, max = 10L,
 \item{max}{max to pass to the slider}
 
 \item{js_function}{the function to run on React parent (Welcome).}
+
+\item{to_vector}{instead of reading default Welcome.js}
 }
 \description{
 At this moment, there is no strategy to manage parent <> child

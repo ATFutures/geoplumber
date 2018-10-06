@@ -5,13 +5,15 @@
 #'
 #' @param sf a valid sf object that can be converted to geojson
 #' @param a_list one named list of menuitmes to explore sf object with.
+#' @param with_slider WIP example might be removed anytime.
 #'
 #' @examples \dontrun{
 #' gp_sf()
 #' }
 #' @export
 gp_sf <- function(sf = geoplumber::traffic,
-                  a_list = list(road = geoplumber::traffic$road)) {
+                  a_list = list(road = geoplumber::traffic$road),
+                  with_slider = FALSE) {
   # no more than one param for now
   if(length(a_list) != 1)
     stop("gp_sf is young, can only take one variable. WIP.")
@@ -86,11 +88,15 @@ gp_sf <- function(sf = geoplumber::traffic,
     param.line <- sub("road=", paste0(names(a_list), "="), param.line)
     welcome[param.index] <- param.line
   }
-  # finally write before buildingı
+  # we could pass min max from sf object
+  # TODO: WIP and no package strategy.
+  if(with_slider)
+    welcome <- gp_add_slider(to_vector = welcome)
+  # finally write before building
   write(welcome, "src/Welcome.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
-
+    # TODO: gp_build is not made for this or refactor it.
     gp_build()
     message("Serving data on at ", "http://localhost:8000", "/api/gp")
     server$run(port = 8000)
