@@ -28,6 +28,7 @@ gp_sf <- function(sf = geoplumber::traffic,
   # prepare backend
   # TODO: reserve api url for this or generate temp one.
   endpoint <- "/api/gp"
+  # variable name here "road" must be used in the React component.
   server$handle("GET", endpoint, function(res, road){
     res$headers$`Content-type` <- "application/json"
     if(!missing(road))
@@ -39,17 +40,17 @@ gp_sf <- function(sf = geoplumber::traffic,
   # must be done on clean Welcome.js
   # 1. add a GeoJSONComponent
   # 2. dropdown menu items
-  welcome <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
+  parent <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
   # import first
   component.name <- "RBDropdownComponent"
   component.path <- paste0("components/", component.name, ".jsx")
   component2.name <- "GeoJSONComponent"
   component2.path <- paste0("components/", component2.name, ".jsx")
-  welcome <- add_import_component(welcome, component.name, component.path)
-  welcome <- add_import_component(welcome, component2.name, component2.path)
+  parent <- add_import_component(parent, component.name, component.path)
+  parent <- add_import_component(parent, component2.name, component2.path)
   # add component 1
-  welcome <- add_lines(
-    welcome,          # target
+  parent <- add_lines(
+    parent,          # target
     "</Map>",         # pattern
     c(                # what
       paste0('<', component.name), # one line
@@ -60,12 +61,14 @@ gp_sf <- function(sf = geoplumber::traffic,
     )
   )
   # add component 2
-  welcome <- add_lines(
-    welcome,
+  parent <- add_lines(
+    parent,
     "</Map>",         # pattern
     c(
       paste0('<', component2.name),
       'circle={true}',                   # connecting GeoJSON with slider
+      # easy way would be spreading, for now doing it the harder way
+      # '...this.state' # and all state would be passed to child.
       'radius={this.state.sliderInput}', # connecting GeoJSON with slider
       'map={this.state.map}',            # get the map from parent
       paste0('fetchURL={"http://localhost:8000', endpoint,'" +'), #
@@ -75,26 +78,26 @@ gp_sf <- function(sf = geoplumber::traffic,
       '/>'
     )
   )
-  menuitems.index <- grep("menuitems=", welcome) # TODO: HARDcoded.
+  menuitems.index <- grep("menuitems=", parent) # TODO: HARDcoded.
   menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
                            # using " quotes means we can avoid apostrophe wreck
                            paste(paste0('"', sf[[names(props_list)]], '"'), collapse = ", ")
                            , "]}")
-  welcome[menuitems.index] <- menuitems.line
+  parent[menuitems.index] <- menuitems.line
   # change url based on the variable passed back to plumber
-  param.index <- grep("?road=", welcome) # TODO: HARDcoded.
-  param.line <- welcome[param.index]
+  param.index <- grep("?road=", parent) # TODO: HARDcoded.
+  param.line <- parent[param.index]
   # skip sf default
   if(!identical("road", names(props_list))) {
     param.line <- sub("road=", paste0(names(props_list), "="), param.line)
-    welcome[param.index] <- param.line
+    parent[param.index] <- param.line
   }
   # we could pass min max from sf object
   # TODO: WIP and no package strategy.
   if(with_slider)
-    welcome <- gp_add_slider(to_vector = welcome)
+    parent <- gp_add_slider(to_vector = parent)
   # finally write before building
-  write(welcome, "src/Welcome.js")
+  write(parent, "src/Welcome.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
     # TODO: gp_build is not made for this or refactor it.
