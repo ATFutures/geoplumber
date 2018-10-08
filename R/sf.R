@@ -29,10 +29,15 @@ gp_sf <- function(sf = geoplumber::traffic,
   # TODO: reserve api url for this or generate temp one.
   endpoint <- "/api/gp"
   # variable name here "road" must be used in the React component.
-  server$handle("GET", endpoint, function(res, road){
+  # flexible variable names
+  server$handle("GET", endpoint, function(res, req, ...){
+    qs <- c(...) # named vector
     res$headers$`Content-type` <- "application/json"
-    if(!missing(road))
-      geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == road, ])
+    if(length(names(qs)) == 1){
+      # names(props_list) == names(qs)
+      # qs[[names(qs)]] == "some value" if length is 1 of course
+      geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == qs[[names(qs)]], ])
+    }
     res$body <- geojson
     res
   })
@@ -87,7 +92,8 @@ gp_sf <- function(sf = geoplumber::traffic,
   # change url based on the variable passed back to plumber
   param.index <- grep("?road=", parent) # TODO: HARDcoded.
   param.line <- parent[param.index]
-  # skip sf default
+  # skip sf's default values
+  # replace road with appropriate name given from props_list
   if(!identical("road", names(props_list))) {
     param.line <- sub("road=", paste0(names(props_list), "="), param.line)
     parent[param.index] <- param.line
