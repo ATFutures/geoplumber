@@ -5,7 +5,7 @@
 #' The slider only works with circles.
 #'
 #' @param sf a valid sf object that can be converted to geojson
-#' @param a_list one named list of menuitmes to explore sf object with.
+#' @param props_list one named list of menuitmes to explore sf object with.
 #' @param with_slider WIP example might be removed anytime.
 #'
 #' @examples \dontrun{
@@ -13,10 +13,10 @@
 #' }
 #' @export
 gp_sf <- function(sf = geoplumber::traffic,
-                  a_list = list(road = geoplumber::traffic$road),
+                  props_list = list(road = geoplumber::traffic$road),
                   with_slider = FALSE) {
   # no more than one param for now
-  if(length(a_list) != 1)
+  if(length(props_list) != 1)
     stop("gp_sf is young, can only take one variable. WIP.")
   # print(list)
   # gp_plumb checks project availability
@@ -31,7 +31,7 @@ gp_sf <- function(sf = geoplumber::traffic,
   server$handle("GET", endpoint, function(res, road){
     res$headers$`Content-type` <- "application/json"
     if(!missing(road))
-      geojson <- geojsonsf::sf_geojson(sf[sf[[names(a_list)]] == road, ])
+      geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == road, ])
     res$body <- geojson
     res
   })
@@ -78,15 +78,15 @@ gp_sf <- function(sf = geoplumber::traffic,
   menuitems.index <- grep("menuitems=", welcome) # TODO: HARDcoded.
   menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
                            # using " quotes means we can avoid apostrophe wreck
-                           paste(paste0('"', sf[[names(a_list)]], '"'), collapse = ", ")
+                           paste(paste0('"', sf[[names(props_list)]], '"'), collapse = ", ")
                            , "]}")
   welcome[menuitems.index] <- menuitems.line
   # change url based on the variable passed back to plumber
   param.index <- grep("?road=", welcome) # TODO: HARDcoded.
   param.line <- welcome[param.index]
   # skip sf default
-  if(!identical("road", names(a_list))) {
-    param.line <- sub("road=", paste0(names(a_list), "="), param.line)
+  if(!identical("road", names(props_list))) {
+    param.line <- sub("road=", paste0(names(props_list), "="), param.line)
     welcome[param.index] <- param.line
   }
   # we could pass min max from sf object

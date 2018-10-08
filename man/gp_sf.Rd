@@ -4,19 +4,20 @@
 \alias{gp_sf}
 \title{Explore an sf R object on a leaflet map.}
 \usage{
-gp_sf(sf = geoplumber::traffic, a_list = list(road =
+gp_sf(sf = geoplumber::traffic, props_list = list(road =
   geoplumber::traffic$road), with_slider = FALSE)
 }
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}
 
-\item{a_list}{one named list of menuitmes to explore sf object with.}
+\item{props_list}{one named list of menuitmes to explore sf object with.}
 
 \item{with_slider}{WIP example might be removed anytime.}
 }
 \description{
 The function (for now) takes one parameter to bounce back
 to the backend. For now just a dropdown list.
+The slider only works with circles.
 }
 \examples{
 \dontrun{

@@ -5,7 +5,9 @@
 #' children. React does have strong tools for this but geoplumber
 #' is still young.
 #'
-#' @param js_function the function to run on React parent (Welcome).
+#' @param js_on_change_function the function to run on React parent (Welcome). By default,
+#' `onChange={(sliderInput) => this.setState({sliderInput})}` sets the state of parent
+#' with value returned from the html input's onChange function.
 #' @param min min to pass to the slider
 #' @param max max to pass to the slider
 #' @param to_vector instead of reading default Welcome.js
@@ -18,7 +20,7 @@
 gp_add_slider <- function(
   min = 1L,
   max = 10L,
-  js_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
+  js_on_change_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
   to_vector = "NA"){
   if(!gp_is_wd_geoplumber()) {
     is.current.dir <- "Is current dir a geoplumber app? \nTry geoplumber::gp_create() first.\n"
@@ -47,7 +49,7 @@ gp_add_slider <- function(
   target <- c(target[1:map.end.index - 1],
                paste0("<", component.name),
                paste0("min={", min, "} max={", max, "}"),
-               paste0(js_function, " />"),
+               paste0(js_on_change_function, " />"),
                target[map.end.index:length(target)]
                )
   # now write to project
