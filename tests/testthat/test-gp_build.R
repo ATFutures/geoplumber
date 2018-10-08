@@ -2,9 +2,9 @@ context("test-gp_build")
 # all tests run from clean package env
 
 skip_build <- function() {
-  # set RUN_FULL_TEST in ~/.Renviron as
-  # RUN_FULL_TEST = false for skipping test.
-  if(identical(Sys.getenv("RUN_FULL_TEST"), "false"))
+  # set GP_LOCAL_INCLUDE_BUILD in ~/.Renviron as
+  # GP_LOCAL_INCLUDE_BUILD = false for skipping test.
+  if(identical(Sys.getenv("GP_LOCAL_INCLUDE_BUILD"), "false"))
     skip("Not running full test.")
 }
 
