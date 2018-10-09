@@ -10,6 +10,7 @@
 #' with value returned from the html input's onChange function.
 #' @param min min to pass to the slider
 #' @param max max to pass to the slider
+#' @param step step changes for min & max
 #' @param to_vector instead of reading default Welcome.js
 #'
 #' @export
@@ -20,6 +21,7 @@
 gp_add_slider <- function(
   min = 1L,
   max = 10L,
+  step = 1L,
   js_on_change_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
   to_vector = "NA"){
   if(!gp_is_wd_geoplumber()) {

@@ -19,13 +19,10 @@ export default class RBSlider extends Component {
     }
 
     render() {
-        let { min, max } = this.props;
-        if(!min) {
-            min = 1
-        }
-        if(!max) {
-            max = 100
-        }
+        let { min, max, step } = this.props;
+        min = min || 1
+        max = max || 10
+        step = step || 1
         const { value } = this.state;
         return (
             <Control position={
@@ -37,9 +34,10 @@ export default class RBSlider extends Component {
                         type="range"
                         min={min}
                         max={max}
+                        step={step}
                         value={value ? value : max / 2}
                         onChange={this._handleChange.bind(this)}
-                        step="1" />
+                        />
                     <p style={{textAlign: 'center', fontSize:'2em'}}>{value ? value : max / 2}</p>
                 </div>
             </Control>
