@@ -50,7 +50,7 @@ gp_add_slider <- function(
   # TODO: insert at right tab count :)
   target <- c(target[1:map.end.index - 1],
                paste0("<", component.name),
-               paste0("min={", min, "} max={", max, "}"),
+               paste0("min={", min, "} max={", max, "}", " step={", step, "}"),
                paste0(js_on_change_function, " />"),
                target[map.end.index:length(target)]
                )
