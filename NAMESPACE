@@ -3,6 +3,7 @@
 export(gp_add_geojson)
 export(gp_add_slider)
 export(gp_build)
+export(gp_change_file)
 export(gp_check_clip_endpoint)
 export(gp_create)
 export(gp_endpoint_from_clip)

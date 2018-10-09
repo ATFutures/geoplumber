@@ -62,6 +62,12 @@ add_lines <- function (target, pattern, what, before = TRUE) {
   target
 }
 
+#' takes a vector of strings, adds a Babel style import statement
+#'
+#' @param target vector to add import in
+#' @param component.name Raect name of component
+#' @param component.path path to "import" from
+#'
 add_import_component <- function(target, component.name, component.path) {
   # Import new component
   # Above 'export default'
@@ -76,4 +82,49 @@ add_import_component <- function(target, component.name, component.path) {
     )
   }
   target
+}
+
+#' Change a source file in place
+#'
+#' Utility function to make changes to a source file
+#' @param path path of file to change, used in readLines()
+#' @param what vector to add to path
+#' @param pattern where to add the what to, 1st is used. Unique is best.
+#' @param before s after the pattern
+#' @param replace or replace pattern
+#' @param verbose cat the change out
+#' @export
+#' @examples {
+#'  gp_change_file(replace = TRUE, verbose = TRUE) # replacing the comment itself.
+#' }
+gp_change_file <- function(path = system.file("js/src/App.js", package = "geoplumber"),
+                           what = " * geoplumber R package code.",
+                           pattern = " * geoplumber R package code.",
+                           before = TRUE,
+                           replace = FALSE,
+                           verbose= FALSE) {
+  con <- file(path, "r")
+  v <- readLines(con)
+  if(length(v) == 0) {
+    stop("Empty file, gp_change_file requires a file with min 1 line.")
+  }
+  # fail safe for default
+  index <- grep(pattern, v)
+  if(length(index) >= 1) {
+    if(replace) {
+      v <- c(v[1:index - 1], what, v[(index + 1):length(v)]
+      )
+    } else {
+      v <- add_lines(target = v, pattern = pattern,
+                     what = what, before = before)
+    }
+    if(verbose) {
+      print(paste0("Changed at: ", index))
+      print(v[index : (index + 5)])
+    }
+  } else {
+    message("Pattern ", pattern, " not found.")
+  }
+  write(v, file = path)
+  close(con)
 }
