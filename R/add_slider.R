@@ -47,11 +47,11 @@ gp_add_slider <- function(
   map.end.index <- grep(pattern = "</Map>", x = target)
   # TODO: more checks as file could be corrupt
   # insert line
-  # TODO: insert at right tab count :)
+  spaces <- next_spaces(target[map.end.index])
   target <- c(target[1:map.end.index - 1],
-               paste0("<", component.name),
-               paste0("min={", min, "} max={", max, "}", " step={", step, "}"),
-               paste0(js_on_change_function, " />"),
+               paste0(spaces, "<", component.name),
+               paste0(spaces, "min={", min, "} max={", max, "}", " step={", step, "}"),
+               paste0(spaces, js_on_change_function, " />"),
                target[map.end.index:length(target)]
                )
   # now write to project

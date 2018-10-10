@@ -4,10 +4,15 @@
 \alias{gp_add_geojson}
 \title{For now, views a geojson served from an endpoint on leafletjs.}
 \usage{
-gp_add_geojson(endpoint = "/api/data")
+gp_add_geojson(endpoint = "/api/data", color = "#3388ff",
+  line_weight = NA)
 }
 \arguments{
 \item{endpoint}{where to fetch the geojson from}
+
+\item{color}{for now color value for all geojson}
+
+\item{line_weight}{worded carefully for leaflet geojson lineweight.}
 }
 \description{
 Assumes there is a valid geoplumber app at wd

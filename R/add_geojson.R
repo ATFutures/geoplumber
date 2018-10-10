@@ -10,6 +10,8 @@
 #' into src/Welcome.js
 #'
 #' @param endpoint where to fetch the geojson from
+#' @param color for now color value for all geojson
+#' @param line_weight worded carefully for leaflet geojson lineweight.
 #'
 #' @export
 #' @examples \dontrun{
@@ -18,7 +20,9 @@
 #' # Try geoplumber::gp_create()
 #' }
 #'
-gp_add_geojson <- function(endpoint = "/api/data"){
+gp_add_geojson <- function(endpoint = "/api/data",
+                           color = "#3388ff",
+                           line_weight = NA){
   # Check getwd() for src/ folder & Welcome.js file exists as both will be written to.
   check_src <- dir.exists("src")
   check_welcome <- file.exists("src/Welcome.js")
@@ -45,12 +49,24 @@ gp_add_geojson <- function(endpoint = "/api/data"){
   # find end map component tag
   map.end.index <- grep(pattern = "</Map>", x = welcome)
   # TODO: more checks as file could be corrupt
+  # TODO: jsonline::toJSON is not quite what we need here.
+  style <- paste0("{color:'", color, "'")
+  if(!is.na(line_weight)){
+    style <- paste0(style, ", ",
+               "weight:'", line_weight, "'}"
+               )
+  } else {
+    style <- paste0(style, "}")
+  }
+  style <- paste0(" style={", style, "}")
   # insert line
-  # TODO: insert at right tab count :)
   welcome <- c(welcome[1:map.end.index - 1],
-               paste0("<", component.name, " fetchURL=",
-                      paste0("'http://localhost:8000", endpoint, "'"),
-                      " map={ this.state.map } />"), #TODO: HARDcoded.
+               # add two spaces
+               paste0(next_spaces(welcome[map.end.index]),
+                      "<", component.name,
+                      style,
+                      " fetchURL='http://localhost:8000", endpoint, "'",
+                      " map={ this.state.map } />"), #TODO: HARDcoded url port etc.
                welcome[map.end.index:length(welcome)]
                )
   # now write to project

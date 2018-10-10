@@ -48,14 +48,15 @@ change_to_proj_dir <- function () {
 #' @param before or after the pattern
 add_lines <- function (target, pattern, what, before = TRUE) {
   where.index <- grep(pattern, target)
+  spaces <- next_spaces(target[where.index])
   if(before) {
     target <- c(target[1:where.index - 1],
-                what,
+                paste0(spaces, what),
                 target[where.index:length(target)]
     )
   } else {
     target <- c(target[1:where.index],
-                what,
+                paste0(spaces, what),
                 target[(where.index + 1):length(target)]
     )
   }
@@ -127,4 +128,12 @@ gp_change_file <- function(path = system.file("js/src/App.js", package = "geoplu
   }
   write(v, file = path)
   close(con)
+}
+
+next_spaces <- function(x, count = 4) {
+  spaces <- regexpr("^\\s+", x)
+  spaces <- attr(spaces, "match.length") # number of spaces of current line
+  spaces <- rep(" ",  spaces + count)
+  spaces <- paste(spaces, collapse = "")
+  spaces
 }
