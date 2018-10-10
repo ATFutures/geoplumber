@@ -35,10 +35,10 @@ export default class RBSlider extends Component {
                         min={min}
                         max={max}
                         step={step}
-                        value={value ? value : max / 2}
+                        value={value ? value : min}
                         onChange={this._handleChange.bind(this)}
                         />
-                    <p style={{textAlign: 'center', fontSize:'2em'}}>{value ? value : max / 2}</p>
+                    <p style={{textAlign: 'center', fontSize:'2em'}}>{value ? value : min}</p>
                 </div>
             </Control>
         )

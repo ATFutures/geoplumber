@@ -80,9 +80,7 @@ export default class GeoJSONComponent extends React.Component {
                 return (
                     <GeoJSON
                         key={JSON.stringify(feature) + radius}
-                        style={{
-                            weight: this.props.weight || 2
-                        }}
+                        style={this.props.style}
                         data={feature}
                         onEachFeature={(feature, layer) => {
                             const properties = Object.keys(feature.properties).map((key) => {
