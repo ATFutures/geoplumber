@@ -32,6 +32,31 @@ test_that("add_lines adds line at correct location", {
   expect_equal(dummy, main - 1)
 })
 
+test_that("gp_remove_lines removes pattern given from source.", {
+  appjs <- readLines(system.file("js/src/App.js", package = "geoplumber"))
+  filename <- "test.js"
+  write(appjs, file = filename)
+  on.exit(file.remove(filename))
+  gp_remove_lines(filename,
+                  pattern = "* Separate the Header and the main content.")
+  testjs <- readLines(filename)
+  expect_equal((length(appjs)) - 1, length(testjs))
+  file.remove(filename)
+})
+
+test_that("gp_remove_lines removes 5 lines after pattern from source.", {
+  before <- readLines(system.file("js/src/App.js", package = "geoplumber"))
+  filename <- "test.js"
+  write(before, file = filename)
+  on.exit(file.remove(filename))
+  gp_remove_lines(filename,
+                  pattern = "* Separate the Header and the main content.",
+                  lines_count = 5)
+  after <- readLines(filename)
+  expect_equal((length(before)) - (length(after)), 5)
+  file.remove(filename)
+})
+
 test_that("add_import_component adds one line", {
   v <- readLines(system.file("js/src/App.js", package = "geoplumber"))
   v.length <- length(v)

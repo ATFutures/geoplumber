@@ -85,6 +85,35 @@ add_import_component <- function(target, component.name, component.path) {
   target
 }
 
+#' Remove lines from a source file in place
+#'
+#' Utility function to remove lines from a source file
+#'
+#' @param path path of file to change, used in readLines()
+#' @param pattern remove what, 1st is used. Unique is best.
+#' @param lines_count 1 by default provide a number
+#' @export
+#' @examples \dontrun{
+#'  gp_remove_lines()
+#' }
+gp_remove_lines <- function(path,
+                            pattern = " * geoplumber R package code.",
+                            lines_count = 1L
+                            ) {
+  con <- file(path, "r")
+  v <- readLines(con)
+  if(length(v) == 0 || lines_count < 1L) {
+    stop("Empty file, ", path, "or wrong lines_count: ", lines_count, ".")
+  }
+  pattern.index <- grep(pattern = pattern, x = v)
+  v <- c(
+    v[1:(pattern.index - 1)], # to the line before pattern
+    v[(pattern.index + lines_count):length(v)]
+  )
+  write(v, file = path)
+  close(con)
+}
+
 #' Change a source file in place
 #'
 #' Utility function to make changes to a source file
