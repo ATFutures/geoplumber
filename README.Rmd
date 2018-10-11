@@ -180,6 +180,11 @@ gp_change_file(
   verbose = TRUE
 )
 ```
+Run the project (this time at `tempdir()` location) by:
+```{r eval=FALSE}
+gp_build() # build changes
+gp_plumb()
+```
 
 Now you can see (latest version is slightly improved than following GIF):
 ```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side."}

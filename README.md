@@ -13,8 +13,15 @@ It can be installed with the following command as it is not yet on CRAN:
 
 ``` r
 devtools::install_github("ATFutures/geoplumber")
-#> Skipping install of 'geoplumber' from a github remote, the SHA1 (7be13e89) has not changed since last install.
-#>   Use `force = TRUE` to force installation
+#> Downloading GitHub repo ATFutures/geoplumber@master
+#> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
+#> Installing geoplumber
+#> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+#>   --quiet CMD INSTALL  \
+#>   '/tmp/RtmpQcbeZ0/devtools77aa4e690dff/ATFutures-geoplumber-94f188a'  \
+#>   --library='/home/layik/R/x86_64-pc-linux-gnu-library/3.4'  \
+#>   --install-tests
+#> 
 ```
 
 Development
@@ -197,6 +204,13 @@ gp_change_file(
   replace = TRUE,
   verbose = TRUE
 )
+```
+
+Run the project (this time at `tempdir()` location) by:
+
+``` r
+gp_build() # build changes
+gp_plumb()
 ```
 
 Now you can see (latest version is slightly improved than following GIF):
