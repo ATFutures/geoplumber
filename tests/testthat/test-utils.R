@@ -36,7 +36,6 @@ test_that("gp_remove_lines removes pattern given from source.", {
   appjs <- readLines(system.file("js/src/App.js", package = "geoplumber"))
   filename <- "test.js"
   write(appjs, file = filename)
-  on.exit(file.remove(filename))
   gp_remove_lines(filename,
                   pattern = "* Separate the Header and the main content.")
   testjs <- readLines(filename)
@@ -48,7 +47,6 @@ test_that("gp_remove_lines removes 5 lines after pattern from source.", {
   before <- readLines(system.file("js/src/App.js", package = "geoplumber"))
   filename <- "test.js"
   write(before, file = filename)
-  on.exit(file.remove(filename))
   gp_remove_lines(filename,
                   pattern = "* Separate the Header and the main content.",
                   lines_count = 5)
@@ -70,7 +68,6 @@ test_that("gp_change_file adds one line", {
   index.main <- grep("</main>", v)
   temp.file <- "temp.js"
   write(v, temp.file)
-  on.exit(file.remove(temp.file))
   v <- gp_change_file(temp.file, what = "# dummy __comment__ line",
                       pattern = "</main>")
   v <- readLines(temp.file)
