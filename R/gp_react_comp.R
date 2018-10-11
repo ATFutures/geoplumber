@@ -7,11 +7,23 @@
 #' @param props a named R list of React props for the component.
 #'
 #' @examples {
+#' library(R6)
 #' r <- gp_react_comp("helloworld")
 #' r
+#'# React Component:
+#'# import React, { Component } from 'react';
+#'# export default class helloworld extends Component {
+#'#   render() {
+#'#     return(
+#'#       <p>
+#'#         I am helloworld.
+#'#       </p>
+#'#     )
+#'#   }
+#'# }
 #' }
 #' @export
-gp_react_comp <- function(name = "R", props = list(r = "R6Class")) {
+gp_react_comp <- function(name = "R", props = list(r = "R6")) {
   React <- R6Class("React", list(
     name =  NULL,    # NOT assignment
     out = c("init"), # NOT assignment

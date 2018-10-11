@@ -4,7 +4,7 @@
 \alias{gp_react_comp}
 \title{Creates an R6 R represetnation of a ReactJS component}
 \usage{
-gp_react_comp(name = "R", props = list(r = "R6Class"))
+gp_react_comp(name = "R", props = list(r = "R6"))
 }
 \arguments{
 \item{name}{React component name}
@@ -16,7 +16,19 @@ WIP
 }
 \examples{
 {
+library(R6)
 r <- gp_react_comp("helloworld")
 r
+# React Component:
+# import React, { Component } from 'react';
+# export default class helloworld extends Component {
+#   render() {
+#     return(
+#       <p>
+#         I am helloworld.
+#       </p>
+#     )
+#   }
+# }
 }
 }
