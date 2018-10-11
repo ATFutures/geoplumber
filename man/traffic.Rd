@@ -4,12 +4,14 @@
 \name{traffic}
 \alias{traffic}
 \title{Traffic data from CDRC data sets}
-\format{An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 572 rows and 7 columns.}
+\format{An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 572 rows and 11 columns.}
 \usage{
 traffic
 }
 \description{
 See \href{https://data.cdrc.ac.uk/dataset/southwark-traffic-counts}{data.cdrc.ac.uk/dataset/southwark-traffic-counts}
+This dataset represents point locations where traffic
+is measured.
 }
 \examples{
 \dontrun{
@@ -19,7 +21,7 @@ u = paste0("https://data.cdrc.ac.uk/dataset/",
   "d39d9d89-0478-4f75-a166-1a445bf42f9c/download/metadata.json")
 download.file(u, "inst/extdata/traffic.geojson")
 traffic <- sf::read_sf("inst/extdata/traffic.geojson")
-sf:::plot.sf(traffic)
+# sf:::plot.sf(traffic)
 # mapview::mapview(traffic)
 usethis::use_data(traffic, overwrite = TRUE)
 }
