@@ -22,10 +22,11 @@ knitr::opts_chunk$set(
 
 # What is geoplumber?
 
-geoplumber is R package that extends [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R.
-It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
+geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application "framework". It utilizes [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R which is Swagger compliant. It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
 
-In other words, geoplumber is a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (< 5MB rather than > 50MB download size) and easier installation, especially if you are already an R user, with the following command:
+In other words, geoplumber is a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (< 5MB rather than > 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.
+
+It can be installed with the following command as it is not yet on CRAN:
 
 ```{r}
 devtools::install_github("ATFutures/geoplumber")
@@ -54,19 +55,20 @@ sudo npm i -g create-react-app
 
 
 ## npm packages included by default
+The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.
 ```{js}
   "dependencies": {
     "create-react-app": "^1.5.2",       # main package to manage front end
     "enzyme": "^3.3.0",                 # test suite
     "enzyme-adapter-react-16": "^1.1.1",# test suite adapter for React
-    "leaflet": "^1.3.1",                # main web map tool (in future geoplumber could support other options)
+    "leaflet": "^1.3.1",                # main web map tool (future could be different)
     "prop-types": "^15.6.1",            # React bits and pieces
     "react": "^16.3.2",                 # React
-    "react-bootstrap": "^0.32.1",       # bootstrap is current choice (future could be different)
+    "react-bootstrap": "^0.32.1",       # bootstrap is current choice.
     "react-dom": "^16.3.2",             # React
     "react-leaflet": "^1.9.1",          # React wrapper around leaflet above
     "react-leaflet-control": "^1.4.1",  # React map control
-    "react-router": "^4.3.1",           # React router (RR) (supporting multuplage not singel page.)
+    "react-router": "^4.3.1",           # React router (RR) (supporting multuplage, too)
     "react-router-dom": "^4.2.2",       # React dom for RR
     "react-scripts": "1.1.4",           # main package to manage front end
     "react-test-renderer": "^16.4.1",   # test suite
@@ -103,7 +105,7 @@ At this point, if you created an app using the above examples or set your workin
 
 Then visit `localhost:8000` to see your app.
 
-## Use case
+## Use case (1)
 Serve the `geoplumber::traffic` dataset (data.frame) at a "/api/data" endpoint, and view it on the front end. 
 
 The `traffic` [dataset](https://data.cdrc.ac.uk/dataset/southwark-traffic-counts) is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.
@@ -150,11 +152,39 @@ setwd("my_app")
 gp_build() # build changes
 gp_plumb()
 ```
-```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="CDRC London traffic data on geoplumber"}
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="<a href='https://www.cdrc.ac.uk/'>CDRC</a> London traffic data on geoplumber"}
 knitr::include_graphics("man/figures/gp.png")
 ```
 You can also now see the raw JSON dataset at  `http://localhost:8000/api/data`,
 and on a map on a browser view the map at `http://localhost:8000`.
+
+## Use case (2)
+
+We would like to see default University of Leeds `uni_poly` grow/shrink using `sf::st_buffer()` function. Here is a reproducible example (please take a look at the default `plumber.R` file in your `my_app` project):
+
+```{r, eval=FALSE}
+gp_create(tolower(tempdir()))
+cw <- setwd(tolower(tempdir()))
+gp_is_wd_geoplumber()
+gp_add_slider(
+  min = 0.001,
+  max = 0.01,
+  step = 0.001
+)
+gp_change_file(
+  path = "src/Welcome.js",
+  what = '<GeoJSONComponent fetchURL={"http://localhost:8000/api/uol?grow=" + this.state.sliderInput} />
+',
+  pattern = '<GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />',
+  replace = TRUE,
+  verbose = TRUE
+)
+```
+
+Now you can see (latest version is slightly improved than following GIF):
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side."}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/46699371-7f79d000-cc11-11e8-9716-e1223296c7d6.gif")
+```
 
 ## Endpoints
 
