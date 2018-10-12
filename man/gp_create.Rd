@@ -7,7 +7,7 @@
 gp_create(path = "geoplumber")
 }
 \arguments{
-\item{path}{path of the new app, will be passed to \code{npx create-react-app }
+\item{path}{path of the new app, will be passed to \code{npx create-react-app}
 TODO: allow current directory, with \code{.Rproj} for example.}
 }
 \description{

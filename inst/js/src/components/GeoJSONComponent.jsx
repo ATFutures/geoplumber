@@ -37,7 +37,7 @@ export default class GeoJSONComponent extends React.Component {
                 // Examine the text in the response
                 response.json()
                     .then((geojson) => {
-                        if (geojson.features.length === 0 || response.status === 'ZERO_RESULTS') {
+                        if ((geojson.features && geojson.features.length === 0) || response.status === 'ZERO_RESULTS') {
                             this.setState({ error: response.status })
                         } else {
                             var geojsonLayer = L.geoJson(geojson)
@@ -74,7 +74,18 @@ export default class GeoJSONComponent extends React.Component {
         if (!geojson) {
             return (null) // as per React docs
         }
-        
+        if(!geojson.feature) { // empty featured TODO: read more on geojson
+            if(geojson.coordinates) {
+                return(
+                <GeoJSON
+                    key={JSON.stringify(geojson)}
+                    data={geojson}
+                />
+                )
+            } else {
+                return(null) //nothing is passed to me.
+            }
+        }
         return (
             geojson.features.map((feature, i) => {
                 return (
