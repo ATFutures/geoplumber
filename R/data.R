@@ -76,6 +76,18 @@
 #' plot(traffic_casualties_2014$Date, traffic_casualties_2014$Accident_Severity)
 "traffic_casualties_2014"
 
+#' Small sample of road network
+#'
+#' The data has been processed too much for a reproducible snippet to
+#' provide here.
+#'
+#' It is obtained from the same [data.cdrc.ac.uk/dataset/southwark-traffic-counts](https://data.cdrc.ac.uk/dataset/southwark-traffic-counts)
+#' dataset of `traffic` above, also using osmdata package.
+#' @examples {
+#' object.size(traffic_network)
+#' }
+"traffic_network"
+
 #' sf object representing the university of Leeds
 #'
 #' From OpenStreetMap
