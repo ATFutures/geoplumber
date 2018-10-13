@@ -74,8 +74,8 @@ export default class GeoJSONComponent extends React.Component {
         if (!geojson) {
             return (null) // as per React docs
         }
-        if(!geojson.feature) { // empty featured TODO: read more on geojson
-            if(geojson.coordinates) {
+        if(!geojson.features || geojson.type != "FeatureCollection") { 
+            if(geojson.coordinates) { //single feature.
                 return(
                 <GeoJSON
                     key={JSON.stringify(geojson)}
@@ -86,6 +86,7 @@ export default class GeoJSONComponent extends React.Component {
                 return(null) //nothing is passed to me.
             }
         }
+        // we have type: "FeatureCollection"
         return (
             geojson.features.map((feature, i) => {
                 return (

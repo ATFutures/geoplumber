@@ -16,15 +16,15 @@ gp_sf <- function(sf = geoplumber::traffic,
                   props_list = list(road = geoplumber::traffic$road),
                   with_slider = FALSE) {
   # no more than one param for now
-  if(length(props_list) != 1)
+  if(length(props_list) > 1)
     stop("gp_sf is young, can only take one variable. WIP.")
   # print(list)
   # gp_plumb checks project availability
   server <- gp_plumb(run = FALSE)
   # convert sf to geojson
   # TODO stop if not valid sf or geojsonsf cannot deal with it.
+  # TODO why does geojsonsf produces vector when one column geometry sf is provided.
   geojson <- geojsonsf::sf_geojson(sf)
-
   # prepare backend
   # TODO: reserve api url for this or generate temp one.
   endpoint <- "/api/gp"
@@ -33,10 +33,14 @@ gp_sf <- function(sf = geoplumber::traffic,
   server$handle("GET", endpoint, function(res, req, ...){
     qs <- c(...) # named vector
     res$headers$`Content-type` <- "application/json"
-    if(length(names(qs)) == 1){
+    if(length(props_list) == 1 && length(names(qs)) == 1){
       # names(props_list) == names(qs)
       # qs[[names(qs)]] == "some value" if length is 1 of course
       geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == qs[[names(qs)]], ])
+    }
+    if(length(geojson) > 1) { # sf_geojson produces this at least in one case.
+      # just box them, still valid geojson for leaflet
+      # https://leafletjs.com/examples/geojson/
     }
     res$body <- geojson
     res
@@ -83,20 +87,24 @@ gp_sf <- function(sf = geoplumber::traffic,
       '/>'
     )
   )
-  menuitems.index <- grep("menuitems=", parent) # TODO: HARDcoded.
-  menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
-                           # using " quotes means we can avoid apostrophe wreck
-                           paste(paste0('"', sf[[names(props_list)]], '"'), collapse = ", ")
-                           , "]}")
-  parent[menuitems.index] <- menuitems.line
-  # change url based on the variable passed back to plumber
-  param.index <- grep("?road=", parent) # TODO: HARDcoded.
-  param.line <- parent[param.index]
-  # skip sf's default values
-  # replace road with appropriate name given from props_list
-  if(!identical("road", names(props_list))) {
-    param.line <- sub("road=", paste0(names(props_list), "="), param.line)
-    parent[param.index] <- param.line
+
+  # only if we have a property list to filter the data from client
+  if(length(props_list) == 1) {
+    menuitems.index <- grep("menuitems=", parent) # TODO: HARDcoded.
+    menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
+                             # using " quotes means we can avoid apostrophe wreck
+                             paste(paste0('"', sf[[names(props_list)]], '"'), collapse = ", ")
+                             , "]}")
+    parent[menuitems.index] <- menuitems.line
+    # change url based on the variable passed back to plumber
+    param.index <- grep("?road=", parent) # TODO: HARDcoded.
+    param.line <- parent[param.index]
+    # skip sf's default values
+    # replace road with appropriate name given from props_list
+    if(!identical("road", names(props_list))) {
+      param.line <- sub("road=", paste0(names(props_list), "="), param.line)
+      parent[param.index] <- param.line
+    }
   }
   # we could pass min max from sf object
   # TODO: WIP and no package strategy.
