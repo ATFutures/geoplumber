@@ -62,6 +62,7 @@ gp_react_comp <- function(name = "R", props = list(r = "R6")) {
                  paste0(next_spaces("next"), "}")
       )
       cat(const, sep = "\n")
+      const
     },
     set_state = function() {
       cat("state should be set from functions called.")

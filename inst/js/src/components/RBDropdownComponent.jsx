@@ -55,7 +55,10 @@ export default class RBDropDown extends React.Component {
         const keyIsArray = menuitems && typeof (menuitems[0]) !== 'string';
 
         // console.log(title);
-
+        if(!menuitems || menuitems.length == 0) {
+            return(null)
+        }
+        
         return (
             <Control position={
                 this.props.position || "topright"
