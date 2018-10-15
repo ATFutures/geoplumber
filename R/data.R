@@ -76,7 +76,7 @@
 #' plot(traffic_casualties_2014$Date, traffic_casualties_2014$Accident_Severity)
 "traffic_casualties_2014"
 
-#' Small sample of road network
+#' Small sample of road network in an sf object.
 #'
 #' The data has been processed too much for a reproducible snippet to
 #' provide here.
