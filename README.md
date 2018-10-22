@@ -15,13 +15,6 @@ It can be installed with the following command as it is not yet on CRAN:
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
 #> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
-#> Installing geoplumber
-#> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-#>   --quiet CMD INSTALL  \
-#>   '/tmp/RtmpQcbeZ0/devtools77aa4e690dff/ATFutures-geoplumber-94f188a'  \
-#>   --library='/home/layik/R/x86_64-pc-linux-gnu-library/3.4'  \
-#>   --install-tests
-#> 
 ```
 
 Development
@@ -105,6 +98,10 @@ Please note, `gp_build()` produces a production ready minifed front end. It does
 At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with one command: `gp_plumb()` \# provide custom port if you wish, default is 8000
 
 Then visit `localhost:8000` to see your app.
+
+### Front end
+
+Once the geoplumber app `my_app` has been created. It will have a `create-react-app` directory structure with an extra `R` folder to hold the backend R code. The React components, as they are in CRA apps, are in the `src` folder and ready to be customised and developed for your own purposes. So, a React developer could run `npm start` on the root directory and run the built in CRA development server which is what `gp_plumb_front()` does too.
 
 Use case (1)
 ------------
