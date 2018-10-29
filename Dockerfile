@@ -22,11 +22,8 @@ RUN apt-get update \
     tk-dev \
     unixodbc-dev \
     libprotobuf-dev \
-    protobuf-compiler
-
-ADD . /app
-
-RUN apt-get install curl -y
+    protobuf-compiler \ 
+    curl
 
 RUN install2.r geojsonsf
 RUN install2.r sf
@@ -35,7 +32,3 @@ RUN install2.r devtools
 RUN install2.r osmdata
 
 RUN R -e 'devtools::install_github("ATFutures/geoplumber")'
-
-EXPOSE 8000
-
-ENTRYPOINT ["R", "-e", "setwd('/app'); plumber::plumb('R/plumber.R')$run(host='0.0.0.0', port=8000)"]
