@@ -15,13 +15,6 @@ It can be installed with the following command as it is not yet on CRAN:
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
 #> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
-#> Installing geoplumber
-#> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-#>   --quiet CMD INSTALL  \
-#>   '/tmp/RtmpQcbeZ0/devtools77aa4e690dff/ATFutures-geoplumber-94f188a'  \
-#>   --library='/home/layik/R/x86_64-pc-linux-gnu-library/3.4'  \
-#>   --install-tests
-#> 
 ```
 
 Development
@@ -30,6 +23,8 @@ Development
 geoplumber is built for Unix systems, we aim to support Windows in future.
 
 We have worked with Shiny and [`plumber`](https://github.com/trestletech/plumber/) and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.
+
+As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/).
 
 Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
 
@@ -105,6 +100,10 @@ Please note, `gp_build()` produces a production ready minifed front end. It does
 At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with one command: `gp_plumb()` \# provide custom port if you wish, default is 8000
 
 Then visit `localhost:8000` to see your app.
+
+### Front end
+
+Once the geoplumber app `my_app` has been created. It will have a `create-react-app` directory structure with an extra `R` folder to hold the backend R code. The React components, as they are in CRA apps, are in the `src` folder and ready to be customised and developed for your own purposes. So, a React developer could run `npm start` on the root directory and run the built in CRA development server which is what `gp_plumb_front()` does too.
 
 Use case (1)
 ------------

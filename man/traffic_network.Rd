@@ -3,8 +3,8 @@
 \docType{data}
 \name{traffic_network}
 \alias{traffic_network}
-\title{Small sample of road network}
-\format{An object of class \code{sfc_LINESTRING} (inherits from \code{sfc}) of length 361.}
+\title{Small sample of road network in an sf object.}
+\format{An object of class \code{sf} (inherits from \code{data.frame}) with 361 rows and 1 columns.}
 \usage{
 traffic_network
 }
