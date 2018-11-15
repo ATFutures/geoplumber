@@ -15,18 +15,19 @@ It can be installed with the following command as it is not yet on CRAN:
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
 #> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
+#> Installing geoplumber
+#> Installing geojsonsf
+...
 ```
 
 Development
 -----------
 
-geoplumber is built for Unix systems, we aim to support Windows in future.
+geoplumber is built for Unix systems and Windows. Windows support is recent and package tests have only been run on Windows 10. If there are any issues please feel free to open a ticket on the issue tracker.
 
 We have worked with Shiny and [`plumber`](https://github.com/trestletech/plumber/) and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.
 
-As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/).
-
-Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
+As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/). Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
 
     sudo npm i -g create-react-app
 
@@ -66,7 +67,7 @@ To create a new web application:
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /home/layik/code/geoplumber/my_app
+#> Initializing project at: /Users/layik/code/geoplumber/my_app
 #> To build/run app, set working directory to: my_app
 #> Standard output from create-react-app above works.
 #> You can run gp_ functions from directory: my_app
