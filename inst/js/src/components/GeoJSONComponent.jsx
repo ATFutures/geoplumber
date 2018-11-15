@@ -69,11 +69,14 @@ export default class GeoJSONComponent extends React.Component {
     render() {
         const { geojson } = this.state;
         let { radius } = this.props;
-        radius = radius || 8
-
+       
         if (!geojson) {
             return (null) // as per React docs
         }
+
+         // get radius from parent, or is it above 100 markers? 2 else 8
+         radius = radius ? radius : geojson.features && geojson.features.length > 100 ? 2 : 8
+
         if(!geojson.features || geojson.type != "FeatureCollection") { 
             if(geojson.coordinates) { //single feature.
                 return(
