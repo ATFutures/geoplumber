@@ -44,6 +44,13 @@ test_that ("full build", {
   expect_true (file.exists (build_dir))
 })
 
+test_that("npm start works", {
+  expect_silent(npm_start())
+  teardown(
+    system("kill -9 $(lsof -ti tcp:3000)")
+  )
+})
+
 test_that ("default endpoints", {
   skip_build()
   r <- gp_plumb(run = FALSE, file = "R/plumber.R")
