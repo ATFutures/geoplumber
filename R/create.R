@@ -64,14 +64,17 @@ gp_create <- function(path = "geoplumber") {
     # fialed stop and provide the error
     stop("Please refer to the ", npx.cmd, " error above.")
   }
-  system(paste0("cd ", dir_name))
   wd_old <- setwd(dir_name)
   # copy plumber.R
-  system("mkdir R")
+  dir.create("R")
   # cp plumber.R R
-  system(paste0("cp ", system.file("plumber.R", package = "geoplumber"), " R"))
+  file.copy(system.file("plumber.R", package = "geoplumber"), "R")
   # cp -r inst/js .
-  system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
+  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
+  gp_temp_files <- list.files(system.file("js", package="geoplumber"))
+  sapply(gp_temp_files, function(x){
+    file.copy(system.file(file.path("js", x), package = "geoplumber"), getwd(), recursive = TRUE)
+    })
   pkg_json <- readLines("package.json")
   pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2]) # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
