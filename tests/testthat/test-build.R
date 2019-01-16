@@ -65,11 +65,6 @@ test_that ("default endpoints", {
   )
 })
 
-test_that ("full plumb", {
-  # LH: last test is the only way, we dont need to check port availability etc.
-  #gp_plumb() # MP: dunno how to test this?
-})
-
 context("test-gp_sf")
 
 test_that ("gp_sf can serve default sf object", {
