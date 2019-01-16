@@ -1,5 +1,5 @@
 Package: geoplumber
-Title: Facilitate interactive geospatial web apps.
+Title: Facilitate interactive geospatial web apps
 Version: 0.0.0.9000
 Authors@R: c(
     person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut", "cre")),
@@ -13,8 +13,9 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     testthat
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Imports: 
+    future,
     plumber,
     clipr,
     geojsonsf,

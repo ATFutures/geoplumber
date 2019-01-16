@@ -3,13 +3,20 @@
 #' @param port to serve from
 #' @param file location of plumber.R file used by plumber
 #' @param run should plumber run the server or return it as an object
+#' @param front should geoplumber start the front dev server? Defaults
+#' to `FALSE`.
+#' @seealso [gp_plumb_front()]
+#'
 #' @export
 #' @examples \dontrun{
 #' gp_install_react() # install react
 #' gp_build() # build frond-end
 #' gp_plumb()
 #' }
-gp_plumb <- function(run = TRUE, port = 8000, file = "R/plumber.R") {
+gp_plumb <- function(run = TRUE,
+                     port = 8000,
+                     file = "R/plumber.R",
+                     front = FALSE) {
   wd <- change_to_proj_dir ()
   if(!gp_is_wd_geoplumber()) {
     stop("Is working directory a geoplumber app? ",
@@ -32,7 +39,16 @@ gp_plumb <- function(run = TRUE, port = 8000, file = "R/plumber.R") {
       plumber::include_html(fname, res)
     })
   }
+  # run the front in future
+  if(front) {
+    v <- npm_start()
 
+    # if v is resolved, then it failed?
+    if(future::resolved(v)) {
+      message("There was an error running npm start.")
+    }
+  }
+  # run plumb without future for now
   if(run) {
     viewer <- getOption("viewer")
     if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {

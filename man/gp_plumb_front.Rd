@@ -8,8 +8,7 @@ gp_plumb_front()
 }
 \description{
 Currently geoplumber only works with React,
-create-react-app comes with a dev server to view the front end.
-Other front end tech stacks would have similar options.
+create-react-app comes with a dev server to view the front end..
 This function must be called from a geoplumber app.
 }
 \section{TODO}{

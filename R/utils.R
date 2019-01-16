@@ -166,3 +166,12 @@ next_spaces <- function(x, count = 4) {
   spaces <- paste(spaces, collapse = "")
   spaces
 }
+
+npm_start <- function() {
+  future::plan(future::multiprocess)
+  v <- future::future({
+    system("npm start")
+  })
+  # v can be checked with future::resolved
+  return(v)
+}

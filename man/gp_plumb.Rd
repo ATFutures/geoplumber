@@ -4,7 +4,8 @@
 \alias{gp_plumb}
 \title{Launch a webserver via plumber to serve data}
 \usage{
-gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R")
+gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R",
+  front = FALSE)
 }
 \arguments{
 \item{run}{should plumber run the server or return it as an object}
@@ -12,6 +13,9 @@ gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R")
 \item{port}{to serve from}
 
 \item{file}{location of plumber.R file used by plumber}
+
+\item{front}{should geoplumber start the front dev server? Defaults
+to \code{FALSE}.}
 }
 \description{
 Launch a webserver via plumber to serve data
@@ -22,4 +26,7 @@ gp_install_react() # install react
 gp_build() # build frond-end
 gp_plumb()
 }
+}
+\seealso{
+\code{\link[=gp_plumb_front]{gp_plumb_front()}}
 }
