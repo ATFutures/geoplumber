@@ -45,6 +45,7 @@ test_that ("full build", {
 })
 
 test_that("npm start works", {
+  skip_build()
   expect_silent(npm_start())
   teardown(
     system("kill -9 $(lsof -ti tcp:3000)")
@@ -53,13 +54,13 @@ test_that("npm start works", {
 
 test_that ("default endpoints", {
   skip_build()
-  r <- gp_plumb(run = FALSE, file = "R/plumber.R")
+  r <- gp_plumb(run = FALSE, file = "R/plumber.R",
+                front = TRUE)
   expect_equal(length(r$endpoints[[1]]), 4)
   expect_equal(r$endpoints[[1]][[1]]$exec(), list(msg="The message is: 'nothing given'"))
   # run server in future
   future::future(
-    gp_plumb(file = "R/plumber.R",
-             front = TRUE)
+    gp_plumb(file = "R/plumber.R")
   )
   teardown(
     # system("kill -9 $(lsof -ti tcp:3000)")
