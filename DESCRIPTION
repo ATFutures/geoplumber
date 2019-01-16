@@ -2,11 +2,12 @@ Package: geoplumber
 Title: Facilitate interactive geospatial web apps
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut", "cre")),
+    person("Layik", "Hama", email = "layik.hama@gmail.com", 
+    role = c("aut", "cre")),
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("ctb")),
     person("Mark", "Padgham", email="mark.padgham@email.com", role=c("ctb"))
   )
-Description: Geoplumber is an R package abstraction layer on top of plumber and ReactJS.
+Description: Utilize the power of R and ReactJS to build web applications.
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
@@ -19,5 +20,4 @@ Imports:
     plumber,
     clipr,
     geojsonsf,
-    R6
 Roxygen: list(markdown = TRUE)

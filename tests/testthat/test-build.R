@@ -58,9 +58,11 @@ test_that ("default endpoints", {
   expect_equal(r$endpoints[[1]][[1]]$exec(), list(msg="The message is: 'nothing given'"))
   # run server in future
   future::future(
-    gp_plumb(file = "R/plumber.R")
+    gp_plumb(file = "R/plumber.R",
+             front = TRUE)
   )
   teardown(
+    # system("kill -9 $(lsof -ti tcp:3000)")
     system("kill -9 $(lsof -ti tcp:8000)")
   )
 })
