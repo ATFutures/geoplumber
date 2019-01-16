@@ -14,6 +14,7 @@ Explore a geojson object from a remote URL a leaflet map.
 }
 \examples{
 \dontrun{
-gp_geojson("http://opendata.canterburymaps.govt.nz/datasets/fb00b553120b4f2fac49aa76bc8d82aa_26.geojson")
+gp_geojson(paste0("http://opendata.canterburymaps.govt.nz/datasets/",
+"fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"))
 }
 }
