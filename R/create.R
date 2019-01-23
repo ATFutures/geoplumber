@@ -70,13 +70,17 @@ gp_create <- function(path = "geoplumber") {
   # cp plumber.R R
   file.copy(system.file("plumber.R", package = "geoplumber"), "R")
   # cp -r inst/js .
-  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ."))
-  gp_temp_files <- list.files(system.file("js", package="geoplumber"))
+  # system(paste0("cp -R ", system.file("js",
+  # package = "geoplumber"), "/* ."))
+  gp_temp_files <- list.files(
+    system.file("js", package="geoplumber"))
   sapply(gp_temp_files, function(x){
-    file.copy(system.file(file.path("js", x), package = "geoplumber"), getwd(), recursive = TRUE)
+    file.copy(system.file(file.path("js", x), package = "geoplumber"),
+              getwd(), recursive = TRUE)
     })
   pkg_json <- readLines("package.json")
-  pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2]) # as it could be path or .
+  pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2])
+  # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
   # setwd("~/code/geoplumber/") # comment out!
   message(paste0("To build/run app, set working directory to: ", path))

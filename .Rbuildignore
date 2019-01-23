@@ -1,4 +1,4 @@
-^.*\.Rproj$
+^geoplumber\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
 /node_modules
