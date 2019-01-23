@@ -175,3 +175,19 @@ npm_start <- function() {
   # v can be checked with future::resolved
   return(v)
 }
+
+# checks if Rproj file exists in current working dir
+rproj_file_exists <- function() {
+  files <- list.files()
+  if(any(grepl(".Rproj", files))) {
+    return(TRUE)
+  }
+  FALSE
+}
+# copies template.Rproj file into current working dir
+copy_rproj_file <- function(project_name) {
+  stopifnot(exists("project_name"))
+  res <- file.copy(system.file("template.Rproj", package = "geoplumber"),
+            paste0(project_name, ".Rproj"))
+  return(res)
+}
