@@ -4,13 +4,16 @@
 #' Warning: may take several minutes depending on system and internet connection.
 #'
 #' @param path path of the new app, will be passed to `npx create-react-app `
-#' TODO: allow current directory, with `.Rproj` for example.
 #'
 #' @export
 #' @examples \dontrun{
 #' gp_create()
 #' }
 gp_create <- function(path = "geoplumber") {
+  if(rproj_file_exists()) {
+    stop ("create-react-app requires a clean directory.\n",
+          "You can use gp_rstudio() function to crate an Rstudio project.")
+  }
   if(!gp_npm_exists()) {
     msg <- paste0 ("geoplumber requires node and npm to work.\n",
                    gp_install_node_instructions()) # UNIX only

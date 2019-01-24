@@ -21,11 +21,29 @@ test_that("gp_build errs for non geoplumber path", {
 
 test_that("full create", {
   skip_build()
-  expect_message (gp_create (tolower(tempdir())))
+  gp <- tolower(tempdir())
+  expect_error(gp_rstudio("NOT_GP_DIR"))
+  # create full
+  dir.create(gp)
+  expect_message(gp_create (gp))
   proj_dir <- read_tempfile ()
-  expect_true (file.exists (proj_dir))
+  expect_true(file.exists (proj_dir))
   js_file <- file.path (proj_dir, "package.json")
-  expect_true (file.exists (js_file))
+  expect_true(file.exists (js_file))
+
+  setwd(proj_dir) # we are in the new app dir
+  expect_false(rproj_file_exists())
+  expect_error(gp_rstudio(""))
+  expect_error(gp_rstudio())
+  gp_rstudio("gp") # TODO does not work!
+  # expect_true(rproj_file_exists())
+  teardown(unlink(gp, recursive = TRUE))
+  # rproj before create
+  tmp <- file.path(tolower(tempdir()), "foo")
+  dir.create(tmp)
+  file.create(file.path(tmp, "foo.Rproj"))
+  expect_error(gp_create (tmp)) # should not take long
+  teardown(unlink(tmp, recursive = TRUE))
 })
 
 # test before build test
@@ -41,7 +59,7 @@ test_that ("full build", {
   skip_build()
   expect_message (gp_build ())
   build_dir <- file.path (read_tempfile(), "build")
-  expect_true (file.exists (build_dir))
+  expect_true(file.exists (build_dir))
 })
 
 test_that("npm start works", {
