@@ -96,7 +96,7 @@ gp_sf <- function(sf = geoplumber::traffic,
     menuitems.index <- grep("menuitems=", parent) # TODO: HARDcoded.
     menuitems.line <- paste0("menuitems={[", # TODO: HARDcoded.
                              # using " quotes means we can avoid apostrophe wreck
-                             paste(paste0('"', sf[[names(props_list)]], '"'), collapse = ", ")
+                             paste(paste0('"', unique(sf[[names(props_list)]]), '"'), collapse = ", ")
                              , "]}")
     parent[menuitems.index] <- menuitems.line
     # change url based on the variable passed back to plumber
