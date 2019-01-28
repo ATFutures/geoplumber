@@ -26,6 +26,10 @@ knitr::opts_chunk$set(
 
 geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application "framework". It utilizes [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R which is Swagger compliant. It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
 
+```{r, echo=FALSE, fig.align='center', out.width="50%", fig.cap="`geoplumber` concept for those who do not want to read the text."}
+knitr::include_graphics("man/figures/geoplumber-concept.png")
+```
+
 In other words, geoplumber is a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (< 5MB rather than > 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.
 
 It can be installed with the following command as it is not yet on CRAN:
@@ -201,11 +205,11 @@ Now you can see (latest version is slightly improved than following GIF):
 knitr::include_graphics("https://user-images.githubusercontent.com/1825120/46699371-7f79d000-cc11-11e8-9716-e1223296c7d6.gif")
 ```
 
-## Endpoints
+## End-points
 
-R package `plumber` comes with a default endpoint for documenting the API using Swagger. This is also available from `geoplumber`'s `/__swagger__/` path.
+R package `plumber` comes with a default end-point for documenting the API using Swagger. This is also available from `geoplumber`'s `/__swagger__/` path.
 
-We follow a pattern of `/api/` before the endpoints and without for other URL's.
+We follow a pattern of `/api/` before the end-points and without for other URL's.
 A new web app will have `/api/helloworld` and you can `curl` it:
 
 ```{sh eval=FALSE}

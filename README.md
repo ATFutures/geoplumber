@@ -7,13 +7,18 @@ What is geoplumber?
 
 geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application "framework". It utilizes [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R which is Swagger compliant. It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
 
+<img src="man/figures/geoplumber-concept.png" alt="`geoplumber` concept for those who do not want to read the text." width="50%" />
+<p class="caption">
+`geoplumber` concept for those who do not want to read the text.
+</p>
+
 In other words, geoplumber is a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (&lt; 5MB rather than &gt; 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.
 
 It can be installed with the following command as it is not yet on CRAN:
 
 ``` r
 devtools::install_github("ATFutures/geoplumber")
-#> Skipping install of 'geoplumber' from a github remote, the SHA1 (5722c05a) has not changed since last install.
+#> Skipping install of 'geoplumber' from a github remote, the SHA1 (87da072d) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 ```
 
@@ -62,7 +67,7 @@ To create a new web application:
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpwPLiWB/my_app
+#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpyIKrxY/my_app
 #> To build/run app, set working directory to: my_app
 #> Standard output from create-react-app above works.
 #> You can run gp_ functions from directory: my_app
@@ -217,7 +222,7 @@ End-points
 
 R package `plumber` comes with a default end-point for documenting the API using Swagger. This is also available from `geoplumber`'s `/__swagger__/` path.
 
-We follow a pattern of `/api/` before the endpoints and without for other URL's. A new web app will have `/api/helloworld` and you can `curl` it:
+We follow a pattern of `/api/` before the end-points and without for other URL's. A new web app will have `/api/helloworld` and you can `curl` it:
 
 ``` sh
 curl localhost:8000/api/helloworld
