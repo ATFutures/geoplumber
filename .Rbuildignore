@@ -4,6 +4,7 @@
 ^Dockerfile$
 ^DONT_COMMIT\.r$
 ^.*\.Rproj$
+^geoplumber\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
 /node_modules

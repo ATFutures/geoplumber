@@ -175,3 +175,34 @@ npm_start <- function() {
   # v can be checked with future::resolved
   return(v)
 }
+
+# checks if Rproj file exists in current working dir
+rproj_file_exists <- function() {
+  files <- list.files()
+  if(any(grepl(".Rproj", files))) {
+    return(TRUE)
+  }
+  FALSE
+}
+
+#' Wrapper function to copy template.Rproj file into working directory.
+#'
+#' @param project_name the project name to use for the .Rproj file.
+#' @export
+#' @examples \dontrun{
+#'  gp_rstudio()
+#' }
+gp_rstudio <- function(project_name) {
+  if(missing(project_name))
+    stop("'project_name' is required")
+  if (length(project_name) != 1L)
+    stop("'project_name' must be of length 1")
+  if (is.na(project_name) || (project_name == ""))
+    stop("invalid project name")
+  stopifnot(gp_is_wd_geoplumber())
+  if(rproj_file_exists())
+    stop("There is a .Rproj file already")# already exists
+  res <- file.copy(system.file("template.Rproj", package = "geoplumber"),
+            paste0(project_name, ".Rproj"))
+  return(res)
+}
