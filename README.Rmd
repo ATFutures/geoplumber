@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options:
+  chunk_output_type: console
 ---
 
 
@@ -57,33 +59,33 @@ sudo npm i -g create-react-app
 
 ## npm packages included by default
 The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.
-```{js}
-  "dependencies": {
-    "create-react-app": "^1.5.2",       # main package to manage front end
-    "enzyme": "^3.3.0",                 # test suite
-    "enzyme-adapter-react-16": "^1.1.1",# test suite adapter for React
-    "leaflet": "^1.3.1",                # main web map tool (future could be different)
-    "prop-types": "^15.6.1",            # React bits and pieces
-    "react": "^16.3.2",                 # React
-    "react-bootstrap": "^0.32.1",       # bootstrap is current choice.
-    "react-dom": "^16.3.2",             # React
-    "react-leaflet": "^1.9.1",          # React wrapper around leaflet above
-    "react-leaflet-control": "^1.4.1",  # React map control
-    "react-router": "^4.3.1",           # React router (RR) (supporting multuplage, too)
-    "react-router-dom": "^4.2.2",       # React dom for RR
-    "react-scripts": "1.1.4",           # main package to manage front end
-    "react-test-renderer": "^16.4.1",   # test suite
-    "sinon": "^6.1.4"                   # test suite
-  }
+```{js, eval=FALSE}
+    "create-react-app"        # main package to manage front end
+    "enzyme"                  # test suite
+    "enzyme-adapter-react-16" # test suite adapter for React
+    "leaflet"                 # main web map tool (future could be different)
+    "prop-types"              # React bits and pieces
+    "react"                   # React
+    "react-bootstrap"         # bootstrap is current choice.
+    "react-dom"               # React
+    "react-leaflet"           # React wrapper around leaflet above
+    "react-leaflet-control"   # React map control
+    "react-router"            # React router (RR) (supporting multuplage, too)
+    "react-router-dom"        # React dom for RR
+    "react-scripts"           # main package to manage front end
+    "react-test-renderer"     # test suite
+    "sinon"                   # test suite
 ```
 
 ## Usage
 
 To create a new web application:
+```{r hidden1, echo=FALSE, eval=TRUE}
+knitr::opts_knit$set(root.dir = tempdir())
+```
 ```{r create-example}
 library(geoplumber)
 gp_create("my_app")
-
 ```
 This will create a `my_app` folder at your current working directory. Suppose you started an R session from a folder with path `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine. 
 
@@ -97,7 +99,6 @@ You can also give geoplumber a path including one ending with a new directory. C
 
 You can then build the new project
 ```{r build-example}
-library(geoplumber)
 setwd("my_app")
 gp_build() # the front end and create minified js files.
 
@@ -129,11 +130,14 @@ get_traffic <- function(res) {
 }
 ```
 Then run (re-copied into clipboard just in case):
+```{r hidden2, echo=FALSE}
+Sys.setenv(CLIPR_ALLOW=TRUE)
+```
 ```{r add-endpoint-manually}
 setwd("my_app")
 old_clip <- clipr::read_clip()
 # adding above to clipboard
- clipr::write_clip(c(
+clipr::write_clip(c(
  "#' Serve geoplumber::traffic from /api/data",
  "#' @get /api/data",
  "get_traffic <- function(res) {",
@@ -142,8 +146,8 @@ old_clip <- clipr::read_clip()
  "  res",
  "}"
  ))
- gp_endpoint_from_clip()
- clipr::write_clip(old_clip)
+gp_endpoint_from_clip()
+clipr::write_clip(old_clip)
 ```
 
 This has now added a new endpoint at: `/api/data`. To consume it, we can simply run:
@@ -155,7 +159,6 @@ gp_add_geojson("/api/data") # param value is default
 
 You can now see the data by running:
 ```{r eval=FALSE}
-setwd("my_app")
 gp_build() # build changes
 gp_plumb()
 ```
@@ -171,7 +174,7 @@ We would like to see default University of Leeds `uni_poly` grow/shrink using `s
 
 ```{r, eval=FALSE}
 gp_create(tolower(tempdir()))
-cw <- setwd(tolower(tempdir()))
+setwd(tolower(tempdir()))
 gp_is_wd_geoplumber()
 gp_add_slider(
   min = 0.001,

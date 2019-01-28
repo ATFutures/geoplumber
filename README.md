@@ -13,11 +13,8 @@ It can be installed with the following command as it is not yet on CRAN:
 
 ``` r
 devtools::install_github("ATFutures/geoplumber")
-#> Downloading GitHub repo ATFutures/geoplumber@master
-#> from URL https://api.github.com/repos/ATFutures/geoplumber/zipball/master
-#> Installing geoplumber
-#> Installing geojsonsf
-...
+#> Skipping install of 'geoplumber' from a github remote, the SHA1 (5722c05a) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
 Development
@@ -40,23 +37,21 @@ npm packages included by default
 The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.
 
 ``` js
-  "dependencies": {
-    "create-react-app": "^1.5.2",       # main package to manage front end
-    "enzyme": "^3.3.0",                 # test suite
-    "enzyme-adapter-react-16": "^1.1.1",# test suite adapter for React
-    "leaflet": "^1.3.1",                # main web map tool (future could be different)
-    "prop-types": "^15.6.1",            # React bits and pieces
-    "react": "^16.3.2",                 # React
-    "react-bootstrap": "^0.32.1",       # bootstrap is current choice.
-    "react-dom": "^16.3.2",             # React
-    "react-leaflet": "^1.9.1",          # React wrapper around leaflet above
-    "react-leaflet-control": "^1.4.1",  # React map control
-    "react-router": "^4.3.1",           # React router (RR) (supporting multuplage, too)
-    "react-router-dom": "^4.2.2",       # React dom for RR
-    "react-scripts": "1.1.4",           # main package to manage front end
-    "react-test-renderer": "^16.4.1",   # test suite
-    "sinon": "^6.1.4"                   # test suite
-  }
+    "create-react-app"        # main package to manage front end
+    "enzyme"                  # test suite
+    "enzyme-adapter-react-16" # test suite adapter for React
+    "leaflet"                 # main web map tool (future could be different)
+    "prop-types"              # React bits and pieces
+    "react"                   # React
+    "react-bootstrap"         # bootstrap is current choice.
+    "react-dom"               # React
+    "react-leaflet"           # React wrapper around leaflet above
+    "react-leaflet-control"   # React map control
+    "react-router"            # React router (RR) (supporting multuplage, too)
+    "react-router-dom"        # React dom for RR
+    "react-scripts"           # main package to manage front end
+    "react-test-renderer"     # test suite
+    "sinon"                   # test suite
 ```
 
 Usage
@@ -67,7 +62,7 @@ To create a new web application:
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /Users/layik/code/geoplumber/my_app
+#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpwPLiWB/my_app
 #> To build/run app, set working directory to: my_app
 #> Standard output from create-react-app above works.
 #> You can run gp_ functions from directory: my_app
@@ -78,14 +73,15 @@ gp_create("my_app")
 
 This will create a `my_app` folder at your current working directory. Suppose you started an R session from a folder with path `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine.
 
-If you create an Rstudio project at `/Users/ruser/my_app` yourself, or an empty `my_app` directory, you can create a geoplumber app using: `geoplumber::gp_create(".")`.
+Please note that the folder should be either non-existent (it will then be created by `gp_create()`) or empty. If your working directory is an empty directory, you can create a geoplumber app using: `geoplumber::gp_create(".")`.
+
+After running `gp_create()` you might want to use `gp_rstudio("project_name")` to create an RStudio project from R's command line. You could also use RStudio's default way of creating a project within an existing directory -- or just don't create an RStudio project.
 
 You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.
 
 You can then build the new project
 
 ``` r
-library(geoplumber)
 setwd("my_app")
 gp_build() # the front end and create minified js files.
 #> Running: npm run build
@@ -131,7 +127,7 @@ Then run (re-copied into clipboard just in case):
 setwd("my_app")
 old_clip <- clipr::read_clip()
 # adding above to clipboard
- clipr::write_clip(c(
+clipr::write_clip(c(
  "#' Serve geoplumber::traffic from /api/data",
  "#' @get /api/data",
  "get_traffic <- function(res) {",
@@ -140,7 +136,7 @@ old_clip <- clipr::read_clip()
  "  res",
  "}"
  ))
- gp_endpoint_from_clip()
+gp_endpoint_from_clip()
 #> Clipboard contents: 
 #> ------begin----
 #> #' Serve geoplumber::traffic from /api/data
@@ -153,9 +149,7 @@ old_clip <- clipr::read_clip()
 #> -----end-----
 #> Success.
 #> Please restart your server: gp_plumb()
-#> Success.
-#> Please restart your server: gp_plumb()
- clipr::write_clip(old_clip)
+clipr::write_clip(old_clip)
 ```
 
 This has now added a new endpoint at: `/api/data`. To consume it, we can simply run:
@@ -170,7 +164,6 @@ gp_add_geojson("/api/data") # param value is default
 You can now see the data by running:
 
 ``` r
-setwd("my_app")
 gp_build() # build changes
 gp_plumb()
 ```
@@ -189,7 +182,7 @@ We would like to see default University of Leeds `uni_poly` grow/shrink using `s
 
 ``` r
 gp_create(tolower(tempdir()))
-cw <- setwd(tolower(tempdir()))
+setwd(tolower(tempdir()))
 gp_is_wd_geoplumber()
 gp_add_slider(
   min = 0.001,
@@ -219,10 +212,10 @@ Now you can see (latest version is slightly improved than following GIF):
 geoplumber::uni\_poly grow/shrinking using sf::st\_buffer function on server side.
 </p>
 
-Endpoints
+End-points
 ---------
 
-R package `plumber` comes with a default endpoint for documenting the API using Swagger. This is also available from `geoplumber`'s `/__swagger__/` path.
+R package `plumber` comes with a default end-point for documenting the API using Swagger. This is also available from `geoplumber`'s `/__swagger__/` path.
 
 We follow a pattern of `/api/` before the endpoints and without for other URL's. A new web app will have `/api/helloworld` and you can `curl` it:
 
