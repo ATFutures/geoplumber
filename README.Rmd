@@ -87,8 +87,11 @@ gp_create("my_app")
 ```
 This will create a `my_app` folder at your current working directory. Suppose you started an R session from a folder with path `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine. 
 
-If you create an Rstudio project at `/Users/ruser/my_app` yourself, or an empty `my_app` directory, you can create a geoplumber app using:
+Please note that the folder should be either non-existent (it will then be created by `gp_create()`) or empty.
+If your working directory is an empty directory, you can create a geoplumber app using:
 `geoplumber::gp_create(".")`.
+
+After running `gp_create()` you might want to use `gp_rstudio("project_name")` to create an RStudio project from R's command line. You could also use RStudio's default way of creating a project within an existing directory -- or just don't create an RStudio project.
 
 You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.
 
