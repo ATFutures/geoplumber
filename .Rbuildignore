@@ -8,3 +8,4 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 /node_modules
+data-raw/

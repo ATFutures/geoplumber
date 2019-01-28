@@ -1,0 +1,15 @@
+To generate package.json and in light of discussions under [ticket #61](), documenting how package.json was generated. Also plans to replace current method of adding the deps and dev deps in package.json of a `geoplumber` app.
+
+```{bash}
+# from /tmp
+# name is important as gp_create relies on 
+# geoplumber being default name in package.json
+npx create-react-app geoplumber
+cat blah/package.json
+# add deps
+npm i prop-types react-bootstrap leaflet react-leaflet react-leaflet-control react-router react-router-dom
+
+# add devs
+npm i --save-dev enzyme enzyme-adapter-react-16 sinon react-test-renderer
+# copy package.json into geoplumber/inst/js
+```
