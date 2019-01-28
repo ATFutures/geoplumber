@@ -33,7 +33,7 @@ addons:
       - tk-dev
       - unixodbc-dev
       - libv8-dev
-      - xclip
+      - xsel
 
 before_install:
     - nvm install 8.10.0

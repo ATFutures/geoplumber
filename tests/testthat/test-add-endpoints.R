@@ -13,7 +13,6 @@ test_that("gp_endpoint_from_clip works", {
   temp.dir <- tolower(tempdir())
   # gp_create(temp.dir) # to create a new app and change dir into it.
   # above would be too slow just simulate
-  # project_name <- basename(temp.dir)
   system(paste0("mkdir -p ", temp.dir, "/R")) # no harm in -p
   system(paste0("cd ", temp.dir))
   old_wd <- setwd(temp.dir)
