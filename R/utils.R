@@ -206,3 +206,38 @@ gp_rstudio <- function(project_name) {
             paste0(project_name, ".Rproj"))
   return(res)
 }
+
+# install_npm_dependencies <- function() {
+#   require_package.json()
+#   dep_pkgs <- c(
+#     "prop-types",
+#     "react-bootstrap",
+#     "leaflet", "react-leaflet", "react-leaflet-control",
+#     "react-router", "react-router-dom"
+#   )
+#   # deps
+#   lapply(dep_pkgs, gp_install_npm_package)
+#   # devs
+#   dev_pkgs <- c("enzyme", "enzyme-adapter-react-16", "sinon",
+#                 "react-test-renderer")
+#   lapply(dev_pkgs, function(x){
+#     system(paste0("npm i --save-dev ", x))
+#   })
+# }
+
+rename_package.json <- function(project_name) {
+  require_package.json()
+  pkg_json <- readLines("package.json")
+  pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2])
+  # as it could be path or .
+  write(pkg_json, "package.json") # project name reset.
+}
+
+# reason for not using gp_is_wd_geoplumber exists
+require_package.json <- function() {
+  if(!file.exists("package.json")) {
+    stop(paste0("Error: working directory '", getwd(),
+                   "' does not include a package.json."))
+  }
+}
+

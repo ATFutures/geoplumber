@@ -19,10 +19,14 @@ gp_create <- function(path = "geoplumber") {
                    gp_install_node_instructions()) # UNIX only
     stop (msg)
   }
-  # TODO: is this allowed?
+  # TODO: is this allowed? or should we respect /tmp?
   if(identical(tolower(tempdir()), path)) {
     unlink(path, recursive = TRUE)
   }
+  # separate path from project name
+  # project_name is the single name used for package.json etc.
+  # dir_name is the full expanded name of the directory holding the project
+  # also used for npx commands
   dir_name <- path
   if(path == ".") {
     dir_name <- getwd()
@@ -35,10 +39,6 @@ gp_create <- function(path = "geoplumber") {
   if (identical (basename(dir_name), dir_name)) # dir_name here is == path except for "."
       dir_name <- file.path(getwd(), dir_name)
 
-  # project_name is the single name used for package.json etc.
-  # dir_name is the full expanded name of the directory holding the project
-  # also used for npx commands
-
   # check if create-react-app package is installed.
   npmList <- "npm list create-react-app"
   check <- system(paste0(npmList, " -g"))
@@ -47,7 +47,7 @@ gp_create <- function(path = "geoplumber") {
     # check if it has been created locally, just in case.
     check <- system(npmList)
     if(check == 0) {
-      # cra IS available locally
+      # cra IS available locally let CRA decide.
       message("create-react-app is installed locally.")
     } else {
       stop(paste0(craMissing, " or locally.\n", "Please install it globally using: \n",
@@ -60,32 +60,32 @@ gp_create <- function(path = "geoplumber") {
   message(paste0("Initializing project at: ", dir_name))
   # TODO: give geoplumber failed message
   # TODO: (MP) Make directory construction more flexible
-  # For now npm gives an error if dir exists.
   npx.cmd <- paste0("npx create-react-app ", dir_name)
   npx.result <- system(npx.cmd)
   if(npx.result != 0) {
     # fialed stop and provide the error
     stop("Please refer to the ", npx.cmd, " error above.")
   }
+  # proceed to init geoplumber app
   wd_old <- setwd(dir_name)
   # copy plumber.R
   dir.create("R")
-  # cp plumber.R R
   file.copy(system.file("plumber.R", package = "geoplumber"), "R")
-  # cp -r inst/js .
-  # system(paste0("cp -R ", system.file("js",
-  # package = "geoplumber"), "/* ."))
+  # get the templates in
   gp_temp_files <- list.files(
     system.file("js", package="geoplumber"))
+  # following copies in package.json, too
+  # TODO: ideally we want npm to do npm i jobs
+  # TODO: by removing package.json from inst/js and using:
+  # install_npm_dependencies()
+  # TODO: this for now not possible/easy see
+  # https://github.com/ATFutures/geoplumber/issues/61#issuecomment-458128969
   sapply(gp_temp_files, function(x){
     file.copy(system.file(file.path("js", x), package = "geoplumber"),
               getwd(), recursive = TRUE)
     })
-  pkg_json <- readLines("package.json")
-  pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2])
-  # as it could be path or .
-  write(pkg_json, "package.json") # project name reset.
-  # setwd("~/code/geoplumber/") # comment out!
+  rename_package.json(project_name)
+  # we are done
   message(paste0("To build/run app, set working directory to: ", path))
   message("Standard output from create-react-app above works.\n",
           "You can run gp_ functions from directory: ", path,
