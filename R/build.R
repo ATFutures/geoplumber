@@ -39,7 +39,7 @@ gp_build <- function(clean = FALSE) {
     # run gp_build()
     message("Looks like first run, installing npm packages...")
     message("Running: ", "gp_npm_install()")
-    gp_npm_install()
+    system("npm install")
     # back on to build
     message("Now trying to build: ", "npm run build")
     second.build <- system("npm run build") # we wont filter ignore.stdout or ignore.stderr

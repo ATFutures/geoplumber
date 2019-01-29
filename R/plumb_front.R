@@ -36,7 +36,7 @@ gp_plumb_front <- function() {
   #   # run gp_build()
   #   message("Looks like first run, installing npm packages...")
   #   message("Running: ", "gp_npm_install()")
-  #   gp_npm_install()
+  #   system("npm install")
   #   # back on to start
   #   message("Now starting React front end: ", "npm start")
   #   system("npm start") # keep outputs as default

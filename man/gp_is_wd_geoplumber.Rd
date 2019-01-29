@@ -10,7 +10,7 @@ gp_is_wd_geoplumber(path = ".")
 \item{path}{check particular path}
 }
 \value{
-true or false
+\code{TRUE} or \code{FALSE}
 }
 \description{
 Conditions for a geoplumber app (at least initiated with)
@@ -19,9 +19,6 @@ Conditions for a geoplumber app (at least initiated with)
 \item A 'src' directory
 \item A 'package.json' file at root.
 }
-}
-\details{
-TODO: what else?
 }
 \examples{
 {

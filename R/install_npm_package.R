@@ -21,9 +21,3 @@ gp_install_npm_package <- function(pkg){
                    "' does not include a package.json."))
   }
 }
-
-#' Wrapping around npm install
-#' @export
-gp_npm_install <- function() {
-  system("npm install")
-}
