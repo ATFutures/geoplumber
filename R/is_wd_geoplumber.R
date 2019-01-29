@@ -5,10 +5,8 @@
 #' 2. A 'src' directory
 #' 3. A 'package.json' file at root.
 #'
-#'  TODO: what else?
-#'
 #' @param path check particular path
-#' @return true or false
+#' @return `TRUE` or `FALSE`
 #'
 #' @examples {
 #' gp_is_wd_geoplumber()
@@ -30,4 +28,11 @@ gp_is_wd_geoplumber <- function(path = ".") {
     return(TRUE)
   }
   FALSE
+}
+
+stop_ifnot_geoplumber <- function() {
+  if(!gp_is_wd_geoplumber()) {
+    stop("Is working directory a geoplumber app? ",
+        getwd(), "\nEither change directory or run gp_create() to create one.")
+  }
 }

@@ -18,10 +18,7 @@ gp_plumb <- function(run = TRUE,
                      file = "R/plumber.R",
                      front = FALSE) {
   wd <- change_to_proj_dir ()
-  if(!gp_is_wd_geoplumber()) {
-    stop("Is working directory a geoplumber app? ",
-         getwd(), "\nEither change directory or run gp_create() to create one.")
-  }
+  stop_ifnot_geoplumber()
 
   # todo: when initiating project copy plumber.R file to somewhere sensible
   # e.g. in newly created plumber/ directory (the code should also create this)

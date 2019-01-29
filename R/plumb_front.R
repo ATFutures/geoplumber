@@ -19,9 +19,7 @@
 #' }
 #' @export
 gp_plumb_front <- function() {
-  if(!gp_is_wd_geoplumber()) {
-    stop("Is current dir a geoplumber app? \nTry geoplumber::gp_create() first.\n")
-  }
+  stop_ifnot_geoplumber()
 
   message("Running: ", "npm start")
 

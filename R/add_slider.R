@@ -24,11 +24,7 @@ gp_add_slider <- function(
   step = 1L,
   js_on_change_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
   to_vector = "NA"){
-  if(!gp_is_wd_geoplumber()) {
-    is.current.dir <- "Is current dir a geoplumber app? \nTry geoplumber::gp_create() first.\n"
-    stop(is.current.dir)
-    # no point going any further
-  }
+  stop_ifnot_geoplumber()
   # Read the template
   component.name <- "RBSlider"
   component.path <- paste0("components/", component.name, ".jsx")
