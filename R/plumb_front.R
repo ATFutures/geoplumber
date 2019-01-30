@@ -21,14 +21,15 @@
 gp_plumb_front <- function() {
   stop_ifnot_geoplumber()
 
-  message("Running: ", "npm start")
-
+  message("Attempting: ", "npm start")
   v <- npm_start()
 
   # if v is resolved, then it failed?
   # TODO: this _might_ not work, it needs a slight delay
+  # Sys.sleep(2) this works on a machine. Do not like this solution
   if(future::resolved(v)) {
-    message("There was an error running npm start.")
+    message("There was an error running npm start.",
+            "\nIs the dev server already running?")
   }
   # start_attempt <- system("npm start", ignore.stderr = TRUE)
   # TODO: could be other reason for failing.
