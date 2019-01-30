@@ -64,7 +64,9 @@ test_that ("full build", {
 
 test_that("npm start works", {
   skip_build()
-  expect_silent(npm_start())
+  # test wont work on Windows
+  system("kill -9 $(lsof -ti tcp:3000)") # no harm
+  expect_message(gp_plumb_front())
   teardown(
     system("kill -9 $(lsof -ti tcp:3000)")
   )
