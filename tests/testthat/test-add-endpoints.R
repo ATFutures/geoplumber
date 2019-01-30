@@ -26,25 +26,12 @@ test_that("gp_endpoint_from_clip works", {
   )
   m <- "Success.\nPlease restart your server: gp_plumb()"
   if(clipr::clipr_available()) {
-    cat("\nclipr::clipr_available = TRUE")
     old_clip <- clipr::read_clip()
     clipr::write_clip(endpoint, breaks = "\n")
 
     expect_message(gp_endpoint_from_clip(), m)
     expect_error(gp_endpoint_from_clip(evaluate = TRUE), NA)
     clipr::write_clip(old_clip)
-  } else {
-    # fake clipr or endpoint_from_clip()
-    cat("\nmocking...gp_endpoint_from_clip")
-    cat("\n", getwd())
-    mock_endpoint_from_clip <- function() {
-      write(endpoint, "R/plumber.R", append=TRUE)
-      message(m)
-    }
-    with_mock(
-      gp_endpoint_from_clip = mock_endpoint_from_clip,
-      expect_message(gp_endpoint_from_clip(), m)
-    )
   }
   # reset
   setwd(old_wd)

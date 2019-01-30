@@ -50,6 +50,4 @@ before_install:
     - npm i -g create-react-app
 
 after_success:
-    # delete later
-    - Rscript -e 'print(clipr::clipr_available())'
     - Rscript -e "covr::codecov()"
