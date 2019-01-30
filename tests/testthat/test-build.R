@@ -65,8 +65,11 @@ test_that ("full build", {
 test_that("npm start works", {
   skip_build()
   # test wont work on Windows
-  system("kill -9 $(lsof -ti tcp:3000)") # no harm
+  setup({
+    system("kill -9 $(lsof -ti tcp:3000)") # no harm
+  })
   expect_message(gp_plumb_front())
+  expect_message(gp_plumb_front()) # future::resolved
   teardown(
     system("kill -9 $(lsof -ti tcp:3000)")
   )
@@ -77,11 +80,16 @@ test_that ("default endpoints", {
   r <- gp_plumb(run = FALSE, file = "R/plumber.R",
                 front = TRUE)
   expect_equal(length(r$endpoints[[1]]), 4)
-  expect_equal(r$endpoints[[1]][[1]]$exec(), list(msg="The message is: 'nothing given'"))
-  # run server in future
-  future::future(
+  expect_equal(r$endpoints[[1]][[1]]$exec(),
+               list(msg="The message is: 'nothing given'"))
+  setup({
+    system("kill -9 $(lsof -ti tcp:8000)") # no harm
+  })
+  v <- future::future(
     gp_plumb(file = "R/plumber.R")
   )
+  # at least, we can check that v is NOT resolved.
+  expect_false(future::resolved(v))
   teardown(
     # system("kill -9 $(lsof -ti tcp:3000)")
     system("kill -9 $(lsof -ti tcp:8000)")
