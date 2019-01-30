@@ -1,5 +1,9 @@
 context("test-geojson")
 
+test_that("geojson fails on missing path", {
+  expect_error(gp_geojson())
+})
+
 test_that("geojson fails on no geoplumber app path", {
   expect_error(gp_geojson("/dev/null"))
 })

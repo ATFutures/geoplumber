@@ -9,8 +9,24 @@ test_that("!gp_is_wd_geoplumber", {
   expect_equal(gp_is_wd_geoplumber(), FALSE)
 })
 
+test_that("stop_ifnot_geoplumber", {
+  expect_error(stop_ifnot_geoplumber())
+})
+
 test_that("gp_install_npm_package fails on empty", {
   expect_error(gp_install_npm_package())
+})
+
+test_that("gp_install_npm_package fails on na", {
+  expect_error(gp_install_npm_package(NA))
+})
+
+test_that("gp_install_npm_package fails on NULL", {
+  expect_error(gp_install_npm_package(NULL))
+})
+
+test_that("gp_install_npm_package fails on ", {
+  expect_error(gp_install_npm_package(""))
 })
 
 test_that("gp_install_npm_package fails on no package.json", {

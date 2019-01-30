@@ -9,6 +9,25 @@ if(clipr::clipr_available()) {
   })
 }
 
+if(clipr::clipr_available()) {
+  test_that("gp_endpoint_from_clip fails no R/plumber.R", {
+    clip <- clipr::read_clip()
+    clipr::write_clip("some valid function")
+    expect_error(gp_endpoint_from_clip())
+    clipr::write_clip(clip)
+  })
+}
+
+if(clipr::clipr_available()) {
+  test_that("gp_endpoint_from_clip stops endless loop", {
+    clip <- clipr::read_clip()
+    clipr::write_clip("gp_endpoint_from_clip")
+    expect_error(gp_endpoint_from_clip())
+    clipr::write_clip(clip)
+  })
+}
+
+
 test_that("gp_endpoint_from_clip works", {
   temp.dir <- tolower(tempdir())
   # gp_create(temp.dir) # to create a new app and change dir into it.
