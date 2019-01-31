@@ -64,8 +64,8 @@ gp_add_geojson <- function(endpoint = "/api/data",
        is.character(color)) {
       # get the values from gejoson features
       # style is a function
-      style <- paste0(" style={(feature) => ({color: feature.", color, ",",
-                    "line_weight: feature.", line_weight,"})}")
+      style <- paste0(" style={(feature) => ({color: feature.properties.", color, ",",
+                    "weight: feature.properties.", line_weight,"})}")
     } else {
       stop("Please provide correct parameters to add a GeoJSON component.")
     }
