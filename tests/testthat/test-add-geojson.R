@@ -15,6 +15,9 @@ test_that("gp_add_geojson works on a geoplumber app path", {
   cat("\n.......\n", "Mocking a geoplumber app\n", list.files(), "\n......\n")
   # run tests here
   expect_message(gp_add_geojson(line_weight = 1), "Success. ")
+  expect_message(gp_add_geojson(color = "color",
+                                line_weight = "lwd",
+                                properties = TRUE), "Success. ")
   # end tests
   # clean up
   setwd(oldwd)
