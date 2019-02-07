@@ -23,15 +23,9 @@ gp_sf <- function(sf = geoplumber::traffic,
   server <- gp_plumb(run = FALSE)
   # convert sf to geojson
   # TODO stop if not valid sf or geojsonsf cannot deal with it.
-  # TODO replace geojsonsf with v1.2 which solves single column geom sf
+  # TODO try catch?
   geojson <- geojsonsf::sf_geojson(sf)
-  # TODO: remove below if once geojsonsf v1.2 is in,
-  # for now add an empty props/column
-  if(length(sf) == 1 && length(geojson) > 1) {# geom only and geojsonsf has produced > 1 vector
-      sf_copy <- sf
-      sf_copy$d <- "" # d for dummy and make it minimal
-      geojson <- geojsonsf::sf_geojson(sf_copy)
-  }
+
   # prepare backend
   # TODO: reserve api url for this or generate temp one.
   endpoint <- "/api/gp"

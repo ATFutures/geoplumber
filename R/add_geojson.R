@@ -12,23 +12,24 @@
 #' @param endpoint where to fetch the geojson from
 #' @param color for now color value for all geojson
 #' @param line_weight worded carefully for leaflet geojson lineweight.
+#' @param properties logical, by default `FALSE`. If TRUE `color` and `line_weight` will
+#' be obtained from properties/columns from corresponding data served via `endpoint`
 #'
 #' @export
 #' @examples \dontrun{
-#' gp_add_geojson()
-#' # Error in gp_add_geojson() : Is current dir a geoplumber app?
-#' # Try geoplumber::gp_create()
+#' if(gp_is_wd_geoplumber()) {
+#'  gp_add_geojson()
+#' }
 #' }
 #'
 gp_add_geojson <- function(endpoint = "/api/data",
                            color = "#3388ff",
-                           line_weight = NA){
-  # Check getwd() for src/ folder & Welcome.js file exists as both will be written to.
-  check_src <- dir.exists("src")
+                           line_weight = NA,
+                           properties = FALSE){
   check_welcome <- file.exists("src/Welcome.js")
-  if(!check_src || !check_welcome) {
-    is.current.dir <- "Is current dir a geoplumber app? \nTry geoplumber::gp_create() first.\n"
-    stop(is.current.dir)
+  if(!check_welcome) {
+    stop("Is current dir a geoplumber app?
+         \nTry geoplumber::gp_create() first.")
     # no point going any further
   }
   # Read the template
@@ -36,7 +37,6 @@ gp_add_geojson <- function(endpoint = "/api/data",
   component.path <- paste0("components/", component.name, ".jsx")
   component <- system.file(paste0("js/src/", component.path), package = "geoplumber")
   component <- readLines(component)
-  # hold on writing file
   # Add component to Welcome.js
   welcome <- readLines("src/Welcome.js")
   # read welcome compoennt, if not, stop
@@ -49,7 +49,6 @@ gp_add_geojson <- function(endpoint = "/api/data",
   # find end map component tag
   map.end.index <- grep(pattern = "</Map>", x = welcome)
   # TODO: more checks as file could be corrupt
-  # TODO: jsonline::toJSON is not quite what we need here.
   style <- paste0("{color:'", color, "'")
   if(!is.na(line_weight)){
     style <- paste0(style, ", ",
@@ -59,6 +58,18 @@ gp_add_geojson <- function(endpoint = "/api/data",
     style <- paste0(style, "}")
   }
   style <- paste0(" style={", style, "}")
+  if(properties) {
+    if(!is.na(line_weight) &
+       !startsWith(color, "#") & # in case deafult is left int
+       is.character(color)) {
+      # get the values from gejoson features
+      # style is a function
+      style <- paste0(" style={(feature) => ({color: feature.properties.", color, ",",
+                    "weight: feature.properties.", line_weight,"})}")
+    } else {
+      stop("Please provide correct parameters to add a GeoJSON component.")
+    }
+  }
   # insert line
   welcome <- c(welcome[1:map.end.index - 1],
                # add two spaces

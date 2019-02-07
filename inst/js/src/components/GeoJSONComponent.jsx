@@ -68,7 +68,7 @@ export default class GeoJSONComponent extends React.Component {
 
     render() {
         const { geojson } = this.state;
-        let { radius } = this.props;
+        let { radius, style } = this.props;
        
         if (!geojson) {
             return (null) // as per React docs
@@ -80,7 +80,7 @@ export default class GeoJSONComponent extends React.Component {
         if(!geojson.features || geojson.type != "FeatureCollection") { 
             if(geojson.coordinates) { //single feature.
                 return(
-                <GeoJSON
+                <GeoJSON //react-leaflet component
                     key={JSON.stringify(geojson)}
                     data={geojson}
                 />
@@ -93,16 +93,22 @@ export default class GeoJSONComponent extends React.Component {
         return (
             geojson.features.map((feature, i) => {
                 return (
-                    <GeoJSON
+                    <GeoJSON //react-leaflet component
                         key={JSON.stringify(feature) + radius}
-                        style={this.props.style}
+                        // gp_add_geojson can define values from `feature`
+                        style={typeof(style) === 'function' ? 
+                        style(feature) : style }
+                        /**
+                         * https://leafletjs.com/examples/geojson/
+                         * style for leaflet is 
+                         * {"color": "#hexstr", "weight": 5, "opacity": 0.65}
+                         * or of course a function returning these.
+                         */
                         data={feature}
                         onEachFeature={(feature, layer) => {
                             const properties = Object.keys(feature.properties).map((key) => {
                                 return (key + " : " + feature.properties[key])
                             })
-                            // console.log(feature.properties)
-                            // console.log(properties)
                             layer.bindPopup(
                                 properties.join('<br/>')
                             );

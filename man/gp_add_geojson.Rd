@@ -5,7 +5,7 @@
 \title{For now, views a geojson served from an endpoint on leafletjs.}
 \usage{
 gp_add_geojson(endpoint = "/api/data", color = "#3388ff",
-  line_weight = NA)
+  line_weight = NA, properties = FALSE)
 }
 \arguments{
 \item{endpoint}{where to fetch the geojson from}
@@ -13,6 +13,9 @@ gp_add_geojson(endpoint = "/api/data", color = "#3388ff",
 \item{color}{for now color value for all geojson}
 
 \item{line_weight}{worded carefully for leaflet geojson lineweight.}
+
+\item{properties}{logical, by default \code{FALSE}. If TRUE \code{color} and \code{line_weight} will
+be obtained from properties/columns from corresponding data served via \code{endpoint}}
 }
 \description{
 Assumes there is a valid geoplumber app at wd
@@ -28,9 +31,9 @@ into src/Welcome.js
 }
 \examples{
 \dontrun{
-gp_add_geojson()
-# Error in gp_add_geojson() : Is current dir a geoplumber app?
-# Try geoplumber::gp_create()
+if(gp_is_wd_geoplumber()) {
+ gp_add_geojson()
+}
 }
 
 }
