@@ -177,8 +177,9 @@ npm_start <- function() {
 }
 
 # checks if Rproj file exists in current working dir
-rproj_file_exists <- function() {
-  files <- list.files()
+rproj_file_exists <- function(path) {
+  # TODO: sanity checks and +/-s
+  files <- list.files(path = path)
   if(any(grepl(".Rproj", files))) {
     return(TRUE)
   }
@@ -200,7 +201,7 @@ gp_rstudio <- function(project_name) {
   if (is.na(project_name) || (project_name == ""))
     stop("invalid project name")
   stopifnot(gp_is_wd_geoplumber())
-  if(rproj_file_exists())
+  if(rproj_file_exists(project_name))
     stop("There is a .Rproj file already")# already exists
   res <- file.copy(system.file("template.Rproj", package = "geoplumber"),
             paste0(project_name, ".Rproj"))

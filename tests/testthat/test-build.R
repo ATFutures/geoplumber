@@ -32,7 +32,8 @@ test_that("full create", {
   expect_true(file.exists (js_file))
 
   setwd(proj_dir) # we are in the new app dir
-  expect_false(rproj_file_exists())
+  expect_false(rproj_file_exists(""))
+  # TODO test rproj_file_exists with na, null
   expect_error(gp_rstudio(""))
   expect_error(gp_rstudio())
   gp_rstudio("gp") # TODO does not work!
