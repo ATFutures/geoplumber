@@ -29,7 +29,7 @@ gp_plumb <- function(run = TRUE,
   #plumber works without a frontend
   if(!dir.exists("build")){
     message("WARNING:\n",
-            "Looks like geoplumber was not build, serveing API only.\n",
+            "Looks like geoplumber was not built, serveing API only.\n",
             "To serve the front end run gp_build() first.")
     server$handle("GET", "/", function(res){
       fname <- system.file("build.missing.html", package = "geoplumber")
