@@ -2,15 +2,17 @@
 % Please edit documentation in R/geojson.R
 \name{gp_geojson}
 \alias{gp_geojson}
-\title{Explore a geojson object from a remote URL a leaflet map.}
+\title{Explore a geojson object from a remote URL on a map.}
 \usage{
-gp_geojson(url)
+gp_geojson(geojson_url, colour_pal)
 }
 \arguments{
-\item{url}{path to pull the geojson from}
+\item{geojson_url}{URL or path to read geojson from}
+
+\item{colour_pal}{the value to use when colouring each feature}
 }
 \description{
-Explore a geojson object from a remote URL a leaflet map.
+Explore a geojson object from a remote URL on a map.
 }
 \examples{
 \dontrun{
