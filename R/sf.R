@@ -24,7 +24,7 @@ gp_sf <- function(sf = geoplumber::traffic,
   # convert sf to geojson
   # TODO stop if not valid sf or geojsonsf cannot deal with it.
   # TODO try catch?
-  geojson <- geojsonsf::sf_geojson(sf)
+  geojson <- geojsonsf::sf_geojson(sf, factors_as_string=FALSE)
 
   # prepare backend
   # TODO: reserve api url for this or generate temp one.
@@ -37,7 +37,8 @@ gp_sf <- function(sf = geoplumber::traffic,
     if(length(props_list) == 1 && length(names(qs)) == 1){
       # names(props_list) == names(qs)
       # qs[[names(qs)]] == "some value" if length is 1 of course
-      geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == qs[[names(qs)]], ])
+      geojson <- geojsonsf::sf_geojson(sf[sf[[names(props_list)]] == qs[[names(qs)]], ],
+                                       factors_as_string=FALSE)
     }
     res$body <- geojson
     res
