@@ -20,16 +20,7 @@ gp_plumb_front <- function(background = TRUE) {
   stop_ifnot_geoplumber()
 
   message("Attempting: ", "npm start")
+  # TOD: check port before running
   npm_start(background = background)
-  # start_attempt <- system("npm start", ignore.stderr = TRUE)
-  # TODO: could be other reason for failing.
-  # if(start_attempt != 0) {
-  #   # run gp_build()
-  #   message("Looks like first run, installing npm packages...")
-  #   message("Running: ", "gp_npm_install()")
-  #   system("npm install")
-  #   # back on to start
-  #   message("Now starting React front end: ", "npm start")
-  #   system("npm start") # keep outputs as default
-  # }
+  utils::browseURL("http://localhost:3000")
 }

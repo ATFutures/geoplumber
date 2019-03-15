@@ -174,7 +174,7 @@ npm_start <- function(background = TRUE) {
     command <- "npm start" # run it in front
   npm_start_success <- system(command)
   if(npm_start_success != 0) {
-    message("There was an error running npm start.")
+    message("There was an error running ", command, ".")
     return(FALSE)
   }
   return(TRUE)
