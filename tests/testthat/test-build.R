@@ -70,7 +70,8 @@ test_that("npm start works", {
     system("kill -9 $(lsof -ti tcp:3000)") # no harm
   })
   expect_message(gp_plumb_front())
-  expect_message(gp_plumb_front()) # future::resolved
+  expect_message(gp_plumb_front())
+  expect_message(gp_clean())
   teardown(
     system("kill -9 $(lsof -ti tcp:3000)")
   )

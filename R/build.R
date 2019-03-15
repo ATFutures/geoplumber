@@ -50,3 +50,32 @@ gp_build <- function(clean = FALSE) {
           "To run the geoplumber app: gp_plumb()\n")
   setwd (wd)
 }
+
+#' Function to clean the front end build for some reason.
+#'
+#' Three options: clean, cleand and reinstall and rebuild
+#' which cleans, reinstall and rebuilds.
+#'
+#' @param background run command in the background,
+#' defaults to `FALSE` just to keep user aware.
+#' @param rebuild whether to rebuild the front, defaults to `FALSE`
+#' @param reinstall should it just clean node_modules & reinstall them,
+#' defaults to `TRUE`
+#'
+#' @examples
+#' \dontrun{
+#' gp_clean()
+#' }
+gp_clean <- function(background = FALSE,
+                     rebuild = FALSE, reinstall = TRUE) {
+  stop_ifnot_geoplumber()
+  command <- "rm -rf node_modules"
+  if(reinstall)
+    command <- "npm run clean && npm install"
+  if(rebuild)
+    command <- "npm run clean && npm install && npm run build"
+  if(background)
+    command <- paste0(command, " &")
+  message("Running: ", command)
+  system(command = command)
+}
