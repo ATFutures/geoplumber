@@ -36,16 +36,12 @@ gp_plumb <- function(run = TRUE,
       plumber::include_html(fname, res)
     })
   }
-  # run the front in future
+  # run front
+  # TODO: specify front port
   if(front) {
-    v <- npm_start()
-
-    # if v is resolved, then it failed?
-    if(future::resolved(v)) {
-      message("There was an error running npm start.")
-    }
+    npm_start()
   }
-  # run plumb without future for now
+  # run plumb
   if(run) {
     viewer <- getOption("viewer")
     if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
@@ -58,5 +54,3 @@ gp_plumb <- function(run = TRUE,
     return(server)
   }
 }
-
-

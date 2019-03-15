@@ -18,6 +18,5 @@ Suggests:
     testthat
 RoxygenNote: 6.1.1
 Imports: 
-    future,
     plumber,
 Roxygen: list(markdown = TRUE)

@@ -5,10 +5,8 @@
 #' create-react-app comes with a dev server to view the front end..
 #' This function must be called from a geoplumber app.
 #'
-#' @section TODO:
-#' Solve the Linux ctrl+c to kill npm start
 #'
-#'
+#' @param background run the command in the background, default `TRUE`
 #' @examples
 #' \dontrun{
 #' # WARNING: to exit pluse ctrl+c twice to exit on Linux machines.
@@ -18,19 +16,11 @@
 #' # Starting the development server...
 #' }
 #' @export
-gp_plumb_front <- function() {
+gp_plumb_front <- function(background = TRUE) {
   stop_ifnot_geoplumber()
 
   message("Attempting: ", "npm start")
-  v <- npm_start()
-
-  # if v is resolved, then it failed?
-  # TODO: this _might_ not work, it needs a slight delay
-  # Sys.sleep(2) this works on a machine. Do not like this solution
-  if(future::resolved(v)) {
-    message("There was an error running npm start.",
-            "\nIs the dev server already running?")
-  }
+  npm_start(background = background)
   # start_attempt <- system("npm start", ignore.stderr = TRUE)
   # TODO: could be other reason for failing.
   # if(start_attempt != 0) {

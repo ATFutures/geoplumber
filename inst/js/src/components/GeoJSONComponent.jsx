@@ -57,7 +57,7 @@ export default class GeoJSONComponent extends React.Component {
         this._fetchData()
     }
 
-    componentDidUpdate(prevProps, prevState) {        
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.fetchURL !== prevProps.fetchURL) {
             this._fetchData()
         }
@@ -69,7 +69,7 @@ export default class GeoJSONComponent extends React.Component {
     render() {
         const { geojson } = this.state;
         let { radius, style } = this.props;
-       
+
         if (!geojson) {
             return (null) // as per React docs
         }
@@ -77,7 +77,7 @@ export default class GeoJSONComponent extends React.Component {
          // get radius from parent, or is it above 100 markers? 2 else 8
          radius = radius ? radius : geojson.features && geojson.features.length > 100 ? 2 : 8
 
-        if(!geojson.features || geojson.type != "FeatureCollection") { 
+        if(!geojson.features || geojson.type !== "FeatureCollection") {
             if(geojson.coordinates) { //single feature.
                 return(
                 <GeoJSON //react-leaflet component
@@ -96,11 +96,11 @@ export default class GeoJSONComponent extends React.Component {
                     <GeoJSON //react-leaflet component
                         key={JSON.stringify(feature) + radius}
                         // gp_add_geojson can define values from `feature`
-                        style={typeof(style) === 'function' ? 
+                        style={typeof(style) === 'function' ?
                         style(feature) : style }
                         /**
                          * https://leafletjs.com/examples/geojson/
-                         * style for leaflet is 
+                         * style for leaflet is
                          * {"color": "#hexstr", "weight": 5, "opacity": 0.65}
                          * or of course a function returning these.
                          */
@@ -114,7 +114,7 @@ export default class GeoJSONComponent extends React.Component {
                             );
                         }}
                         pointToLayer={
-                            // use cricles prop if not 10 markers is enough                            
+                            // use cricles prop if not 10 markers is enough
                             this.props.circle || geojson.features.length > 10 ?
                                 (_, latlng) => {
                                     // Change the values of these options to change the symbol's appearance

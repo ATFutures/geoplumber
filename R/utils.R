@@ -167,13 +167,17 @@ next_spaces <- function(x, count = 4) {
   spaces
 }
 
-npm_start <- function() {
-  future::plan(future::multiprocess)
-  v <- future::future({
-    system("npm start")
-  })
-  # v can be checked with future::resolved
-  return(v)
+# run npm in the background?
+npm_start <- function(background = TRUE) {
+  command <- "npm start &"
+  if(!background)
+    command <- "npm start" # run it in front
+  npm_start_success <- system(command)
+  if(npm_start_success != 0) {
+    message("There was an error running npm start.")
+    return(FALSE)
+  }
+  return(TRUE)
 }
 
 # checks if Rproj file exists in current working dir
