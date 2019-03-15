@@ -26,10 +26,6 @@ knitr::opts_chunk$set(
 
 geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application "framework". It utilizes [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R which is Swagger compliant. It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
 
-```{r, echo=FALSE, fig.align='center', out.width="50%", fig.cap="`geoplumber` concept for those who do not want to read the text."}
-knitr::include_graphics("man/figures/geoplumber-concept.png")
-```
-
 In other words, geoplumber is a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (< 5MB rather than > 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.
 
 It can be installed with the following command as it is not yet on CRAN:

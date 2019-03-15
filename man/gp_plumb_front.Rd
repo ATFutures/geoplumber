@@ -4,18 +4,16 @@
 \alias{gp_plumb_front}
 \title{Wrapper function to view front end using dev server.}
 \usage{
-gp_plumb_front()
+gp_plumb_front(background = TRUE)
+}
+\arguments{
+\item{background}{run the command in the background, default \code{TRUE}}
 }
 \description{
 Currently geoplumber only works with React,
 create-react-app comes with a dev server to view the front end..
 This function must be called from a geoplumber app.
 }
-\section{TODO}{
-
-Solve the Linux ctrl+c to kill npm start
-}
-
 \examples{
 \dontrun{
 # WARNING: to exit pluse ctrl+c twice to exit on Linux machines.

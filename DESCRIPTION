@@ -15,8 +15,11 @@ LazyData: true
 Suggests: 
     clipr,
     geojsonsf (>= 1.2),
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.1
 Imports: 
     plumber,
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
