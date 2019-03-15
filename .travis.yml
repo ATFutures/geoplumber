@@ -4,6 +4,8 @@ warnings_are_errors: true
 sudo: required
 cache: packages
 
+r_packages:
+    - pkgdown
 r_github_packages:
     - jimhester/covr
 
@@ -51,3 +53,8 @@ before_install:
 
 after_success:
     - Rscript -e "covr::codecov()"
+
+deploy:
+  provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github()'
+  skip_cleanup: true
