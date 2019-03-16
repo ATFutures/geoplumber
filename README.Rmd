@@ -82,6 +82,8 @@ The following are included by default, the versions are just from old .Rmd file.
 To create a new web application:
 ```{r hidden1, echo=FALSE, eval=TRUE}
 knitr::opts_knit$set(root.dir = tempdir())
+system("kill -9 $(lsof -ti tcp:8000)")
+system("kill -9 $(lsof -ti tcp:3000)")
 ```
 ```{r create-example}
 library(geoplumber)
@@ -190,6 +192,11 @@ gp_change_file(
   verbose = TRUE
 )
 ```
+```{r hidden2, echo=FALSE, eval=TRUE}
+system("kill -9 $(lsof -ti tcp:8000)")
+system("kill -9 $(lsof -ti tcp:3000)")
+```
+
 Run the project (this time at `tempdir()` location) by:
 ```{r eval=FALSE}
 gp_build() # build changes
