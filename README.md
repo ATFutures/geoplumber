@@ -14,41 +14,6 @@ It can be installed with the following command as it is not yet on CRAN:
 ``` r
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
-#> httpuv (1.4.5.1 -> 1.5.0) [CRAN]
-#> Installing 1 packages: httpuv
-#> 
-#>   There is a binary version available but the source version is
-#>   later:
-#>         binary source needs_compilation
-#> httpuv 1.4.5.1  1.5.0              TRUE
-#> installing the source package 'httpuv'
-#>   
-   checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpAxuwVo/remotes93a52adf069a/ATFutures-geoplumber-882a92b/DESCRIPTION’ ...
-  
-✔  checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpAxuwVo/remotes93a52adf069a/ATFutures-geoplumber-882a92b/DESCRIPTION’
-#> 
-  
-─  preparing ‘geoplumber’:
-#> 
-  
-   checking DESCRIPTION meta-information ...
-  
-✔  checking DESCRIPTION meta-information
-#> 
-  
-─  checking for LF line-endings in source and make files and shell scripts
-#> 
-  
-─  checking for empty or unneeded directories
-#>    Removed empty directory ‘geoplumber/data-raw’
-#> ─  looking to see if a ‘data/datalist’ file should be added
-#> 
-  
-─  building ‘geoplumber_0.0.0.9000.tar.gz’
-#> 
-  
-   
-#> 
 ```
 
 Development

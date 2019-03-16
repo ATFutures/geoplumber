@@ -192,7 +192,7 @@ gp_change_file(
   verbose = TRUE
 )
 ```
-```{r hidden2, echo=FALSE, eval=TRUE}
+```{r hidden3, echo=FALSE, eval=TRUE}
 system("kill -9 $(lsof -ti tcp:8000)")
 system("kill -9 $(lsof -ti tcp:3000)")
 ```
