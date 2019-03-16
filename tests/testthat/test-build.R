@@ -40,9 +40,9 @@ test_that("full create", {
   # expect_true(rproj_file_exists())
   teardown(unlink(gp, recursive = TRUE))
   # rproj before create
-  tmp <- file.path(tolower(tempdir()), "foo")
+  tmp <- file.path(tolower(tempdir()), "my_app")
   dir.create(tmp)
-  file.create(file.path(tmp, "foo.Rproj"))
+  file.create(file.path(tmp, "my_app.Rproj"))
   expect_error(gp_create (tmp)) # should not take long
   teardown(unlink(tmp, recursive = TRUE))
 })
