@@ -82,10 +82,8 @@ The following are included by default, the versions are just from old .Rmd file.
 To create a new web application:
 ```{r hidden1, echo=FALSE, eval=TRUE}
 knitr::opts_knit$set(root.dir = tempdir())
-system("kill -9 $(lsof -ti tcp:8000)")
-system("kill -9 $(lsof -ti tcp:3000)")
 ```
-```{r create-example}
+```{r create-example, eval=FALSE}
 library(geoplumber)
 gp_create("my_app")
 ```
@@ -100,7 +98,7 @@ After running `gp_create()` you might want to use `gp_rstudio("project_name")` t
 You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.
 
 You can then build the new project
-```{r build-example}
+```{r build-example, eval=FALSE}
 setwd("my_app")
 gp_build() # the front end and create minified js files.
 
@@ -135,7 +133,7 @@ Then run (re-copied into clipboard just in case):
 ```{r hidden2, echo=FALSE}
 Sys.setenv(CLIPR_ALLOW=TRUE)
 ```
-```{r add-endpoint-manually}
+```{r add-endpoint-manually, eval=FALSE}
 setwd("my_app")
 old_clip <- clipr::read_clip()
 # adding above to clipboard
@@ -154,7 +152,7 @@ clipr::write_clip(old_clip)
 
 This has now added a new endpoint at: `/api/data`. To consume it, we can simply run:
 
-```{r add-geojson}
+```{r add-geojson, eval=FALSE}
 setwd("my_app")
 gp_add_geojson("/api/data") # param value is default
 ```
@@ -191,10 +189,6 @@ gp_change_file(
   replace = TRUE,
   verbose = TRUE
 )
-```
-```{r hidden3, echo=FALSE, eval=TRUE}
-system("kill -9 $(lsof -ti tcp:8000)")
-system("kill -9 $(lsof -ti tcp:3000)")
 ```
 
 Run the project (this time at `tempdir()` location) by:

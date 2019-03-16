@@ -14,6 +14,38 @@ It can be installed with the following command as it is not yet on CRAN:
 ``` r
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
+#> 
+#>   
+   checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/Rtmpe38Umv/remotesda371fe64136/ATFutures-geoplumber-824d600/DESCRIPTION’ ...
+  
+✔  checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/Rtmpe38Umv/remotesda371fe64136/ATFutures-geoplumber-824d600/DESCRIPTION’
+#> 
+  
+─  preparing ‘geoplumber’:
+#> 
+  
+   checking DESCRIPTION meta-information ...
+  
+✔  checking DESCRIPTION meta-information
+#> 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+#> 
+  
+─  checking for empty or unneeded directories
+#> 
+  
+   Removed empty directory ‘geoplumber/data-raw’
+#> 
+  
+─  looking to see if a ‘data/datalist’ file should be added
+#> 
+  
+─  building ‘geoplumber_0.0.0.9000.tar.gz’
+#> 
+  
+   
+#> 
 ```
 
 Development
@@ -61,7 +93,7 @@ To create a new web application:
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpAxuwVo/my_app
+#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/Rtmpe38Umv/my_app
 #> To build/run app, set working directory to: my_app
 #> Standard output from create-react-app above works.
 #> You can run gp_ functions from directory: my_app

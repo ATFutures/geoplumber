@@ -5,9 +5,9 @@ sudo: required
 cache: packages
 
 r_packages:
-    - pkgdown
+  - pkgdown
 r_github_packages:
-    - jimhester/covr
+  - jimhester/covr
 
 addons:
   apt:
@@ -48,11 +48,11 @@ before_script:
   - if [ "$TRAVIS_CLIP" == "xclip" ]; then uptime | xclip -i -sel p -f | xclip -i -sel c; xclip -o -sel clipboard; fi
 
 before_install:
-    - nvm install 8.10.0
-    - npm i -g create-react-app
+  - nvm install 8.10.0
+  - npm i -g create-react-app
 
 after_success:
-    - Rscript -e "covr::codecov()"
+  - Rscript -e "covr::codecov()"
 
 deploy:
   provider: script
