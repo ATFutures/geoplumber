@@ -34,7 +34,7 @@ test_that("full create", {
   setwd(proj_dir) # we are in the new app dir
   expect_false(rproj_file_exists(""))
   expect_true(gp_is_wd_geoplumber())
-  expect_true(gp_rstudio())  #L34
+  # expect_true(gp_rstudio())  #L34
   expect_error(gp_rstudio(""))
   expect_error(gp_rstudio(c(NA,NA)))
   # expect_true(rproj_file_exists())
