@@ -90,3 +90,56 @@ gp_create(dir_name)
 setwd(dir_name)
 gp_build()
 ```
+
+The directory and files structure of a `geoplumber` applications looks like this:
+
+\newpage
+
+```{r dir.structure, eval=FALSE}
++- R/plumber.R       # backend code
++- README.md       
++- package.json      # npm package file
++- public            # public facing docs
++- src               # frontend JS code.
+```
+
+We can then do all our data processing straight from R and serve the data using API end-points. `plumber` works by adding tags in front of standard R functions. Lets get some data using `stats19` package.
+
+```{r get_stats19, echo=TRUE, results='hide', message=FALSE}
+library(stats19)
+accidents = stats19::get_stats19(year = 2017, ask = FALSE)
+accidents = dplyr::sample_n(accidents, 500)
+accidents = stats19::format_sf(accidents, lonlat = TRUE)
+```
+
+For example, to geneate an end-point that returns an R object which contains JSON data in a parameter called `accidents_geojson`, we could write a function like this and add into a `geoplumber` app's `R/plumber.R` file:
+
+```{r gp_endoint_from_clip, echo=FALSE, eval=TRUE}
+if(clipr::clipr_available()) {
+  clipped = clipr::read_clip()
+  clipr::write_clip('
+    #\' @get /api/stats19
+    all_geojson <- function(res){
+      res$headers$`Content-type` = "application/json"
+      res$body <- accidents_geojson
+      res
+    }
+  ')
+  setwd(dir_name)
+  geoplumber::gp_endpoint_from_clip()
+  # restore
+  clipr::write_clip(clipped)
+}
+```
+
+```{r gp_endpoint, eval=FALSE}
+#' @get /api/stats19                             # 1
+all_geojson <- function(res){                    # 2
+  res$headers$`Content-type` = "application/json"# 3
+  res$body <- accidents_geojson                  # 4
+  res
+}
+# copy above, run
+# geoplumber::gp_endpoint_from_clip() 
+# to add it into your geoplumber app
+```
