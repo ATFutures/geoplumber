@@ -114,24 +114,6 @@ accidents = stats19::format_sf(accidents, lonlat = TRUE)
 
 For example, to geneate an end-point that returns an R object which contains JSON data in a parameter called `accidents_geojson`, we could write a function like this and add into a `geoplumber` app's `R/plumber.R` file:
 
-```{r gp_endoint_from_clip, echo=FALSE, eval=TRUE}
-if(clipr::clipr_available()) {
-  clipped = clipr::read_clip()
-  clipr::write_clip('
-    #\' @get /api/stats19
-    all_geojson <- function(res){
-      res$headers$`Content-type` = "application/json"
-      res$body <- accidents_geojson
-      res
-    }
-  ')
-  setwd(dir_name)
-  geoplumber::gp_endpoint_from_clip()
-  # restore
-  clipr::write_clip(clipped)
-}
-```
-
 ```{r gp_endpoint, eval=FALSE}
 #' @get /api/stats19                             # 1
 all_geojson <- function(res){                    # 2
@@ -143,3 +125,58 @@ all_geojson <- function(res){                    # 2
 # geoplumber::gp_endpoint_from_clip() 
 # to add it into your geoplumber app
 ```
+
+In the line with `# 1` comment above, the `@get` part means `/api/stats19` is going to be a HTTP GET path. The function has a `response` parameter which can be modified and returned. In this case, we set the response `content-type` and also load the body of the response object with the JSON object to be returned. Therefore, `@get /api/stats19`, translates into `http://localhost:8000/api/stats19` which would returns the `accidents_geojson` object.
+
+In this example, `stats19` [@lovelace_stats19_2019] R package is used for data acquisition and processing. Using `stats19` we can get the crashes for years since 1979 from DfT (Department for Transport, United Kingdom). There are functions in `geoplumber` to work on the development and finally deploy our application. A screen shot of an example is shown in Table 1.
+
+Frontend view             |  The API serving the data
+:-------------------------:|:-------------------------:
+\includegraphics[width=200pt]{geoplumber2.png}      |  \includegraphics[width=200pt]{geoplumber3.png}
+Table 1: A geoplumber app for road casualty data. On the left, customised frontend uses Uber's DeckGL (React). On the right the same data served from `/api/stats19` end-point in R.
+
+We can also interactively see the `accidents` object and choose a column to filter using the API from the front-end:
+
+```{r gp_sf2, eval=FALSE}
+geoplumber::gp_sf(accidents, 
+                  props_list = 
+                    list(accident_severity = unique(accidents$accident_severity)))
+```
+
+If you then visit `http://localhost:8000` on your broswer, it should give you something like Figure 2.
+
+```{r geoplumber, echo=FALSE, fig.cap="STATS19 sample 500 points across the UK for year 2017. With an interactive dropdown querying R code subsetting the 500 sample dataset.", out.width = '100%'}
+knitr::include_graphics("geoplumber4.png")
+```
+
+## Geospatial Databases
+
+Although currently the work in progress repository^[See: https://github.com/ATFutures/geoplumber] does not include one, it is possible to add a database of choice to the stack. Due to the light weight Flask/plumber type of API frameworks, it is possible to make use of the full potential of R language. For example, to connect to a MySQL database running on a Linux machine, with username and password defined at the users `~/.my.cnf` file as per MySQL convenctions. We can then create API end-points that can connect to a MySQL instance with a `geoplumber` schema defined in it, using `RMySQL` and `DBI` packages as follows:
+
+```{r, eval=FALSE}
+con <- DBI::dbConnect(RMySQL::MySQL(), group = "my-db")
+# we can send SQL queries such as selecting a schema
+DBI::dbGetQuery(conn = con, "use geoplumber;")
+#> data frame with 0 columns and 0 rows
+DBI::dbListTables(con)
+#> character(0)
+```
+Add the output of the above into another end-point:
+```{r, eval=FALSE}
+#' @get /api/tables
+tables = function(res){
+  # ...
+  res$body <- tables_list_geojson
+  # ...
+}
+```
+
+## Deployment
+
+Standard deployment documentation^[See https://www.rplumber.io/docs/hosting.html] for `plumber` application is provided by the developers. In our small scale deployment experience, we have deployed two separate geoplumber apps using Docker virtualization technology, using reverse proxy from a standard Nginx HTTP server. The Dockerfile and other deployment details are available on a GitHub repository^[See https://github.com/ATFutures/activeTransportToolbox].
+
+## Acknowldgements
+
+The work carried out is funded by Consumer Data Resarch Center (CDRC) at Leeds Institute for Data Analytics (LIDA) at University of Leeds. The open source ecosystem enables projects like Linux and can benefit geoplumber immensely. The GitHub repository on GitHub^[See https://github.com/ATFutures/geoplumber] lists all contributors to the package and interested parties are invited to collaborate further.
+
+## References
