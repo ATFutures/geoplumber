@@ -11,6 +11,7 @@
 #' }
 gp_create <- function(path = "geoplumber") {
   if(rproj_file_exists(path)) {
+    print(list.files(path))
     stop ("create-react-app requires a clean directory.\n",
           "You can use gp_rstudio() function to crate an Rstudio project.")
   }

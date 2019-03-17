@@ -21,9 +21,11 @@ gp_is_wd_geoplumber <- function(path = ".") {
     # just remove it
     the_path <- ""
   }
-  dir_r <- dir.exists(paste0(the_path, "R"))
-  dir_src <- dir.exists(paste0(the_path, "src"))
-  package.json <- file.exists(paste0(the_path, "package.json"))
+  if(!exists(path))
+    the_path = getwd()
+  dir_r <- dir.exists(file.path(the_path, "R"))
+  dir_src <- dir.exists(file.path(the_path, "src"))
+  package.json <- file.exists(file.path(the_path, "package.json"))
   if(dir_r && dir_src && package.json) {
     return(TRUE)
   }

@@ -33,10 +33,10 @@ test_that("full create", {
 
   setwd(proj_dir) # we are in the new app dir
   expect_false(rproj_file_exists(""))
-  # TODO test rproj_file_exists with na, null
+  expect_true(gp_is_wd_geoplumber())
+  expect_true(gp_rstudio())  #L34
   expect_error(gp_rstudio(""))
-  expect_error(gp_rstudio())
-  gp_rstudio("gp") # TODO does not work!
+  expect_error(gp_rstudio(c(NA,NA)))
   # expect_true(rproj_file_exists())
   teardown(unlink(gp, recursive = TRUE))
   # rproj before create
@@ -84,14 +84,6 @@ test_that ("default endpoints", {
   expect_equal(length(r$endpoints[[1]]), 4)
   expect_equal(r$endpoints[[1]][[1]]$exec(),
                list(msg="The message is: 'nothing given'"))
-  # test wont work on Windows
-  setup({
-    system("kill -9 $(lsof -ti tcp:8000)") # no harm
-  })
-  teardown(
-    # system("kill -9 $(lsof -ti tcp:3000)")
-    system("kill -9 $(lsof -ti tcp:8000)")
-  )
 })
 
 context("test-gp_sf")
