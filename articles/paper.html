@@ -120,10 +120,10 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">dir_name =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"my_app"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geoplumber)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../reference/gp_create.html">gp_create</a></span>(dir_name)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Initializing project at: /tmp/RtmpPzkkiy/my_app</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; To build/run app, set working directory to: /tmp/RtmpPzkkiy/my_app</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Initializing project at: /tmp/RtmpVUJXhh/my_app</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; To build/run app, set working directory to: /tmp/RtmpVUJXhh/my_app</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Standard output from create-react-app above works.</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; You can run gp_ functions from directory: /tmp/RtmpPzkkiy/my_app</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; You can run gp_ functions from directory: /tmp/RtmpVUJXhh/my_app</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; To build the front end run: gp_build()</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To run the geoplumber app: gp_plumb()</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; Happy coding.</span></a>
@@ -135,6 +135,84 @@
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; Now trying to build: npm run build</span></a>
 <a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; Standard output from create-react-app above works.</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; To run the geoplumber app: gp_plumb()</span></a></code></pre></div>
+<p>The directory and files structure of a <code>geoplumber</code> applications looks like this:</p>
+
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">+-</span><span class="st"> </span>R<span class="op">/</span>plumber.R       <span class="co"># backend code</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="op">+-</span><span class="st"> </span>README.md       </a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="op">+-</span><span class="st"> </span>package.json      <span class="co"># npm package file</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="op">+-</span><span class="st"> </span>public            <span class="co"># public facing docs</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="op">+-</span><span class="st"> </span>src               <span class="co"># frontend JS code.</span></a></code></pre></div>
+<p>We can then do all our data processing straight from R and serve the data using API end-points. <code>plumber</code> works by adding tags in front of standard R functions. Lets get some data using <code>stats19</code> package.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">accidents =<span class="st"> </span>stats19<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats19/topics/get_stats19">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">accidents =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(accidents, <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">accidents =<span class="st"> </span>stats19<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats19/topics/format_sf">format_sf</a></span>(accidents, <span class="dt">lonlat =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>For example, to geneate an end-point that returns an R object which contains JSON data in a parameter called <code>accidents_geojson</code>, we could write a function like this and add into a <code>geoplumber</code> app’s <code>R/plumber.R</code> file:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#' @get /api/stats19                             # 1</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">all_geojson &lt;-<span class="st"> </span><span class="cf">function</span>(res){                    <span class="co"># 2</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  res<span class="op">$</span>headers<span class="op">$</span><span class="st">`</span><span class="dt">Content-type</span><span class="st">`</span> =<span class="st"> "application/json"</span><span class="co"># 3</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  res<span class="op">$</span>body &lt;-<span class="st"> </span>accidents_geojson                  <span class="co"># 4</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  res</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># copy above, run</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># geoplumber::gp_endpoint_from_clip() </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co"># to add it into your geoplumber app</span></a></code></pre></div>
+<p>In the line with <code># 1</code> comment above, the <code>@get</code> part means <code>/api/stats19</code> is going to be a HTTP GET path. The function has a <code>response</code> parameter which can be modified and returned. In this case, we set the response <code>content-type</code> and also load the body of the response object with the JSON object to be returned. Therefore, <code>@get /api/stats19</code>, translates into <code>http://localhost:8000/api/stats19</code> which would returns the <code>accidents_geojson</code> object.</p>
+<p>In this example, <code>stats19</code> <span class="citation">(Lovelace et al. 2019)</span> R package is used for data acquisition and processing. Using <code>stats19</code> we can get the crashes for years since 1979 from DfT (Department for Transport, United Kingdom). There are functions in <code>geoplumber</code> to work on the development and finally deploy our application. A screen shot of an example is shown in Table 1.</p>
+<table class="table">
+<thead><tr class="header">
+<th align="center">Frontend view</th>
+<th align="center">The API serving the data</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+</tr></tbody>
+</table>
+<p>Table 1: A geoplumber app for road casualty data. On the left, customised frontend uses Uber’s DeckGL (React). On the right the same data served from <code>/api/stats19</code> end-point in R.</p>
+<p>We can also interactively see the <code>accidents</code> object and choose a column to filter using the API from the front-end:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">geoplumber<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/geoplumber/topics/gp_sf">gp_sf</a></span>(accidents, </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">                  <span class="dt">props_list =</span> </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">                    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">accident_severity =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(accidents<span class="op">$</span>accident_severity)))</a></code></pre></div>
+<p>If you then visit <code>http://localhost:8000</code> on your broswer, it should give you something like Figure 2.</p>
+<div class="figure">
+<img src="geoplumber4.png" alt="STATS19 sample 500 points across the UK for year 2017. With an interactive dropdown querying R code subsetting the 500 sample dataset." width="100%"><p class="caption">
+STATS19 sample 500 points across the UK for year 2017. With an interactive dropdown querying R code subsetting the 500 sample dataset.
+</p>
+</div>
+</div>
+</div>
+<div id="geospatial-databases" class="section level2">
+<h2 class="hasAnchor">
+<a href="#geospatial-databases" class="anchor"></a>Geospatial Databases</h2>
+<p>Although currently the work in progress repository<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> does not include one, it is possible to add a database of choice to the stack. Due to the light weight Flask/plumber type of API frameworks, it is possible to make use of the full potential of R language. For example, to connect to a MySQL database running on a Linux machine, with username and password defined at the users <code>~/.my.cnf</code> file as per MySQL convenctions. We can then create API end-points that can connect to a MySQL instance with a <code>geoplumber</code> schema defined in it, using <code>RMySQL</code> and <code>DBI</code> packages as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(RMySQL<span class="op">::</span><span class="kw">MySQL</span>(), <span class="dt">group =</span> <span class="st">"my-db"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># we can send SQL queries such as selecting a schema</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbGetQuery">dbGetQuery</a></span>(<span class="dt">conn =</span> con, <span class="st">"use geoplumber;"</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; data frame with 0 columns and 0 rows</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbListTables">dbListTables</a></span>(con)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; character(0)</span></a></code></pre></div>
+<p>Add the output of the above into another end-point:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#' @get /api/tables</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">tables =<span class="st"> </span><span class="cf">function</span>(res){</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="co"># ...</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  res<span class="op">$</span>body &lt;-<span class="st"> </span>tables_list_geojson</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="co"># ...</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">}</a></code></pre></div>
+</div>
+<div id="deployment" class="section level2">
+<h2 class="hasAnchor">
+<a href="#deployment" class="anchor"></a>Deployment</h2>
+<p>Standard deployment documentation<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> for <code>plumber</code> application is provided by the developers. In our small scale deployment experience, we have deployed two separate geoplumber apps using Docker virtualization technology, using reverse proxy from a standard Nginx HTTP server. The Dockerfile and other deployment details are available on a GitHub repository<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
+</div>
+<div id="acknowldgements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowldgements" class="anchor"></a>Acknowldgements</h2>
+<p>The work carried out is funded by Consumer Data Resarch Center (CDRC) at Leeds Institute for Data Analytics (LIDA) at University of Leeds. The open source ecosystem enables projects like Linux and can benefit geoplumber immensely. The GitHub repository on GitHub<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> lists all contributors to the package and interested parties are invited to collaborate further.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-banks2017learning">
 <p>Banks, Alex, and Eve Porcello. 2017. <em>Learning React: Functional Web Development with React and Redux</em>. " O’Reilly Media, Inc.".</p>
@@ -147,6 +225,9 @@
 </div>
 <div id="ref-grinberg2018flask">
 <p>Grinberg, Miguel. 2018. <em>Flask Web Development: Developing Web Applications with Python</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-lovelace_stats19_2019">
+<p>Lovelace, Robin, R Lovelace, M Morgan, L Hama, and M Padgham. 2019. “Stats19: A Package for Working with Open Road Crash Data.” <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.01181" class="uri">https://doi.org/10.21105/joss.01181</a>.</p>
 </div>
 <div id="ref-opensees">
 <p>Mazzoni, Silvia, Frank McKenna, Michael H Scott, Gregory L Fenves, and others. 2006. “OpenSees Command Language Manual.” <em>Pacific Earthquake Engineering Research (PEER) Center</em> 264.</p>
@@ -162,12 +243,15 @@
 </div>
 </div>
 </div>
-</div>
 <div class="footnotes">
 <hr>
 <ol>
 <li id="fn1"><p><a href="mailto:l.hama@leeds.ac.uk">l.hama@leeds.ac.uk</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
 <li id="fn2"><p><a href="mailto:r.lovelace@leeds.ac.uk">r.lovelace@leeds.ac.uk</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>See: <a href="https://github.com/ATFutures/geoplumber" class="uri">https://github.com/ATFutures/geoplumber</a><a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>See <a href="https://www.rplumber.io/docs/hosting.html" class="uri">https://www.rplumber.io/docs/hosting.html</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>See <a href="https://github.com/ATFutures/activeTransportToolbox" class="uri">https://github.com/ATFutures/activeTransportToolbox</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>See <a href="https://github.com/ATFutures/geoplumber" class="uri">https://github.com/ATFutures/geoplumber</a><a href="#fnref6" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
   </div>
@@ -180,6 +264,10 @@
 <li><a href="#summary">Summary</a></li>
       <li><a href="#introduction">Introduction</a></li>
       <li><a href="#approach-combining-technologies-for-data-science-and-the-web">Approach: Combining technologies for data science and the web</a></li>
+      <li><a href="#geospatial-databases">Geospatial Databases</a></li>
+      <li><a href="#deployment">Deployment</a></li>
+      <li><a href="#acknowldgements">Acknowldgements</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>
