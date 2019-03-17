@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vignette Title • geoplumber</title>
+<title>Geographic data analysis and geospatial web applications with R and ReactJS • geoplumber</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Vignette Title">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Geographic data analysis and geospatial web applications with R and ReactJS">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -53,7 +53,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/paper.html">Vignette Title</a>
+      <a href="../articles/paper.html">Geographic data analysis and geospatial web applications with R and ReactJS</a>
     </li>
   </ul>
 </li>
@@ -70,10 +70,11 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Vignette Title</h1>
-                        <h4 class="author">Vignette Author</h4>
+      <h1>Geographic data analysis and geospatial web applications with R and ReactJS</h1>
+                        <h4 class="author">Dr Layik Hama<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> — University of Leeds, Leeds Institute for Data Analytics (LIDA)</h4>
+                        <h4 class="author">Dr Robin Lovelace<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> — University of Leeds, Institute for Transport Studies (ITS) and Leeds Institute for Data Analytics (LIDA)</h4>
             
-            <h4 class="date">2019-03-16</h4>
+            <h4 class="date">2019-03-17</h4>
       
       
       <div class="hidden name"><code>paper.Rmd</code></div>
@@ -82,10 +83,105 @@
 
     
     
-<p>Get the GISURK paper in!</p>
+<div id="summary" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#summary" class="anchor"></a>Summary</h2>
+<p>Data scientists, and R users in particular, tend to focus on ‘back-end’ data processing, with visual outputs usually generated locally. Recent developements have made it easier for R developers to deploy their applications remotely, the <code>shiny</code> package/framework being a notably example. However, such ‘pure R’ approaches have limitations, especially when it comes to geographic web apps: they are often ‘pinned’ to particular JavaScript frameworks/libraries/versions, and provide little for people wanting to develop web APIs. To overcome this issue we developed <code>geoplumber</code>, an R package that provides the ‘best of both worlds’, leaving the front end to native JavaScript code and the back-end to R/databases. This paper describes the approach and highlights the possibilities with a real-world example.</p>
+<p><strong>Keywords:</strong> Web Applications with R, Rpackage, JavaScript, ReactJS, Web Mapping</p>
+</div>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+
+<p>Scripting languages <span class="citation">(Mazzoni et al. 2006)</span> have been powering the web for a long time. The most widely used ones are not used for geospatial data processing, for example PHP <span class="citation">(Zhao et al. 2012)</span>. We know that Python is also a scripting language and there is Flask <span class="citation">(Grinberg 2018)</span> enabling web applications in Python.</p>
+<p>The statistical programming language R <span class="citation">(R Core Team 2019)</span> is a widely used language for data science and, with packages such as <code>sf</code> enabling geocomputation. Data scientists who use R and want to deploy their applications often wonder: how can I use R to deploy on the web?</p>
+
+<p>We found out that there had already been some work in this regard, inspired the Python package Flask, called <code>plumber</code> <span class="citation">(Trestle Technology, LLC 2018)</span>. After preliminary checks and checking the codebase, we decided that we could use <code>plumber</code> to power the project.</p>
+</div>
+<div id="approach-combining-technologies-for-data-science-and-the-web" class="section level2">
+<h2 class="hasAnchor">
+<a href="#approach-combining-technologies-for-data-science-and-the-web" class="anchor"></a>Approach: Combining technologies for data science and the web</h2>
+<p>Facebook developed ReactJS <span class="citation">(Fedosejev 2015)</span>. The approach is designed for scalability and rapid front end development <span class="citation">(Gackenheimer 2015)</span>. These advantages, plus prior experience with React, explain our choice of frontend framework, to be combined with <code>plumber</code> in the backend. After developing an ad-hock web app based on this approach, we found there were advantages of generalising the approach. The R packaging system makes the approach accessible to other data scientists wanting a flexible, scalable yet lightweight front-end for their R applications, and encourages testing and feedback. <code>geoplumber</code>, which can be installed with the following command, was born.</p>
+<div id="geospatial-web-applications" class="section level3">
+<h3 class="hasAnchor">
+<a href="#geospatial-web-applications" class="anchor"></a>Geospatial web applications</h3>
+<p>JavaScript has a rich set of frontend web mapping technologies, including LeafletJS and Mapbox JS. Since the emergence of WebGL, the possibilities for creating “web application frameworks” for displaying large geospatial datasets, have increased greatly.</p>
+<p>The package is a combination of above technologies which are loosely coupled and could be used for non-geospatial purposes. This loose coupling is done with attention, making it accessible to developers who already use ReactJS tools, without needing to engage with the R ecosystem. <code>geoplumber</code> is compatible with the <code>npm</code> (Node Package Manager), and uses the Create-React-App (CRA) <span class="citation">(Banks and Porcello 2017)</span> NodeJS package for deployment.</p>
+</div>
+<div id="interactive-data-analysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#interactive-data-analysis" class="anchor"></a>Interactive data analysis</h3>
+<p>A focus of <code>geoplumber</code> is interactive data analysis. The package includes functions to support such tasks as adding React or generic JS code to a web application, taking advantage of React’s modular design. The result is a “framework” where node packages can be defined for use in the frontend and data can be served from a flexible R-based backend.</p>
+</div>
+<div id="use-case-a-web-app-for-visualising-road-traffic-casualties" class="section level3">
+<h3 class="hasAnchor">
+<a href="#use-case-a-web-app-for-visualising-road-traffic-casualties" class="anchor"></a>Use case: a web app for visualising road traffic casualties</h3>
+<p>A geoplumber app, as it stands, is a standard <code>npm</code> package generated by CRA. For the API, an <code>R</code> directory containing a <code>plumber.R</code> file is added, which is used by the underlying <code>plumber</code> package. To create a <code>geoplumber</code> app:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">dir_name =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"my_app"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geoplumber)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../reference/gp_create.html">gp_create</a></span>(dir_name)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Initializing project at: /tmp/RtmpPzkkiy/my_app</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; To build/run app, set working directory to: /tmp/RtmpPzkkiy/my_app</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Standard output from create-react-app above works.</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; You can run gp_ functions from directory: /tmp/RtmpPzkkiy/my_app</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; To build the front end run: gp_build()</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; To run the geoplumber app: gp_plumb()</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; Happy coding.</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(dir_name)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw"><a href="../reference/gp_build.html">gp_build</a></span>()</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; Running: npm run build</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; Looks like first run, installing npm packages...</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; Running: gp_npm_install()</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; Now trying to build: npm run build</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; Standard output from create-react-app above works.</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; To run the geoplumber app: gp_plumb()</span></a></code></pre></div>
+<div id="refs" class="references">
+<div id="ref-banks2017learning">
+<p>Banks, Alex, and Eve Porcello. 2017. <em>Learning React: Functional Web Development with React and Redux</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-fedosejev2015react">
+<p>Fedosejev, Artemij. 2015. <em>React. Js Essentials</em>. Packt Publishing Ltd.</p>
+</div>
+<div id="ref-gackenheimer2015introducing">
+<p>Gackenheimer, Cory. 2015. “Introducing Flux: An Application Architecture for React.” In <em>Introduction to React</em>, 87–106. Springer.</p>
+</div>
+<div id="ref-grinberg2018flask">
+<p>Grinberg, Miguel. 2018. <em>Flask Web Development: Developing Web Applications with Python</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-opensees">
+<p>Mazzoni, Silvia, Frank McKenna, Michael H Scott, Gregory L Fenves, and others. 2006. “OpenSees Command Language Manual.” <em>Pacific Earthquake Engineering Research (PEER) Center</em> 264.</p>
+</div>
+<div id="ref-rcore">
+<p>R Core Team. 2019. “R: A Language and Environment for Statistical Computing.” Vienna, Austria: R Foundation for Statistical Computing.</p>
+</div>
+<div id="ref-plumber">
+<p>Trestle Technology, LLC. 2018. <em>Plumber: An Api Generator for R</em> (version 0.4.6). <a href="https://cran.r-project.org/web/packages/plumber/index.html" class="uri">https://cran.r-project.org/web/packages/plumber/index.html</a>.</p>
+</div>
+<div id="ref-zhao2012hiphop">
+<p>Zhao, Haiping, Iain Proctor, Minghui Yang, Xin Qi, Mark Williams, Qi Gao, Guilherme Ottoni, et al. 2012. “The Hiphop Compiler for Php.” In <em>ACM Sigplan Notices</em>, 47:575–86. 10. ACM.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="mailto:l.hama@leeds.ac.uk">l.hama@leeds.ac.uk</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><a href="mailto:r.lovelace@leeds.ac.uk">r.lovelace@leeds.ac.uk</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#summary">Summary</a></li>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#approach-combining-technologies-for-data-science-and-the-web">Approach: Combining technologies for data science and the web</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

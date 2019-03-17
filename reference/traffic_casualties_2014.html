@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/paper.html">Vignette Title</a>
+      <a href="../articles/paper.html">Geographic data analysis and geospatial web applications with R and ReactJS</a>
     </li>
   </ul>
 </li>
@@ -130,10 +130,10 @@
 <span class='no'>ac</span> <span class='kw'>=</span> <span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>read_stats19_ac</span>() <span class='co'># 214 mb compressed data</span>
 <span class='no'>ac</span> <span class='kw'>=</span> <span class='no'>ac</span>[!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>ac</span>$<span class='no'>Latitude</span>), ]
 <span class='no'>ac_few_cols</span> <span class='kw'>=</span> <span class='no'>ac</span>[ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Accident_Severity"</span>, <span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>, <span class='st'>"Date"</span>)]
-<span class='no'>ac_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'>st_as_sf</span>(<span class='no'>ac_few_cols</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>))
-<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'>st_crs</span>(<span class='no'>ac_sf</span>) <span class='kw'>=</span> <span class='fl'>4326</span>
-<span class='no'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>bb2poly</span>(<span class='kw'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'>as_Spatial</span>(<span class='no'>traffic</span>))
-<span class='no'>bb_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'>st_as_sf</span>(<span class='no'>bb</span>)
+<span class='no'>ac_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_as_sf'>st_as_sf</a></span>(<span class='no'>ac_few_cols</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>))
+<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>st_crs</a></span>(<span class='no'>ac_sf</span>) <span class='kw'>=</span> <span class='fl'>4326</span>
+<span class='no'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>bb2poly</span>(<span class='kw'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as_Spatial</a></span>(<span class='no'>traffic</span>))
+<span class='no'>bb_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_as_sf'>st_as_sf</a></span>(<span class='no'>bb</span>)
 <span class='no'>traffic_casualties</span> <span class='kw'>=</span> <span class='no'>ac_sf</span>[<span class='no'>bb_sf</span>, ]
 <span class='kw pkg'>pryr</span><span class='kw ns'>::</span><span class='fu'>object_size</span>(<span class='no'>traffic_casualties</span>) <span class='co'># 2 MB</span>
 <span class='no'>traffic_casualties_2014</span> <span class='kw'>=</span> <span class='no'>traffic_casualties</span>[

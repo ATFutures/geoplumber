@@ -88,7 +88,7 @@ is measured." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/paper.html">Vignette Title</a>
+      <a href="../articles/paper.html">Geographic data analysis and geospatial web applications with R and ReactJS</a>
     </li>
   </ul>
 </li>
@@ -135,7 +135,7 @@ is measured.</p>
   <span class='st'>"c90eee49-6f92-4508-ac36-6df56853f817/resource/"</span>,
   <span class='st'>"d39d9d89-0478-4f75-a166-1a445bf42f9c/download/metadata.json"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/download.file'>download.file</a></span>(<span class='no'>u</span>, <span class='st'>"inst/extdata/traffic.geojson"</span>)
-<span class='no'>traffic</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'>read_sf</span>(<span class='st'>"inst/extdata/traffic.geojson"</span>)
+<span class='no'>traffic</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>read_sf</a></span>(<span class='st'>"inst/extdata/traffic.geojson"</span>)
 <span class='co'># sf:::plot.sf(traffic)</span>
 <span class='co'># mapview::mapview(traffic)</span>
 <span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/usethis/topics/use_data'>use_data</a></span>(<span class='no'>traffic</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
