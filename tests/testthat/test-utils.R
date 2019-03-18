@@ -92,3 +92,11 @@ test_that("gp_change_file adds one line", {
   expect_equal(v.length + 1, length(v)) # ony one line added
   file.remove(temp.file)
 })
+
+test_that("cra_init adds one line", {
+  dir <- file.path(tempdir(), "cra")
+  dir.create(dir)
+  expect_false(gp_is_wd_geoplumber(dir))
+  cra_init(dir)
+  expect_true(gp_is_wd_geoplumber(dir))
+})

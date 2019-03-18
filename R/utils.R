@@ -192,16 +192,17 @@ rproj_file_exists <- function(path) {
 
 #' Wrapper function to copy template.Rproj file into working directory.
 #'
-#' @param path project path to create .Rproj file in.
+#' @param path project path to create .Rproj file in, defaults to ".".
+#'
 #' @export
 #' @examples \dontrun{
 #'  gp_rstudio()
 #' }
-gp_rstudio <- function(path) {
+gp_rstudio <- function(path = ".") {
   proj_name <- "" # path could be missing
-  if(missing(path))
+  if(identical(path, "."))
     if(gp_is_wd_geoplumber()) {
-      path <- basename(getwd())
+      proj_name <- basename(getwd())
     } else {
       stop("A geoplumber app's path is required.")
     }
@@ -213,7 +214,7 @@ gp_rstudio <- function(path) {
   if(rproj_file_exists(path))
     stop("There is a .Rproj file already")# already exists
   res <- file.copy(system.file("template.Rproj", package = "geoplumber"),
-            paste0(path, ".Rproj"))
+            paste0(proj_name, ".Rproj"))
   return(res)
 }
 
@@ -251,3 +252,14 @@ require_package.json <- function() {
   }
 }
 
+# simulate CRA without create-react-app
+cra_init <- function(path) {
+  if(missing(path))
+    path <- getwd()
+  if(!dir.exists(path))
+    stop(paste0('Directory ', path, "' does not exist."))
+  system(paste0("mkdir ", file.path(path, "R"))) # simulate an app
+  system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
+  system(paste0("cp ", system.file("plumber.R", package = "geoplumber"),
+                " ", file.path(path, "R")))
+}
