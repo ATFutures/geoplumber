@@ -12,6 +12,7 @@ r_github_packages:
 addons:
   apt:
     packages:
+      - libudunits2-dev # paper.Rmd see travis builds/508333361#L1622
       - libgdal-dev
       - libgeos-dev
       - libssl-dev
