@@ -74,8 +74,6 @@ gp_sf <- function(sf = geoplumber::traffic,
     c(
       paste0('<', component2.name),
       'circle={true}',                   # connecting GeoJSON with slider
-      # easy way would be spreading, for now doing it the harder way
-      # '...this.state' # and all state would be passed to child.
       'radius={this.state.sliderInput}', # connecting GeoJSON with slider
       'map={this.state.map}',            # get the map from parent
       paste0('fetchURL={"http://localhost:8000', endpoint,'" +'), #
@@ -120,3 +118,5 @@ gp_sf <- function(sf = geoplumber::traffic,
     return(TRUE)
   }
 }
+
+

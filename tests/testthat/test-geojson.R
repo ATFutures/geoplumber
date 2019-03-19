@@ -10,9 +10,8 @@ test_that("geojson fails on no geoplumber app path", {
 
 test_that("geojson works on a geoplumber app path", {
   # wd = /tests/testthat
-  temp.dir <- tolower(tempdir())
-  # cat(temp.dir)
-  system(paste0("mkdir ", temp.dir))
+  temp.dir <- file.path(tempdir(), "foo")
+  dir.create(temp.dir, recursive = TRUE)
   oldwd <- setwd(temp.dir)
   on.exit(oldwd)
   cat("\n.......\n", "Mocking a geoplumber app\n", list.files(), "\n......\n")

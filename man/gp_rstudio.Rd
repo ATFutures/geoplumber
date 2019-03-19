@@ -4,10 +4,10 @@
 \alias{gp_rstudio}
 \title{Wrapper function to copy template.Rproj file into working directory.}
 \usage{
-gp_rstudio(path)
+gp_rstudio(path = ".")
 }
 \arguments{
-\item{path}{project path to create .Rproj file in.}
+\item{path}{project path to create .Rproj file in, defaults to ".".}
 }
 \description{
 Wrapper function to copy template.Rproj file into working directory.

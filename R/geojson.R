@@ -9,7 +9,8 @@
 #' "fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"))
 #' }
 #' @export
-gp_geojson <- function(geojson_url, colour_pal) {
+gp_geojson <- function(geojson_url, colour_pal = "") {
+  stop_ifnot_geoplumber()
   if(missing(geojson_url))
     stop("gp_geojson needs a geojson_url to pull .geojson from.")
   endpoint <- "/api/gp"
@@ -19,13 +20,20 @@ gp_geojson <- function(geojson_url, colour_pal) {
   parent <- add_import_component(parent, component_name, component_path)
 
   colour_function <-  ""
-  if(exists("geojson_url") && length(geojson_url) == 1L &&
-     !is.na(geojson_url) && geojson_url != "") {
+  if(exists("colour_pal") && length(colour_pal) == 1L &&
+     !is.na(colour_pal) && colour_pal != "") {
     colour_function <-
       paste0('style={(feature) => ({fillColor:feature.properties.',
              colour_pal,
              '})}')
+  } else {
+    message("colour_pal should be column name, colouring ignored.")
   }
+  parent <- add_lines(
+    parent,           # target
+    "map: null",      # pattern
+    c(paste0("label: 'gp_geojson: ", geojson_url,"',"))
+  )
   parent <- add_lines(
     parent,           # target
     "</Map>",         # pattern

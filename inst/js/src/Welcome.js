@@ -4,6 +4,8 @@
  */
 import React, { Component } from 'react';
 import { Map, TileLayer } from 'react-leaflet';
+import Control from 'react-leaflet-control';
+
 import GeoJSONComponent from './components/GeoJSONComponent.jsx';
 
 import './App.css';
@@ -33,6 +35,10 @@ export default class Welcome extends Component {
                     this.setState({ touchReceived: true })
                 }}
             >
+                <Control className="leaflet-control-attribution leaflet-control"
+                    position={this.props.position || "bottomright"}>
+                    {this.state.label}
+                </Control>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
