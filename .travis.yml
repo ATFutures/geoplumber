@@ -12,29 +12,9 @@ r_github_packages:
 addons:
   apt:
     packages:
-      - libprotobuf-dev
-      - libprotoc-dev
-      - protobuf-compiler
-      - lbzip2
-      - libfftw3-dev
       - libgdal-dev
       - libgeos-dev
-      - libgsl0-dev
-      - libgl1-mesa-dev
-      - libglu1-mesa-dev
-      - libhdf4-alt-dev
-      - libhdf5-dev
-      - libjq-dev
-      - libproj-dev
-      - libprotobuf-dev
-      - libnetcdf-dev
-      - libsqlite3-dev
       - libssl-dev
-      - libudunits2-dev
-      - netcdf-bin
-      - tk-dev
-      - unixodbc-dev
-      - libv8-dev
       - xclip
 
 # copy from
