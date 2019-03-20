@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
-    <script src="https://unpkg.com/@babel/standalone"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script>
@@ -32,60 +32,10 @@
       const React = window.React
       const { Map, TileLayer, Marker, Popup, GeoJSON } = window.ReactLeaflet
 
+      const geojson = null;
+
       class GeoJSONComponent extends React.Component {
-
-      constructor(props) {
-          super(props);
-          this.state = {
-              geojson: null
-          }
-          this._fetchData = this._fetchData.bind(this)
-      }
-
-      _fetchData() {
-          const url = this.props.fetchURL ? this.props.fetchURL : 'http://localhost:8000/api/data'
-          // console.log("fetching... " + url)
-          fetch(url)
-              .then((response) => {
-                  if (response.status !== 200) {
-                      console.log('Looks like there was a problem. Status Code: ' +
-                          response.status);
-                      return;
-                  }
-                  // Examine the text in the response
-                  response.json()
-                      .then((geojson) => {
-                          if ((geojson.features && geojson.features.length === 0) || response.status === 'ZERO_RESULTS') {
-                              this.setState({ error: response.status })
-                          } else {
-                              var geojsonLayer = L.geoJson(geojson)
-                              const bbox = geojsonLayer.getBounds()
-                              // assuming parent has provided "map" object
-                              this.props.map && this.props.map.fitBounds(bbox)
-                              this.setState({ geojson })
-                          }
-                      });
-              })
-              .catch((err) => {
-                  console.log('Fetch Error: ', err);
-              });
-      }
-
-      componentDidMount() {
-          this._fetchData()
-      }
-
-      componentDidUpdate(prevProps, prevState) {
-          if (this.props.fetchURL !== prevProps.fetchURL) {
-              this._fetchData()
-          }
-          if(this.props.radius !== prevProps.radius) {
-              this.forceUpdate()
-          }
-      }
-
       render() {
-          const { geojson } = this.state;
           let { radius, style } = this.props;
 
           if (!geojson) {
@@ -156,26 +106,20 @@
               })
           )}
       }
-      const position = [51.505, -0.09]
+      const geojsonLayer = L.geoJson(geojson)      
+      const bbox = geojsonLayer.getBounds()
+      const position = bbox.getSouthWest() ? bbox.getCenter() : [53.8078, -1.5534]      
       const Geoplumber = () => (
-        <Map center={position} zoom={13}>
+        <Map 
+          bounds={bbox.getSouthWest() ? bbox : [position, [52.78,-1.65]]}
+          center={position} >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />
-
-          <Marker position={position}>
-            <Popup>
-              <span>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </span>
-            </Popup>
-          </Marker>
+          <GeoJSONComponent />
         </Map>
-      )
-      console.log(Map.center);
-      
+      )      
       window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
     </script>
   </body>
