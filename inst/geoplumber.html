@@ -1,34 +1,182 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>geoplumber React app</title>
+    <meta charset="utf-8" />
+    <title>geoplumber front ReactLeaflet standalone example</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+    <script src="https://unpkg.com/@babel/standalone"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script>
+    <style>
+      body {
+        padding: 0;
+      }
+      .leaflet-container {
+        height: 600px;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
+    <div id="container"></div>
+    <script type="text/babel" data-presets="es2015,react">
+      const React = window.React
+      const { Map, TileLayer, Marker, Popup, GeoJSON } = window.ReactLeaflet
 
-    <!-- We will put our React component inside this div. -->
-    <div id="geoplumber"></div>
+      class GeoJSONComponent extends React.Component {
 
-    <!-- Load React. -->
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
-    <!-- Load React. -->
-    <script type="text/babel">
-        // #GpComponent
+      constructor(props) {
+          super(props);
+          this.state = {
+              geojson: null
+          }
+          this._fetchData = this._fetchData.bind(this)
+      }
 
-        ReactDOM.render(
-        <GpComponent/>,
-        document.getElementById('geoplumber')
-        );
+      _fetchData() {
+          const url = this.props.fetchURL ? this.props.fetchURL : 'http://localhost:8000/api/data'
+          // console.log("fetching... " + url)
+          fetch(url)
+              .then((response) => {
+                  if (response.status !== 200) {
+                      console.log('Looks like there was a problem. Status Code: ' +
+                          response.status);
+                      return;
+                  }
+                  // Examine the text in the response
+                  response.json()
+                      .then((geojson) => {
+                          if ((geojson.features && geojson.features.length === 0) || response.status === 'ZERO_RESULTS') {
+                              this.setState({ error: response.status })
+                          } else {
+                              var geojsonLayer = L.geoJson(geojson)
+                              const bbox = geojsonLayer.getBounds()
+                              // assuming parent has provided "map" object
+                              this.props.map && this.props.map.fitBounds(bbox)
+                              this.setState({ geojson })
+                          }
+                      });
+              })
+              .catch((err) => {
+                  console.log('Fetch Error: ', err);
+              });
+      }
+
+      componentDidMount() {
+          this._fetchData()
+      }
+
+      componentDidUpdate(prevProps, prevState) {
+          if (this.props.fetchURL !== prevProps.fetchURL) {
+              this._fetchData()
+          }
+          if(this.props.radius !== prevProps.radius) {
+              this.forceUpdate()
+          }
+      }
+
+      render() {
+          const { geojson } = this.state;
+          let { radius, style } = this.props;
+
+          if (!geojson) {
+              return (null) // as per React docs
+          }
+
+          // get radius from parent, or is it above 100 markers? 2 else 8
+          radius = radius ? radius : geojson.features && geojson.features.length > 100 ? 2 : 8
+
+          if(!geojson.features || geojson.type !== "FeatureCollection") {
+              if(geojson.coordinates) { //single feature.
+                  return(
+                  <GeoJSON //react-leaflet component
+                      key={JSON.stringify(geojson)}
+                      data={geojson}
+                  />
+                  )
+              } else {
+                  return(null) //nothing is passed to me.
+              }
+          }
+          // we have type: "FeatureCollection"
+          return (
+              geojson.features.map((feature, i) => {
+                  return (
+                      <GeoJSON //react-leaflet component
+                          key={JSON.stringify(feature) + radius}
+                          // gp_add_geojson can define values from `feature`
+                          style={typeof(style) === 'function' ?
+                          style(feature) : style }
+                          /**
+                           * https://leafletjs.com/examples/geojson/
+                           * style for leaflet is
+                           * {"color": "#hexstr", "weight": 5, "opacity": 0.65}
+                           * or of course a function returning these.
+                           */
+                          data={feature}
+                          onEachFeature={(feature, layer) => {
+                              const properties = Object.keys(feature.properties).map((key) => {
+                                  return (key + " : " + feature.properties[key])
+                              })
+                              layer.bindPopup(
+                                  properties.join('<br/>')
+                              );
+                          }}
+                          pointToLayer={
+                              // use cricles prop if not 10 markers is enough
+                              this.props.circle || geojson.features.length > 10 ?
+                                  (_, latlng) => {
+                                      // Change the values of these options to change the symbol's appearance
+                                      let options = {
+                                          radius: radius,
+                                          fillColor: "green",
+                                          color: "black",
+                                          weight: 1,
+                                          opacity: 1,
+                                          fillOpacity: 0.8
+                                      }
+                                      return L.circleMarker(latlng, options);
+                                  }
+                                  :
+                                  (_, latlng) => {
+                                      return L.marker(latlng);
+                                  }
+                          }
+                      />
+                  )
+              })
+          )}
+      }
+      const position = [51.505, -0.09]
+      const Geoplumber = () => (
+        <Map center={position} zoom={13}>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />
+
+          <Marker position={position}>
+            <Popup>
+              <span>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </span>
+            </Popup>
+          </Marker>
+        </Map>
+      )
+      console.log(Map.center);
+      
+      window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
     </script>
-    <footer style="position:fixed; bottom:0; width: 100%">
-        <p style="text-align: center">
-            <a title="geoplumber" href="https://github.com/ATFutures/geoplumber">
-                <svg height="16" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
-            </a>
-        </p>
-    </footer>
   </body>
 </html>
