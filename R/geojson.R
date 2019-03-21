@@ -91,12 +91,16 @@ gp_map <- function(geojson_url, browse_map = TRUE) {
   # superficial test
   if(!endsWith(geojson_url, ".geojson"))
     stop("Is given geojson_url a json or geojson file?")
+  prefix <- "gp_map_"
   geojson <- geojsonsf::geojson_sf(geojson_url)
   if(!nrow(geojson) > 0)
     stop("Invalid geojson_url given or file is corrupt.")
   geojson <- geojsonsf::sf_geojson(geojson)
+  # increment
+  list <- list.files(tempdir(), pattern = prefix)
+  n <- length(list)
   path <- file.path(tempdir(),
-                    paste0("gp_", basename(geojson_url), ".html"))
+                    paste0(prefix, basename(geojson_url), n,".html"))
   result <- add_lines(
     result,                  # target
     "const geojson = null;", # pattern
