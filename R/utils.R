@@ -218,38 +218,15 @@ gp_rstudio <- function(path = ".") {
   return(res)
 }
 
-# install_npm_dependencies <- function() {
-#   require_package.json()
-#   dep_pkgs <- c(
-#     "prop-types",
-#     "react-bootstrap",
-#     "leaflet", "react-leaflet", "react-leaflet-control",
-#     "react-router", "react-router-dom"
-#   )
-#   # deps
-#   lapply(dep_pkgs, gp_install_npm_package)
-#   # devs
-#   dev_pkgs <- c("enzyme", "enzyme-adapter-react-16", "sinon",
-#                 "react-test-renderer")
-#   lapply(dev_pkgs, function(x){
-#     system(paste0("npm i --save-dev ", x))
-#   })
-# }
-
 rename_package.json <- function(project_name) {
-  require_package.json()
+  if(!file.exists("package.json")) {
+    stop(paste0("Error: working directory '", getwd(),
+                "' does not include a package.json."))
+  }
   pkg_json <- readLines("package.json")
   pkg_json[2] <- sub("geoplumber", project_name, pkg_json[2])
   # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
-}
-
-# reason for not using gp_is_wd_geoplumber exists
-require_package.json <- function() {
-  if(!file.exists("package.json")) {
-    stop(paste0("Error: working directory '", getwd(),
-                   "' does not include a package.json."))
-  }
 }
 
 # simulate CRA without create-react-app
@@ -258,8 +235,19 @@ cra_init <- function(path) {
     path <- getwd()
   if(!dir.exists(path))
     stop(paste0('Directory ', path, "' does not exist."))
-  system(paste0("mkdir ", file.path(path, "R"))) # simulate an app
-  system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
-  system(paste0("cp ", system.file("plumber.R", package = "geoplumber"),
-                " ", file.path(path, "R")))
+  # simulate an app
+  dir.create(file.path(path, "R"))
+  # cross platform of doing:
+  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
+  gp_temp_files <- list.files(
+    system.file("js", package="geoplumber"))
+  sapply(gp_temp_files, function(x){
+    file.copy(system.file(file.path("js", x), package = "geoplumber"),
+              path, recursive = TRUE)
+  })
+  file.copy(system.file("plumber.R", package = "geoplumber")
+            , file.path(path, "R"))
+  ow <- setwd(path)
+  rename_package.json(basename(path))
+  setwd(ow)
 }
