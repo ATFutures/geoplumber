@@ -22,8 +22,7 @@ RUN apt-get update \
     tk-dev \
     unixodbc-dev \
     libprotobuf-dev \
-    protobuf-compiler \
-    curl
+    protobuf-compiler
 
 RUN install2.r geojsonsf
 RUN install2.r sf
