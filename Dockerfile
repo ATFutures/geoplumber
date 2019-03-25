@@ -19,7 +19,6 @@ RUN apt-get update \
     libsqlite3-dev \
     libssl-dev \
     netcdf-bin \
-    tk-dev \
     unixodbc-dev \
     libprotobuf-dev \
     protobuf-compiler
