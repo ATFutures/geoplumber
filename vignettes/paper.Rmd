@@ -18,7 +18,6 @@ header-includes: \usepackage{graphicx}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "",
   out.width = "100%"
 )
 ```

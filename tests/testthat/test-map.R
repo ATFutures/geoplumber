@@ -12,4 +12,5 @@ test_that("gp_map works", {
   found <- grepl(pattern = "const geojson = null;",
                  x = result)
   expect_false(found)
+  expect_true(grepl(pattern = "traffic", result))
 })

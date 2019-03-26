@@ -77,13 +77,14 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
 #' @param x character or sf object: URL or sf object to view on map
 #' @param browse_map logical: should the outcome be viewed in a browser?
 #' defaults to `TRUE`
+#' @param dest_path character: write output to tempdir (default)?
 #'
 #' @examples \dontrun{
 #' gp_map(paste0("http://opendata.canterburymaps.govt.nz/datasets/",
 #' "fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"), browse_map = FALSE)
 #' }
 #' @export
-gp_map <- function(x, browse_map = TRUE) {
+gp_map <- function(x, browse_map = TRUE, dest_path = tempdir()) {
   if(missing(x))
     stop("gp_map needs either a URL or sf object to pull data from.")
   result <- readLines(system.file("geoplumber.html", package = "geoplumber"))
@@ -91,7 +92,7 @@ gp_map <- function(x, browse_map = TRUE) {
   geojson_name <- deparse(substitute(x)) # provisional
   prefix <- "gp_map_"
   # file or object?
-  if(!is(x, "sf")) {
+  if(!inherits(x, "sf")) {
     # superficial test
     if(!endsWith(x, ".geojson"))
       stop("Is given x a json or geojson file?")
@@ -102,18 +103,19 @@ gp_map <- function(x, browse_map = TRUE) {
     stop("Invalid object given or file is corrupt.")
   geojson <- geojsonsf::sf_geojson(geojson)
   # increment
-  list <- list.files(tempdir(), pattern = prefix)
+  list <- list.files(dest_path, pattern = prefix)
   n <- length(list)
-  path <- file.path(tempdir(),
+  path <- file.path(dest_path,
                     paste0(prefix, geojson_name, n,".html"))
   result <- add_lines(
     result,                  # target
     "const geojson = null;", # pattern
-    paste0(                       # what
+    paste0(                  # what
       "const geojson = ",
       geojson, collapse = ""
     )
   )
+  # remove placeholder
   index <- grep(pattern = "const geojson = null;", x = result)
   result <- c(
     result[1L:(index - 1L)], # to line before pattern
