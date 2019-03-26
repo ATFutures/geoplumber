@@ -141,7 +141,8 @@ gp_npm_exists <- function() {
 #' Because `[gp_create()]` uses the underlying CRA npm package, it is slow.
 #' This function assembles the required npm package files to then build from.
 #'
-#' @inheritParams gp_create
+#' @param path character: existing path of the target gp app.
+#'
 #' @export
 #' @examples
 #' gp_cra_init(tempdir()) # it would simulate an app in tempdir()

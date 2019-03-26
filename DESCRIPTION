@@ -20,7 +20,8 @@ Suggests:
     rmarkdown,
     stats19,
     dplyr,
-    remotes
+    remotes,
+    htmltools
 RoxygenNote: 6.1.1
 Imports: 
     plumber,

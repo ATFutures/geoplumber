@@ -1,0 +1,86 @@
+---
+title: "geoplumber: R package web framework"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`geoplumber` depends only on `plumber` package to enable building web applicaitons using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid developmened available skill utilisation choice.
+
+Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm.
+
+In terms of npm pacakges, it relies on Facebook's "create-react-app" (CRA) `npm` package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.
+
+In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of `leafletjs`. Thanks to `react-leaflet` this is was simple to integrate into a ReactJS app.
+
+## Getting started
+So given some dataset such as the `traffic` included in this package let us get a web application up and running where we can see some `geojson` data on a map.
+
+```{r traffic}
+library(geoplumber)
+html_file = gp_map(traffic, browse_map = FALSE, dest_path = getwd())
+htmltools::includeHTML(html_file)
+```
+
+```{r hidden, echo=FALSE, message=FALSE}
+file.remove(html_file)
+```
+
+As the default `gp_create` function uses `create-react-app`, let us assemble an app using `gp_cra_init`:
+
+```{r gp_cra_init}
+path = file.path(tempdir(), "new_app")
+# make sure that exists
+dir.create(path)
+gp_cra_init(path = path)
+# check if that is the case
+gp_is_wd_geoplumber(path = path)
+
+```
+
+Now that `path` is a valid `geoplumber` application, quick look into it:
+```{r gp-app-structure}
+list.files(path)
+list.files(file.path(path, "R"))
+```
+
+The `R/plumber.R` is the only backend script that would be executed ina fresh geoplumber app. Using the underlying `plumber` package, we can inspect what is in the `R/plumber.R` file:
+
+```{r plumber.R}
+# we must change dir into a gp path
+ow <- setwd(path)
+r <- gp_plumb(run = FALSE)
+length(r$endpoints[[1]]) # it should be 5
+```
+
+There is a default endpoint where a message is echoed by the server, we can test this using:
+
+```{r plumber.R2}
+response <- r$endpoints[[1]][[1]]$exec()
+response$msg # it should be: "The message is: 'nothing given'"
+```
+
+Now, we can install the required dependancies of the npm package and run the application using
+
+```{r finally, eval=FALSE}
+gp_plumb()
+# and visiting localhost:8000
+```
+
+## Analysing an sf object
+
+## Adding front end React components
+
+```{r cleanup, echo=FALSE, message=FALSE}
+setwd(ow)
+unlink(path, recursive = TRUE)
+```
+
+
+
+
+
+

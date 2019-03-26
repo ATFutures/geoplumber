@@ -7,7 +7,7 @@
 gp_cra_init(path = getwd())
 }
 \arguments{
-\item{path}{path of the new app, will be passed to \code{npx create-react-app }}
+\item{path}{character: existing path of the target gp app.}
 }
 \description{
 Because \code{[gp_create()]} uses the underlying CRA npm package, it is slow.
