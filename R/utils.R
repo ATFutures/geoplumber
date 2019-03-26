@@ -228,26 +228,3 @@ rename_package.json <- function(project_name) {
   # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
 }
-
-# simulate CRA without create-react-app
-cra_init <- function(path) {
-  if(missing(path))
-    path <- getwd()
-  if(!dir.exists(path))
-    stop(paste0('Directory ', path, "' does not exist."))
-  # simulate an app
-  dir.create(file.path(path, "R"))
-  # cross platform of doing:
-  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
-  gp_temp_files <- list.files(
-    system.file("js", package="geoplumber"))
-  sapply(gp_temp_files, function(x){
-    file.copy(system.file(file.path("js", x), package = "geoplumber"),
-              path, recursive = TRUE)
-  })
-  file.copy(system.file("plumber.R", package = "geoplumber")
-            , file.path(path, "R"))
-  ow <- setwd(path)
-  rename_package.json(basename(path))
-  setwd(ow)
-}

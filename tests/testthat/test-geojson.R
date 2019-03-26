@@ -15,7 +15,7 @@ test_that("geojson works on a geoplumber app path", {
   oldwd <- setwd(temp.dir)
   on.exit(oldwd)
   cat("\n.......\n", "Mocking a geoplumber app\n", list.files(), "\n......\n")
-  cra_init()
+  gp_cra_init()
   expect_true(gp_is_wd_geoplumber())
   Sys.setenv(DO_NOT_PLUMB = 'false')
   # run tests

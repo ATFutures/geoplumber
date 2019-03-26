@@ -135,3 +135,34 @@ gp_npm_exists <- function() {
   check_npm <- system("npm -v", ignore.stdout = TRUE, ignore.stderr = TRUE)
   check_npm == 0 && check_node == 0
 }
+
+#' Simulate CRA without create-react-app
+#'
+#' Because `[gp_create()]` uses the underlying CRA npm package, it is slow.
+#' This function assembles the required npm package files to then build from.
+#'
+#' @inheritParams gp_create
+#' @export
+#' @examples
+#' gp_cra_init(tempdir()) # it would simulate an app in tempdir()
+gp_cra_init <- function(path = getwd()) {
+  if(gp_is_wd_geoplumber())
+    stop("Directory seems to be a gp app already.")
+  if(!dir.exists(path))
+    stop(paste0('Directory ', path, "' does not exist."))
+  # simulate an app
+  dir.create(file.path(path, "R"))
+  # cross platform of doing:
+  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
+  gp_temp_files <- list.files(
+    system.file("js", package="geoplumber"))
+  sapply(gp_temp_files, function(x){
+    file.copy(system.file(file.path("js", x), package = "geoplumber"),
+              path, recursive = TRUE)
+  })
+  file.copy(system.file("plumber.R", package = "geoplumber")
+            , file.path(path, "R"))
+  ow <- setwd(path)
+  rename_package.json(basename(path))
+  setwd(ow)
+}
