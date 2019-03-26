@@ -57,23 +57,31 @@ sudo npm i -g create-react-app
 
 ### npm packages used
 The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.
-```{js, eval=FALSE}
-    "create-react-app"        # main package to manage front end
-    "enzyme"                  # test suite
-    "enzyme-adapter-react-16" # test suite adapter for React
-    "leaflet"                 # main web map tool (future could be different)
-    "prop-types"              # React bits and pieces
-    "react"                   # React
-    "react-bootstrap"         # bootstrap is current choice.
-    "react-dom"               # React
-    "react-leaflet"           # React wrapper around leaflet above
-    "react-leaflet-control"   # React map control
-    "react-router"            # React router (RR) (supporting multuplage, too)
-    "react-router-dom"        # React dom for RR
-    "react-scripts"           # main package to manage front end
-    "react-test-renderer"     # test suite
-    "sinon"                   # test suite
+
+```{r, echo=FALSE}
+data <- read.csv(text=
+    "package                , Usage
+    create-react-app        , main package to manage front end
+    enzyme                  , test suite
+    enzyme-adapter-react-16 , test suite adapter for React
+    leaflet                 , current default web mapping library 
+    prop-types              , React bits and pieces
+    react                   , React
+    react-bootstrap         , bootstrap is current choice.
+    react-dom               , React
+    react-leaflet           , React wrapper around leaflet above
+    react-leaflet-control   , React map control
+    react-router            , React router (RR) 
+    react-router-dom        , React dom for RR
+    react-scripts           , main package to manage front end
+    react-test-renderer     , test suite
+    sinon                   , test suite")
 ```
+
+```{r kable-npm}
+knitr::kable(data)
+```
+
 
 ## Usage
 * For more detailed introduction see the [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)*
