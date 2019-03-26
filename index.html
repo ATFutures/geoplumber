@@ -85,53 +85,19 @@
 <p>In other words, geoplumber is a lightweight geographic data server, like a barebones version of <a href="http://geoserver.org/">GeoServer</a> but with a smaller footprint (&lt; 5MB rather than &gt; 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.</p>
 <p>It can be installed with the following command as it is not yet on CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"ATFutures/geoplumber"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Downloading GitHub repo ATFutures/geoplumber@master</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   </span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">   checking <span class="cf">for</span> file ‘<span class="op">/</span>tmp<span class="op">/</span>Rtmpz9qV6E<span class="op">/</span>remotes5038522c1d10<span class="op">/</span>ATFutures<span class="op">-</span>geoplumber<span class="op">-</span>6f1a6e8<span class="op">/</span>DESCRIPTION’ ...</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">  </a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">✔  checking <span class="cf">for</span> file ‘<span class="op">/</span>tmp<span class="op">/</span>Rtmpz9qV6E<span class="op">/</span>remotes5038522c1d10<span class="op">/</span>ATFutures<span class="op">-</span>geoplumber<span class="op">-</span>6f1a6e8<span class="op">/</span>DESCRIPTION’</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">  </a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">─  preparing ‘geoplumber’<span class="op">:</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="st">   </span>checking DESCRIPTION meta<span class="op">-</span>information ...</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">  </a>
-<a class="sourceLine" id="cb1-15" data-line-number="15">✔  checking DESCRIPTION meta<span class="op">-</span>information</a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">  </a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">─  checking <span class="cf">for</span> LF line<span class="op">-</span>endings <span class="cf">in</span> source and make files and shell scripts</a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20">  </a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">─  checking <span class="cf">for</span> empty or unneeded directories</a>
-<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt;    Removed empty directory ‘geoplumber/data-raw’</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24">  </a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">─  looking to see <span class="cf">if</span> a ‘data<span class="op">/</span>datalist’ file should be added</a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27">  </a>
-<a class="sourceLine" id="cb1-28" data-line-number="28">─  building ‘geoplumber_<span class="dv">0</span>.<span class="fl">1.</span>tar.gz’</a>
-<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30">  </a>
-<a class="sourceLine" id="cb1-31" data-line-number="31">   </a>
-<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-33" data-line-number="33"><span class="co">#&gt; Installing package into '/home/travis/R/Library'</span></a>
-<a class="sourceLine" id="cb1-34" data-line-number="34"><span class="co">#&gt; (as 'lib' is unspecified)</span></a></code></pre></div>
-<div id="development" class="section level2">
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; got the lastest dev version</span></a></code></pre></div>
+<div id="geoplumber-stack" class="section level2">
 <h2 class="hasAnchor">
-<a href="#development" class="anchor"></a>Development</h2>
-<p>geoplumber is built for Unix systems and Windows. Windows support is recent and package tests have only been run on Windows 10. If there are any issues please feel free to open a ticket on the issue tracker.</p>
+<a href="#geoplumber-stack" class="anchor"></a>geoplumber stack</h2>
 <p>We have worked with Shiny and <a href="https://github.com/trestletech/plumber/"><code>plumber</code></a> and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.</p>
-<p>As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook’s <code>create-react-app</code> is. For instructions on installing node on your OS please refer to the <a href="https://nodejs.org/en/download/package-manager/">NodeJS official docs</a>. Currently geoplumber uses Facebook’s <code>create-react-app</code> (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. <code>geoplumber</code> will generally provide detailed installation instructions for all required <code>npm</code> packages, but if not, the following are minimally required:</p>
+<p>Currently geoplumber uses Facebook’s <code>create-react-app</code> (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. <code>geoplumber</code> will generally provide detailed installation instructions for all required <code>npm</code> packages, but if not, the following are minimally required:</p>
 <pre><code>sudo npm i -g create-react-app</code></pre>
 <!-- ## Installation -->
 <!-- Currently repo is available only on github. To install the package using `devtools`: -->
 <!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
-</div>
-<div id="npm-packages-included-by-default" class="section level2">
-<h2 class="hasAnchor">
-<a href="#npm-packages-included-by-default" class="anchor"></a>npm packages included by default</h2>
+<div id="npm-packages-used" class="section level3">
+<h3 class="hasAnchor">
+<a href="#npm-packages-used" class="anchor"></a>npm packages used</h3>
 <p>The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" data-line-number="1">    <span class="st">"create-react-app"</span>        # main <span class="im">package</span> to manage front end</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="st">"enzyme"</span>                  # test suite</a>
@@ -148,6 +114,7 @@
 <a class="sourceLine" id="cb3-13" data-line-number="13">    <span class="st">"react-scripts"</span>           # main <span class="im">package</span> to manage front end</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14">    <span class="st">"react-test-renderer"</span>     # test suite</a>
 <a class="sourceLine" id="cb3-15" data-line-number="15">    <span class="st">"sinon"</span>                   # test suite</a></code></pre></div>
+</div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -174,9 +141,9 @@
 <p>Once the geoplumber app <code>my_app</code> has been created. It will have a <code>create-react-app</code> directory structure with an extra <code>R</code> folder to hold the backend R code. The React components, as they are in CRA apps, are in the <code>src</code> folder and ready to be customised and developed for your own purposes. So, a React developer could run <code>npm start</code> on the root directory and run the built in CRA development server which is what <code><a href="reference/gp_plumb_front.html">gp_plumb_front()</a></code> does too.</p>
 </div>
 </div>
-<div id="use-case-1" class="section level2">
+<div id="example-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-case-1" class="anchor"></a>Use case (1)</h2>
+<a href="#example-1" class="anchor"></a>Example (1)</h2>
 <p>Serve the <code><a href="reference/traffic.html">geoplumber::traffic</a></code> dataset (data.frame) at a “/api/data” endpoint, and view it on the front end.</p>
 <p>The <code>traffic</code> <a href="https://data.cdrc.ac.uk/dataset/southwark-traffic-counts">dataset</a> is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.</p>
 <p>To achive this copy the following endpoint/API to the clipboard of your machine. If you like to understand the function, you need to learn <code>plumber</code> package.</p>
@@ -215,9 +182,9 @@
 </div>
 <p>You can also now see the raw JSON dataset at <code>http://localhost:8000/api/data</code>, and on a map on a browser view the map at <code>http://localhost:8000</code>.</p>
 </div>
-<div id="use-case-2" class="section level2">
+<div id="example-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-case-2" class="anchor"></a>Use case (2)</h2>
+<a href="#example-2" class="anchor"></a>Example (2)</h2>
 <p>We would like to see default University of Leeds <code>uni_poly</code> grow/shrink using <code><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">sf::st_buffer()</a></code> function. Here is a reproducible example (please take a look at the default <code>plumber.R</code> file in your <code>my_app</code> project):</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="reference/gp_create.html">gp_create</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/chartr">tolower</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()))</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/chartr">tolower</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()))</a>
@@ -244,6 +211,11 @@ Now you can see (latest version is slightly improved than following GIF):
 geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side.
 </p>
 </div>
+</div>
+<div id="showcase" class="section level2">
+<h2 class="hasAnchor">
+<a href="#showcase" class="anchor"></a>Showcase</h2>
+<p>An example application is deployed at <a href="www.geoplumber.com" class="uri">www.geoplumber.com</a>. It showcases some zone and flow data using both <code>LeafletJS</code> and <code>MapboxGL</code> both in React. The application is dockerised automating the production and deployment.</p>
 </div>
 <div id="end-points" class="section level2">
 <h2 class="hasAnchor">
