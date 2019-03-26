@@ -88,7 +88,7 @@ Sys.setenv(CLIPR_ALLOW=TRUE)
 ```
 Let us use a helper function from `geoplumber` called `gp_endpoint_from_clip`:
 
-```{r gp_endpoint_from_clip}
+```{r gp_endpoint_from_clip, eval=FALSE}
 ow <- setwd(path)
 old_clip <- clipr::read_clip()
 # adding below to clipboard

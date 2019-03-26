@@ -1,5 +1,5 @@
 Package: geoplumber
-Title: Geospatial applications with R and frontend libraries.
+Title: Geospatial applications with R and frontend libraries
 Version: 0.1
 Authors@R: c(
     person("Layik", "Hama", email = "layik.hama@gmail.com", 
