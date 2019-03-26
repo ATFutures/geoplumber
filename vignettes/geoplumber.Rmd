@@ -63,11 +63,93 @@ response <- r$endpoints[[1]][[1]]$exec()
 response$msg # it should be: "The message is: 'nothing given'"
 ```
 
-Now, we can install the required dependancies of the npm package and run the application using
+### serve data
+
+This is the last lines of the `R/plumber.R` file, as stated above, makes up the backend:
+
+```{r cat-plumber.R}
+ow <- setwd(path)
+tail(readLines("R/plumber.R"))
+```
+
+We can add the following to the end of the file and rerun `gp_plumb`:
+```{r eval=FALSE}
+#' Serve geoplumber::traffic from /api/data
+#' @get /api/data
+get_traffic <- function(res) {
+  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
+  res$body <- geojson
+  res
+}
+```
+
+```{r hidden2, echo=FALSE}
+Sys.setenv(CLIPR_ALLOW=TRUE)
+```
+Let us use a helper function from `geoplumber` called `gp_endpoint_from_clip`:
+
+```{r gp_endpoint_from_clip}
+ow <- setwd(path)
+old_clip <- clipr::read_clip()
+# adding below to clipboard
+clipr::write_clip(c(
+ "#' Serve geoplumber::traffic from /api/data",
+ "#' @get /api/data",
+ "get_traffic <- function(res) {",
+ "  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)",
+ "  res$body <- geojson",
+ "  res",
+ "}"
+ ))
+gp_endpoint_from_clip()
+clipr::write_clip(old_clip)
+```
+check if that worked:
+```{r cat-plumber.R2}
+ow <- setwd(path)
+tail(readLines("R/plumber.R"))
+```
+
+That did work. Now, we should have an extra endpoint:
+```{r plumber.R3, message=FALSE}
+# we must change dir into a gp path
+ow <- setwd(path)
+r <- gp_plumb(run = FALSE)
+length(r$endpoints[[1]]) # it should now be 6
+```
+
+Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run `gp_plumb`, you should now have `geojson` object returned to you if you visist `localhost:8000/api/data` URL on your browser or `curl` it.
+
+What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called `gp_add_geojson` which takes a URL and can "render" the data from it:
+
+```{r gp_add_geojson}
+ow <- setwd(path)
+gp_add_geojson(endpoint = "/api/data") # which is the default
+```
+A peek into the main React component called "Welcome" to see if we have a component called `GeoJSONComponent`:
+```{r cat-plumber.R3}
+ow <- setwd(path)
+tail(readLines("src/Welcome.js"))
+```
+
+Yep, that looks good. We are now ready to build our front end and consume the data served from the R backend:
+
+```{r npm-i, eval=FALSE}
+ow <- setwd(path)
+gp_build()
+## Running: npm run build
+## Looks like first run, installing npm packages...
+## Running: gp_npm_install()
+## Now trying to build: npm run build
+## Standard output from create-react-app above works.
+## To run the geoplumber app: gp_plumb()
+```
+
+Now, we have installed the required dependancies of the npm package and we can run the application using:
 
 ```{r finally, eval=FALSE}
 gp_plumb()
-# and visiting localhost:8000
+# visit localhost:8000 to see the application
 ```
 
 ## Analysing an sf object
