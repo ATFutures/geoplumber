@@ -74,7 +74,7 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
 #' Export geojson object on a map.
 #'
 #'
-#' @param geojson_url character: URL or path to read geojson from
+#' @param x character or sf object: URL or sf object to view on map
 #' @param browse_map logical: should the outcome be viewed in a browser?
 #' defaults to `TRUE`
 #'
@@ -83,24 +83,29 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
 #' "fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"), browse_map = FALSE)
 #' }
 #' @export
-gp_map <- function(geojson_url, browse_map = TRUE) {
-  if(missing(geojson_url))
-    stop("gp_map needs a geojson_url to pull data from.")
+gp_map <- function(x, browse_map = TRUE) {
+  if(missing(x))
+    stop("gp_map needs either a URL or sf object to pull data from.")
   result <- readLines(system.file("geoplumber.html", package = "geoplumber"))
-  geojson <- "null"
-  # superficial test
-  if(!endsWith(geojson_url, ".geojson"))
-    stop("Is given geojson_url a json or geojson file?")
+  geojson <- x
+  geojson_name <- deparse(substitute(x)) # provisional
   prefix <- "gp_map_"
-  geojson <- geojsonsf::geojson_sf(geojson_url)
+  # file or object?
+  if(!is(x, "sf")) {
+    # superficial test
+    if(!endsWith(x, ".geojson"))
+      stop("Is given x a json or geojson file?")
+    geojson <- geojsonsf::geojson_sf(x)
+    geojson_name <- basename(x)
+  }
   if(!nrow(geojson) > 0)
-    stop("Invalid geojson_url given or file is corrupt.")
+    stop("Invalid object given or file is corrupt.")
   geojson <- geojsonsf::sf_geojson(geojson)
   # increment
   list <- list.files(tempdir(), pattern = prefix)
   n <- length(list)
   path <- file.path(tempdir(),
-                    paste0(prefix, basename(geojson_url), n,".html"))
+                    paste0(prefix, geojson_name, n,".html"))
   result <- add_lines(
     result,                  # target
     "const geojson = null;", # pattern

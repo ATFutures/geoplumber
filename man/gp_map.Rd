@@ -4,10 +4,10 @@
 \alias{gp_map}
 \title{Export geojson object on a map.}
 \usage{
-gp_map(geojson_url, browse_map = TRUE)
+gp_map(x, browse_map = TRUE)
 }
 \arguments{
-\item{geojson_url}{character: URL or path to read geojson from}
+\item{x}{character or sf object: URL or sf object to view on map}
 
 \item{browse_map}{logical: should the outcome be viewed in a browser?
 defaults to \code{TRUE}}
