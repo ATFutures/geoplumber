@@ -13,25 +13,22 @@ It can be installed with the following command as it is not yet on CRAN:
 
 ``` r
 devtools::install_github("ATFutures/geoplumber")
-#> Downloading GitHub repo ATFutures/geoplumber@master
+#> got the lastest dev version
 ```
 
-Development
------------
-
-geoplumber is built for Unix systems and Windows. Windows support is recent and package tests have only been run on Windows 10. If there are any issues please feel free to open a ticket on the issue tracker.
+geoplumber stack
+----------------
 
 We have worked with Shiny and [`plumber`](https://github.com/trestletech/plumber/) and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.
 
-As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/). Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
+Currently geoplumber uses Facebook's `create-react-app` (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. `geoplumber` will generally provide detailed installation instructions for all required `npm` packages, but if not, the following are minimally required:
 
     sudo npm i -g create-react-app
 
 <!-- ## Installation -->
 <!-- Currently repo is available only on github. To install the package using `devtools`: -->
 <!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
-npm packages included by default
---------------------------------
+### npm packages used
 
 The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.
 
@@ -90,8 +87,8 @@ Then visit `localhost:8000` to see your app.
 
 Once the geoplumber app `my_app` has been created. It will have a `create-react-app` directory structure with an extra `R` folder to hold the backend R code. The React components, as they are in CRA apps, are in the `src` folder and ready to be customised and developed for your own purposes. So, a React developer could run `npm start` on the root directory and run the built in CRA development server which is what `gp_plumb_front()` does too.
 
-Use case (1)
-------------
+Example (1)
+-----------
 
 Serve the `geoplumber::traffic` dataset (data.frame) at a "/api/data" endpoint, and view it on the front end.
 
@@ -149,8 +146,8 @@ gp_plumb()
 
 You can also now see the raw JSON dataset at `http://localhost:8000/api/data`, and on a map on a browser view the map at `http://localhost:8000`.
 
-Use case (2)
-------------
+Example (2)
+-----------
 
 We would like to see default University of Leeds `uni_poly` grow/shrink using `sf::st_buffer()` function. Here is a reproducible example (please take a look at the default `plumber.R` file in your `my_app` project):
 
@@ -185,6 +182,11 @@ Now you can see (latest version is slightly improved than following GIF):
 <p class="caption">
 geoplumber::uni\_poly grow/shrinking using sf::st\_buffer function on server side.
 </p>
+
+Showcase
+--------
+
+An example application is deployed at [www.geoplumber.com](www.geoplumber.com). It showcases some zone and flow data using both `LeafletJS` and `MapboxGL` both in React. The application is dockerised automating the production and deployment.
 
 End-points
 ----------
