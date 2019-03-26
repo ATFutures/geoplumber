@@ -1,6 +1,6 @@
 Package: geoplumber
-Title: Facilitate interactive geospatial web apps
-Version: 0.0.0.9000
+Title: Geospatial applications with R and frontend libraries.
+Version: 0.1
 Authors@R: c(
     person("Layik", "Hama", email = "layik.hama@gmail.com", 
     role = c("aut", "cre")),
@@ -11,7 +11,11 @@ Description: Utilize the power of R and ReactJS to build web applications.
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
+URL: https://atfutures.github.com/geoplumber
+BugReports: https://github.com/ATFutures/geoplumber/issues
 LazyData: true
+Imports: 
+    plumber,
 Suggests: 
     clipr,
     geojsonsf (>= 1.2),
@@ -23,7 +27,6 @@ Suggests:
     remotes,
     htmltools
 RoxygenNote: 6.1.1
-Imports: 
-    plumber,
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Language: en-GB
