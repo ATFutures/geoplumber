@@ -15,6 +15,35 @@ It can be installed with the following command as it is not yet on CRAN:
 devtools::install_github("ATFutures/geoplumber")
 #> Downloading GitHub repo ATFutures/geoplumber@master
 #> 
+#>   
+   checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpoimyRf/remotes40cd3d10ec3e/ATFutures-geoplumber-238fac8/DESCRIPTION’ ...
+  
+✔  checking for file ‘/private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/RtmpoimyRf/remotes40cd3d10ec3e/ATFutures-geoplumber-238fac8/DESCRIPTION’
+#> 
+  
+─  preparing ‘geoplumber’:
+#> 
+  
+   checking DESCRIPTION meta-information ...
+  
+✔  checking DESCRIPTION meta-information
+#> 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+#> 
+  
+─  checking for empty or unneeded directories
+#>    Removed empty directory ‘geoplumber/data-raw’
+#> 
+  
+─  looking to see if a ‘data/datalist’ file should be added
+#> 
+  
+─  building ‘geoplumber_0.1.tar.gz’
+#> 
+  
+   
+#> 
 ```
 
 Development
@@ -57,18 +86,13 @@ The following are included by default, the versions are just from old .Rmd file.
 Usage
 -----
 
+-   For more detailed introduction see the [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)\*
+
 To create a new web application:
 
 ``` r
 library(geoplumber)
 gp_create("my_app")
-#> Initializing project at: /private/var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T/Rtmpe38Umv/my_app
-#> To build/run app, set working directory to: my_app
-#> Standard output from create-react-app above works.
-#> You can run gp_ functions from directory: my_app
-#> To build the front end run: gp_build()
-#> To run the geoplumber app: gp_plumb()
-#> Happy coding.
 ```
 
 This will create a `my_app` folder at your current working directory. Suppose you started an R session from a folder with path `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine.
@@ -84,12 +108,6 @@ You can then build the new project
 ``` r
 setwd("my_app")
 gp_build() # the front end and create minified js files.
-#> Running: npm run build
-#> Looks like first run, installing npm packages...
-#> Running: gp_npm_install()
-#> Now trying to build: npm run build
-#> Standard output from create-react-app above works.
-#> To run the geoplumber app: gp_plumb()
 ```
 
 Please note, `gp_build()` produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development "serve" function which would use `gp_plumb_front()` but would have to also use `gp_plumb()` to serve the backend.
@@ -137,20 +155,6 @@ clipr::write_clip(c(
  "}"
  ))
 gp_endpoint_from_clip()
-#> Clipboard contents: 
-#> ------begin----
-#> #' Serve geoplumber::traffic from /api/data
-#> #' @get /api/data
-#> get_traffic <- function(res) {
-#>   geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
-#>   res$body <- geojson
-#>   res
-#> }
-#> -----end-----
-#> Success.
-#> Please restart your server: gp_plumb()
-#> Success.
-#> Please restart your server: gp_plumb()
 clipr::write_clip(old_clip)
 ```
 
@@ -159,8 +163,6 @@ This has now added a new endpoint at: `/api/data`. To consume it, we can simply 
 ``` r
 setwd("my_app")
 gp_add_geojson("/api/data") # param value is default
-#> Remember to rebuild frontend: gp_build()
-#> Success.
 ```
 
 You can now see the data by running:

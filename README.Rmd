@@ -78,6 +78,7 @@ The following are included by default, the versions are just from old .Rmd file.
 ```
 
 ## Usage
+* For more detailed introduction see the [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)*
 
 To create a new web application:
 ```{r hidden1, echo=FALSE, eval=TRUE}
