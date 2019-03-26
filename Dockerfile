@@ -19,12 +19,9 @@ RUN apt-get update \
     libsqlite3-dev \
     libssl-dev \
     netcdf-bin \
-    tk-dev \
     unixodbc-dev \
     libprotobuf-dev \
-    protobuf-compiler \
-    libcurl4 \
-    curl
+    protobuf-compiler
 
 RUN install2.r geojsonsf
 RUN install2.r sf
