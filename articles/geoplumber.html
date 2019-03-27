@@ -481,6 +481,66 @@
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># visit localhost:8000 to see the application</span></a></code></pre></div>
 </div>
 </div>
+<div id="adding-colour-and-linewidth-to-a-remote-geojson-data-" class="section level2">
+<h2 class="hasAnchor">
+<a href="#adding-colour-and-linewidth-to-a-remote-geojson-data-" class="anchor"></a>Adding colour and linewidth to a remote geojson data.</h2>
+<p>There is a geojson <a href="https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_rivers_lake_centerlines.geojson">file</a> which includes world’s rivers. Please run this example remembering to have <code>colourvalues</code> R package.</p>
+<p>We can read it into a dataframe, add a “colour” column, then add another “lwd” column and tell <code>geoplumber</code> to use them to colour and draw them accordingly.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">path =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"rivers"</span>) <span class="co"># new geoplumber app </span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(path)</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw"><a href="../reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>(path)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="kw"><a href="../reference/gp_cra_init.html">gp_cra_init</a></span>(<span class="dt">path =</span> path)</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="kw"><a href="../reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>(path)</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">od =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="co"># adding the necessary code to the plumber.R file.</span></a>
+<a class="sourceLine" id="cb32-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/write">write</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#' Rivers example"</span>, </a>
+<a class="sourceLine" id="cb32-13" data-line-number="13">        <span class="st">"rivers &lt;- geojsonsf::geojson_sf('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_rivers_lake_centerlines.geojson')"</span>,</a>
+<a class="sourceLine" id="cb32-14" data-line-number="14">        <span class="st">"rivers &lt;- rivers[, c('name', 'geometry')]"</span>,</a>
+<a class="sourceLine" id="cb32-15" data-line-number="15">        <span class="st">"n &lt;- nrow(rivers)"</span>,</a>
+<a class="sourceLine" id="cb32-16" data-line-number="16">        <span class="st">"m &lt;- grDevices::colorRamp(c('red', 'green'))( (1:n)/n )"</span>,</a>
+<a class="sourceLine" id="cb32-17" data-line-number="17">        <span class="st">"rivers$col &lt;- colourvalues::colour_values(rivers$name, palette = m, include_alpha = F)"</span>,</a>
+<a class="sourceLine" id="cb32-18" data-line-number="18">        <span class="st">"rivers$lwd &lt;- seq(5, 8, 0.5)"</span>,</a>
+<a class="sourceLine" id="cb32-19" data-line-number="19">        <span class="st">"#' now serve `rivers` object from /api/rivers"</span>,</a>
+<a class="sourceLine" id="cb32-20" data-line-number="20">        <span class="st">"#' @get /api/rivers"</span>,</a>
+<a class="sourceLine" id="cb32-21" data-line-number="21">        <span class="st">"get_rivers &lt;- function(res) {"</span>,</a>
+<a class="sourceLine" id="cb32-22" data-line-number="22">        <span class="st">"geojson &lt;- geojsonsf::sf_geojson(rivers, factors_as_string = TRUE)"</span>,</a>
+<a class="sourceLine" id="cb32-23" data-line-number="23">        <span class="st">"res$body &lt;- geojson"</span>,</a>
+<a class="sourceLine" id="cb32-24" data-line-number="24">        <span class="st">"res"</span>,</a>
+<a class="sourceLine" id="cb32-25" data-line-number="25">        <span class="st">"}"</span>), <span class="dt">file =</span> <span class="st">"R/plumber.R"</span>, <span class="dt">append =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb32-26" data-line-number="26"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a>
+<a class="sourceLine" id="cb32-27" data-line-number="27"><span class="co">#&gt; [1] "#' @get /api/rivers"                                               </span></a>
+<a class="sourceLine" id="cb32-28" data-line-number="28"><span class="co">#&gt; [2] "get_rivers &lt;- function(res) {"                                     </span></a>
+<a class="sourceLine" id="cb32-29" data-line-number="29"><span class="co">#&gt; [3] "geojson &lt;- geojsonsf::sf_geojson(rivers, factors_as_string = TRUE)"</span></a>
+<a class="sourceLine" id="cb32-30" data-line-number="30"><span class="co">#&gt; [4] "res$body &lt;- geojson"                                               </span></a>
+<a class="sourceLine" id="cb32-31" data-line-number="31"><span class="co">#&gt; [5] "res"                                                               </span></a>
+<a class="sourceLine" id="cb32-32" data-line-number="32"><span class="co">#&gt; [6] "}"</span></a>
+<a class="sourceLine" id="cb32-33" data-line-number="33"><span class="kw"><a href="../reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="dt">endpoint =</span> <span class="st">"/api/rivers"</span>,</a>
+<a class="sourceLine" id="cb32-34" data-line-number="34">               <span class="dt">color =</span> <span class="st">"col"</span>, <span class="co"># matching above rivers$col</span></a>
+<a class="sourceLine" id="cb32-35" data-line-number="35">               <span class="dt">line_weight =</span> <span class="st">"lwd"</span>,</a>
+<a class="sourceLine" id="cb32-36" data-line-number="36">               <span class="dt">properties =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb32-37" data-line-number="37"><span class="co">#&gt; Remember to rebuild frontend: gp_build()</span></a>
+<a class="sourceLine" id="cb32-38" data-line-number="38"><span class="co">#&gt; Success.</span></a>
+<a class="sourceLine" id="cb32-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb32-40" data-line-number="40"><span class="kw"><a href="../reference/gp_build.html">gp_build</a></span>()</a>
+<a class="sourceLine" id="cb32-41" data-line-number="41"><span class="co">#&gt; Running: npm run build</span></a>
+<a class="sourceLine" id="cb32-42" data-line-number="42"><span class="co">#&gt; Looks like first run, installing npm packages...</span></a>
+<a class="sourceLine" id="cb32-43" data-line-number="43"><span class="co">#&gt; Running: gp_npm_install()</span></a>
+<a class="sourceLine" id="cb32-44" data-line-number="44"><span class="co">#&gt; Now trying to build: npm run build</span></a>
+<a class="sourceLine" id="cb32-45" data-line-number="45"><span class="co">#&gt; Standard output from create-react-app above works.</span></a>
+<a class="sourceLine" id="cb32-46" data-line-number="46"><span class="co">#&gt; To run the geoplumber app: gp_plumb()</span></a>
+<a class="sourceLine" id="cb32-47" data-line-number="47"><span class="co"># gp_plumb()</span></a>
+<a class="sourceLine" id="cb32-48" data-line-number="48"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(od)</a></code></pre></div>
+If you now run the <code>gp_plumb</code> function you should see something similar to the following image in your browser. The reason, you could guess, is that the front end JavaScript code takes into account a colour value and also passes the <code>lwd</code> to the appropriate styling to the underlying Leaflet API.
+<div class="figure">
+<img src="https://user-images.githubusercontent.com/408568/52061758-f80cef80-2566-11e9-9a0c-d9db6aa044a9.png" alt="World's rivers coloured and random linewidth assigned using code in above chunk" width="100%"><p class="caption">
+World’s rivers coloured and random linewidth assigned using code in above chunk
+</p>
+</div>
+</div>
 <div id="analysing-an-sf-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysing-an-sf-object" class="anchor"></a>Analysing an sf object</h2>
@@ -502,6 +562,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#getting-started">Getting started</a></li>
+      <li><a href="#adding-colour-and-linewidth-to-a-remote-geojson-data-">Adding colour and linewidth to a remote geojson data.</a></li>
       <li><a href="#analysing-an-sf-object">Analysing an sf object</a></li>
       <li><a href="#adding-front-end-react-components">Adding front end React components</a></li>
       <li><a href="#underlying-stack">Underlying stack</a></li>
