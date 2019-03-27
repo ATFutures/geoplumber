@@ -2,10 +2,12 @@ Package: geoplumber
 Title: Geospatial applications with R and frontend libraries
 Version: 0.1
 Authors@R: c(
-    person("Layik", "Hama", email = "layik.hama@gmail.com", 
-    role = c("aut", "cre")),
-    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("ctb")),
-    person("Mark", "Padgham", email="mark.padgham@email.com", role=c("ctb"))
+    person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0003-1912-4890")),
+    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("ctb"),
+      comment = c(ORCID = "0000-0001-5679-6536")),
+    person("Mark", "Padgham", role=c("ctb"),
+     comment = c(ORCID = "0000-0003-2172-5265"))
   )
 Description: Utilize the power of R and ReactJS to build web applications.
 Depends: R (>= 3.4.0)
