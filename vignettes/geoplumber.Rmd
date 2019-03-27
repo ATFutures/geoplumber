@@ -47,7 +47,16 @@ list.files(path)
 list.files(file.path(path, "R"))
 ```
 
-The `R/plumber.R` is the only backend script that would be executed ina fresh geoplumber app. Using the underlying `plumber` package, we can inspect what is in the `R/plumber.R` file:
+Quickly, the `package.json` file is standard `yarn` or `npm` node package file where various settings live for Node to manager our package, as the directory is now a valid node package. The `public` is the static "public" directory for `css`, custom `js` and conventionally the entry point `index.html` to live and in future possibly for our deployed front-end to live. Finally, the `src` is where all React components and our `geoplumber` front-end will be built from. Again, this could all change as `geoplumber` flourishes.
+
+Quick peek:
+
+```{r src-list}
+list.files(file.path(path, "src"))
+```
+
+
+The `R/plumber.R` is the only backend script that would be executed in a fresh geoplumber app. This could change, based on the documentations in [`plumber`](https://www.rplumber.io) and also as `geoplumber` grows. Using the underlying `plumber` package, we can inspect what is in the `R/plumber.R` file:
 
 ```{r plumber.R}
 # we must change dir into a gp path
