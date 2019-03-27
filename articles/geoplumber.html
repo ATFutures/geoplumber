@@ -379,25 +379,33 @@
 <pre><code>## [1] "package.json" "public"       "R"            "src"</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(path, <span class="st">"R"</span>))</a></code></pre></div>
 <pre><code>## [1] "plumber.R"</code></pre>
-<p>The <code>R/plumber.R</code> is the only backend script that would be executed ina fresh geoplumber app. Using the underlying <code>plumber</code> package, we can inspect what is in the <code>R/plumber.R</code> file:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># we must change dir into a gp path</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Quickly, the <code>package.json</code> file is standard <code>yarn</code> or <code>npm</code> node package file where various settings live for Node to manager our package, as the directory is now a valid node package. The <code>public</code> is the static “public” directory for <code>css</code>, custom <code>js</code> and conventionally the entry point <code>index.html</code> to live and in future possibly for our deployed front-end to live. Finally, the <code>src</code> is where all React components and our <code>geoplumber</code> front-end will be built from. Again, this could all change as <code>geoplumber</code> flourishes.</p>
+<p>Quick peek:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(path, <span class="st">"src"</span>))</a></code></pre></div>
+<pre><code>##  [1] "App.css"                  "App.js"                  
+##  [3] "App.test.js"              "components"              
+##  [5] "img"                      "index.js"                
+##  [7] "logo.svg"                 "registerServiceWorker.js"
+##  [9] "utils.js"                 "Welcome.js"</code></pre>
+<p>The <code>R/plumber.R</code> is the only backend script that would be executed in a fresh geoplumber app. This could change, based on the documentations in <a href="https://www.rplumber.io"><code>plumber</code></a> and also as <code>geoplumber</code> grows. Using the underlying <code>plumber</code> package, we can inspect what is in the <code>R/plumber.R</code> file:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># we must change dir into a gp path</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## WARNING:
 ## Looks like geoplumber was not built, serveing API only.
 ## To serve the front end run gp_build() first.</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should be 5</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should be 5</span></a></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <p>There is a default endpoint where a message is echoed by the server, we can test this using:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">response &lt;-<span class="st"> </span>r<span class="op">$</span>endpoints[[<span class="dv">1</span>]][[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">exec</span>()</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">response<span class="op">$</span>msg <span class="co"># it should be: "The message is: 'nothing given'"</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">response &lt;-<span class="st"> </span>r<span class="op">$</span>endpoints[[<span class="dv">1</span>]][[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">exec</span>()</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">response<span class="op">$</span>msg <span class="co"># it should be: "The message is: 'nothing given'"</span></a></code></pre></div>
 <pre><code>## [1] "The message is: 'nothing given'"</code></pre>
 <div id="serve-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#serve-data" class="anchor"></a>serve data</h3>
 <p>This is the last lines of the <code>R/plumber.R</code> file, as stated above, makes up the backend:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a></code></pre></div>
 <pre><code>## [1] ""                                                                    
 ## [2] "#' Tell plumber where our public facing directory is to SERVE."      
 ## [3] "#' No need to map / to the build or public index.html. This will do."
@@ -405,33 +413,33 @@
 ## [5] "#' @assets ./build /"                                                
 ## [6] "list()"</code></pre>
 <p>We can add the following to the end of the file and rerun <code>gp_plumb</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">#' Serve geoplumber::traffic from /api/data</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#' @get /api/data</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">get_traffic &lt;-<span class="st"> </span><span class="cf">function</span>(res) {</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">  geojson &lt;-<span class="st"> </span>geojsonsf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(geoplumber<span class="op">::</span>traffic)</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">  res<span class="op">$</span>body &lt;-<span class="st"> </span>geojson</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">  res</a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">#' Serve geoplumber::traffic from /api/data</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#' @get /api/data</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">get_traffic &lt;-<span class="st"> </span><span class="cf">function</span>(res) {</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">  geojson &lt;-<span class="st"> </span>geojsonsf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(geoplumber<span class="op">::</span>traffic)</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">  res<span class="op">$</span>body &lt;-<span class="st"> </span>geojson</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">  res</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">}</a></code></pre></div>
 <p>Let us use a helper function from <code>geoplumber</code> called <code>gp_endpoint_from_clip</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">old_clip &lt;-<span class="st"> </span>clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/read_clip">read_clip</a></span>()</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co"># adding below to clipboard</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"> <span class="st">"#' vignette added endpoint"</span>,</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"> <span class="st">"#'"</span>,</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"> <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"> <span class="st">"#' @get /api/data"</span>,</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"> <span class="st">"get_traffic &lt;- function(res) {"</span>,</a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"> <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,</a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"> <span class="st">"  res$body &lt;- geojson"</span>,</a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"> <span class="st">"  res"</span>,</a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"> <span class="st">"}"</span></a>
-<a class="sourceLine" id="cb18-14" data-line-number="14"> ))</a>
-<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="kw"><a href="../reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()</a>
-<a class="sourceLine" id="cb18-16" data-line-number="16">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(old_clip)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">old_clip &lt;-<span class="st"> </span>clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/read_clip">read_clip</a></span>()</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co"># adding below to clipboard</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"> <span class="st">"#' vignette added endpoint"</span>,</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"> <span class="st">"#'"</span>,</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"> <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"> <span class="st">"#' @get /api/data"</span>,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"> <span class="st">"get_traffic &lt;- function(res) {"</span>,</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"> <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"> <span class="st">"  res$body &lt;- geojson"</span>,</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"> <span class="st">"  res"</span>,</a>
+<a class="sourceLine" id="cb20-13" data-line-number="13"> <span class="st">"}"</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14"> ))</a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="kw"><a href="../reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()</a>
+<a class="sourceLine" id="cb20-16" data-line-number="16">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(old_clip)</a></code></pre></div>
 <p>check if that worked:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a></code></pre></div>
 <pre><code>## [1] "#' @get /api/data"                                      
 ## [2] "get_traffic &lt;- function(res) {"                         
 ## [3] "  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"
@@ -439,20 +447,20 @@
 ## [5] "  res"                                                  
 ## [6] "}"</code></pre>
 <p>That did work. Now, we should have an extra endpoint:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># we must change dir into a gp path</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should now be 6</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># we must change dir into a gp path</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should now be 6</span></a></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run <code>gp_plumb</code>, you should now have <code>geojson</code> object returned to you if you visist <code>localhost:8000/api/data</code> URL on your browser or <code>curl</code> it.</p>
 <p>What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called <code>gp_add_geojson</code> which takes a URL and can “render” the data from it:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="dt">endpoint =</span> <span class="st">"/api/data"</span>) <span class="co"># which is the default</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="dt">endpoint =</span> <span class="st">"/api/data"</span>) <span class="co"># which is the default</span></a></code></pre></div>
 <pre><code>## Remember to rebuild frontend: gp_build()</code></pre>
 <pre><code>## Success.</code></pre>
 <p>A peek into the main React component called “Welcome” to see if we have a component called <code>GeoJSONComponent</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"src/Welcome.js"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"src/Welcome.js"</span>))</a></code></pre></div>
 <pre><code>## [1] "                &lt;GeoJSONComponent style={{color:'#3388ff'}} fetchURL='http://localhost:8000/api/data' map={ this.state.map } /&gt;"
 ## [2] "            &lt;/Map&gt;"                                                                                                             
 ## [3] "        );"                                                                                                                     
@@ -460,17 +468,17 @@
 ## [5] "}"                                                                                                                              
 ## [6] ""</code></pre>
 <p>Yep, that looks good. We are now ready to build our front end and consume the data served from the R backend:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="../reference/gp_build.html">gp_build</a></span>()</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3">## Running: npm run build</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4">## Looks like first run, installing npm packages...</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">## Running: gp_npm_install()</a>
-<a class="sourceLine" id="cb28-6" data-line-number="6">## Now trying to build: npm run build</a>
-<a class="sourceLine" id="cb28-7" data-line-number="7">## Standard output from create-react-app above works.</a>
-<a class="sourceLine" id="cb28-8" data-line-number="8">## To run the geoplumber app: gp_plumb()</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="../reference/gp_build.html">gp_build</a></span>()</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">## Running: npm run build</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">## Looks like first run, installing npm packages...</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">## Running: gp_npm_install()</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">## Now trying to build: npm run build</a>
+<a class="sourceLine" id="cb30-7" data-line-number="7">## Standard output from create-react-app above works.</a>
+<a class="sourceLine" id="cb30-8" data-line-number="8">## To run the geoplumber app: gp_plumb()</a></code></pre></div>
 <p>Now, we have installed the required dependancies of the npm package and we can run the application using:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>()</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co"># visit localhost:8000 to see the application</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>()</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># visit localhost:8000 to see the application</span></a></code></pre></div>
 </div>
 </div>
 <div id="analysing-an-sf-object" class="section level2">
