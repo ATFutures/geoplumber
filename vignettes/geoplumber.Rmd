@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-`geoplumber` depends only on `plumber` package to enable building web applicaitons using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid developmened available skill utilisation choice.
+`geoplumber` depends only on [`plumber`](https://www.rplumber.io) R package to enable building web applicaitons using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid developmened available skill utilisation choice.
 
 Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm.
 

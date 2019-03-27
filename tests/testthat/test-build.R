@@ -22,6 +22,7 @@ test_that("gp_build errs for non geoplumber path", {
 test_that("full create", {
   skip_build()
   gp <- tolower(tempdir())
+  expect_error(gp_rstudio())
   expect_error(gp_rstudio("NOT_GP_DIR"))
   # create full
   dir.create(gp)
@@ -34,7 +35,7 @@ test_that("full create", {
   setwd(proj_dir) # we are in the new app dir
   expect_false(rproj_file_exists(""))
   expect_true(gp_is_wd_geoplumber())
-  # expect_true(gp_rstudio())  #L34
+  gp_rstudio()  #L34
   expect_error(gp_rstudio(""))
   expect_error(gp_rstudio(c(NA,NA)))
   # expect_true(rproj_file_exists())

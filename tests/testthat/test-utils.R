@@ -46,6 +46,10 @@ test_that("add_lines adds line at correct location", {
   dummy <- grep(pattern = "<DummyComp />", v)
   main <- grep(pattern = "</main>", v)
   expect_equal(dummy, main - 1)
+  # add line after
+  v <- add_lines(v, "</main>", "<DummyComp />", before = FALSE)
+  dummy <- grep(pattern = "<DummyComp />", v)
+  expect_equal(dummy[2], main + 1)
 })
 
 test_that("gp_remove_lines removes pattern given from source.", {
@@ -85,7 +89,7 @@ test_that("gp_change_file adds one line", {
   temp.file <- "temp.js"
   write(v, temp.file)
   v <- gp_change_file(temp.file, what = "# dummy __comment__ line",
-                      pattern = "</main>")
+                      pattern = "</main>", verbose = TRUE)
   v <- readLines(temp.file)
   index <- grep("# dummy __comment__ line", v)
   expect_equal(index.main, index) # added before
