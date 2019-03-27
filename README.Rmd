@@ -4,11 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-
-[![Build Status](https://travis-ci.org/ATFutures/geoplumber.svg)](https://travis-ci.org/ATFutures/geoplumber)
-[![codecov](https://codecov.io/gh/ATFutures/geoplumber/branch/master/graph/badge.svg)](https://codecov.io/gh/ATFutures/geoplumber)
-[![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-
+# geoplumber &middot; [![Build Status](https://travis-ci.org/ATFutures/geoplumber.svg)](https://travis-ci.org/ATFutures/geoplumber) [![codecov](https://codecov.io/gh/ATFutures/geoplumber/branch/master/graph/badge.svg)](https://codecov.io/gh/ATFutures/geoplumber) [![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#)
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -21,8 +17,6 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-
-# What is geoplumber?
 
 geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application "framework". It utilizes [`plumber`](https://github.com/trestletech/plumber), which was designed for creating web APIs with R which is Swagger compliant. It supports [React](https://reactjs.org/) frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on [`sf`](https://github.com/r-spatial/sf).
 
