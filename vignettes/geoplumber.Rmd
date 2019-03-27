@@ -12,9 +12,9 @@ vignette: >
 
 Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm.
 
-In terms of npm pacakges, it relies on Facebook's "create-react-app" (CRA) `npm` package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.
+In terms of npm pacakges, it relies on Facebook's ["create-react-app"](https://github.com/facebook/create-react-app) (CRA) `npm` package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.
 
-In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of `leafletjs`. Thanks to `react-leaflet` this is was simple to integrate into a ReactJS app.
+In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of [`Leaflet`](https://leafletjs.com/). Thanks to [`react-leaflet`](https://react-leaflet.js.org/) this was straightforward to integrate into a [ReactJS](https://github.com/facebook/react) app.
 
 ## Getting started
 So given some dataset such as the `traffic` included in this package let us get a web application up and running where we can see some `geojson` data on a map.
