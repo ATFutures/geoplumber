@@ -75,7 +75,7 @@
     <div class="page-header toc-ignore">
       <h1>geoplumber: R package web framework</h1>
             
-            <h4 class="date">2019-03-26</h4>
+            <h4 class="date">2019-03-27</h4>
       
       
       <div class="hidden name"><code>geoplumber.Rmd</code></div>
@@ -102,7 +102,7 @@
 <title>geoplumber front ReactLeaflet standalone example</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script><script src="https://unpkg.com/@babel/standalone/babel.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script><style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script><script src="https://unpkg.com/@babel/standalone/babel.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script><script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script><style>
       body {
         padding: 0;
       }
@@ -169,19 +169,19 @@
       );
       // Base layers
       //  .. OpenStreetMap
-      const osm = {url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' };
+      const osm = {url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png', 
+      attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors' };
       //  .. CartoDB Positron
-      const cartodb = {url: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>' };
+      const cartodb = {url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>' };
       //  .. OSM Toner
-      const toner = {url: 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.' };
+      const toner = {url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+      attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
       //  .. White background
       const white = {url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg=="};
 
-      const terrain = {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', 
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.' };
+      const terrain = {url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', 
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
 
       const basemaps = { 
           "Stamen Terrain": terrain,
@@ -417,31 +417,33 @@
 <a class="sourceLine" id="cb18-2" data-line-number="2">old_clip &lt;-<span class="st"> </span>clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/read_clip">read_clip</a></span>()</a>
 <a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co"># adding below to clipboard</span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"> <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"> <span class="st">"#' @get /api/data"</span>,</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"> <span class="st">"get_traffic &lt;- function(res) {"</span>,</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"> <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"> <span class="st">"  res$body &lt;- geojson"</span>,</a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"> <span class="st">"  res"</span>,</a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"> <span class="st">"}"</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"> ))</a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="kw"><a href="../reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()</a>
-<a class="sourceLine" id="cb18-14" data-line-number="14">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(old_clip)</a></code></pre></div>
+<a class="sourceLine" id="cb18-5" data-line-number="5"> <span class="st">"#' vignette added endpoint"</span>,</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"> <span class="st">"#'"</span>,</a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"> <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,</a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"> <span class="st">"#' @get /api/data"</span>,</a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"> <span class="st">"get_traffic &lt;- function(res) {"</span>,</a>
+<a class="sourceLine" id="cb18-10" data-line-number="10"> <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,</a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"> <span class="st">"  res$body &lt;- geojson"</span>,</a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"> <span class="st">"  res"</span>,</a>
+<a class="sourceLine" id="cb18-13" data-line-number="13"> <span class="st">"}"</span></a>
+<a class="sourceLine" id="cb18-14" data-line-number="14"> ))</a>
+<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="kw"><a href="../reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()</a>
+<a class="sourceLine" id="cb18-16" data-line-number="16">clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/write_clip">write_clip</a></span>(old_clip)</a></code></pre></div>
 <p>check if that worked:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">tail</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</a></code></pre></div>
-<pre><code>## [1] ""                                                                    
-## [2] "#' Tell plumber where our public facing directory is to SERVE."      
-## [3] "#' No need to map / to the build or public index.html. This will do."
-## [4] "#'"                                                                  
-## [5] "#' @assets ./build /"                                                
-## [6] "list()"</code></pre>
+<pre><code>## [1] "#' @get /api/data"                                      
+## [2] "get_traffic &lt;- function(res) {"                         
+## [3] "  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"
+## [4] "  res$body &lt;- geojson"                                  
+## [5] "  res"                                                  
+## [6] "}"</code></pre>
 <p>That did work. Now, we should have an extra endpoint:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># we must change dir into a gp path</span></a>
 <a class="sourceLine" id="cb21-2" data-line-number="2">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
 <a class="sourceLine" id="cb21-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should now be 6</span></a></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 6</code></pre>
 <p>Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run <code>gp_plumb</code>, you should now have <code>geojson</code> object returned to you if you visist <code>localhost:8000/api/data</code> URL on your browser or <code>curl</code> it.</p>
 <p>What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called <code>gp_add_geojson</code> which takes a URL and can “render” the data from it:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
