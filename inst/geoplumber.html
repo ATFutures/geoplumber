@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script>
+    <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
     <style>
       body {
         padding: 0;
@@ -85,19 +86,19 @@
       );
       // Base layers
       //  .. OpenStreetMap
-      const osm = {url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' };
+      const osm = {url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png', 
+      attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors' };
       //  .. CartoDB Positron
-      const cartodb = {url: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>' };
+      const cartodb = {url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>' };
       //  .. OSM Toner
-      const toner = {url: 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.' };
+      const toner = {url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+      attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
       //  .. White background
       const white = {url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg=="};
 
-      const terrain = {url: 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', 
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.' };
+      const terrain = {url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', 
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
 
       const basemaps = { 
           "Stamen Terrain": terrain,
