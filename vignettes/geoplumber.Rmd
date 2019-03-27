@@ -83,8 +83,25 @@ get_traffic <- function(res) {
 }
 ```
 
-```{r hidden2, echo=FALSE}
-Sys.setenv(CLIPR_ALLOW=TRUE)
+```{r hidden2, echo=FALSE, message=FALSE, results=FALSE}
+ow <- setwd(path)
+plumberR <- "R/plumber.R"
+if(!file.exists(plumberR)) {
+  stop("Error: cannot find R/plumber.R file.")
+}
+# write
+endpoint <- c(
+ "#' vignette added endpoint",
+ "#'",
+ "#' Serve geoplumber::traffic from /api/data",
+ "#' @get /api/data",
+ "get_traffic <- function(res) {",
+ "  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)",
+ "  res$body <- geojson",
+ "  res",
+ "}"
+ )
+write(endpoint, file = plumberR, append = TRUE)
 ```
 Let us use a helper function from `geoplumber` called `gp_endpoint_from_clip`:
 
@@ -93,6 +110,8 @@ ow <- setwd(path)
 old_clip <- clipr::read_clip()
 # adding below to clipboard
 clipr::write_clip(c(
+ "#' vignette added endpoint",
+ "#'",
  "#' Serve geoplumber::traffic from /api/data",
  "#' @get /api/data",
  "get_traffic <- function(res) {",
