@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-`geoplumber` depends only on [`plumber`](https://www.rplumber.io) R package to enable building web applicaitons using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid developmened available skill utilisation choice.
+`geoplumber` depends only on [`plumber`](https://www.rplumber.io) R package to enable building web applications using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid development available skill utilisation choice.
 
 Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm.
 
@@ -83,14 +83,15 @@ tail(readLines("R/plumber.R"))
 
 We can add the following to the end of the file and rerun `gp_plumb`:
 ```{r eval=FALSE}
-#' Serve geoplumber::traffic from /api/data
-#' @get /api/data
-get_traffic <- function(res) {
+#' Serve geoplumber::traffic from /api/data           
+#' @get /api/data   
+get_traffic <- function(res) {                        
   geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
-  res$body <- geojson
+  res$body <- geojson 
   res
 }
 ```
+For a break down of the above chunk go to the section ([End-point explained]) explaining it.
 
 ```{r hidden2, echo=FALSE, message=FALSE, results=FALSE}
 ow <- setwd(path)
@@ -146,7 +147,7 @@ r <- gp_plumb(run = FALSE)
 length(r$endpoints[[1]]) # it should now be 6
 ```
 
-Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run `gp_plumb`, you should now have `geojson` object returned to you if you visist `localhost:8000/api/data` URL on your browser or `curl` it.
+Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run `gp_plumb`, you should now have `geojson` object returned to you if you visit `localhost:8000/api/data` URL on your browser or `curl` it.
 
 What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called `gp_add_geojson` which takes a URL and can "render" the data from it:
 
@@ -173,7 +174,7 @@ gp_build()
 ## To run the geoplumber app: gp_plumb()
 ```
 
-Now, we have installed the required dependancies of the npm package and we can run the application using:
+Now, we have installed the required dependencies of the npm package and we can run the application using:
 
 ```{r finally, eval=FALSE}
 gp_plumb()
@@ -194,5 +195,26 @@ unlink(path, recursive = TRUE)
 As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/).
 
 
+### End-point explained
+```{r eval=FALSE}
+#' Serve geoplumber::traffic from /api/data             (1)
+#' @get /api/data                                       
+get_traffic <- function(res) {                        # (3)
+  geojson <- geojsonsf::sf_geojson(geoplumber::traffic)
+  res$body <- geojson                                 # (5)
+  res
+}
+```
+Let us go through this, though you would need a better understanding of `pulmber` to be able to understand exactly what is going on.
 
+(1) Just a comment using conventional R style.
+
+(2) `plumber` markup, `@get` is translated into a http GET request, the space allows the parser to recognise what is coming next which is the URL or the local path to the root URL. In this case `/api/data`. Current version of `plumber` is sensitive to the ending slash.
+
+(3) Conventional R function definition but has `res` parameter in it. This is passed down by `plumber` and stands for the http `response` to be sent back to the client.
+
+(4) R package `geojsonsf` lightening fast converts our `dataframe` object `traffic` into a single string `geojson` object.
+
+(5) We implicitly make the response a `json` response by populating the body of the response with the object from (4).
+Finally, we return the response so that `plumber` can return it to the client.
 
