@@ -87,6 +87,7 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
 gp_map <- function(x, browse_map = TRUE, dest_path = tempdir()) {
   if(missing(x))
     stop("gp_map needs either a URL or sf object to pull data from.")
+  gv <- "geojson: null // anchor"
   result <- readLines(system.file("geoplumber.html", package = "geoplumber"))
   geojson <- x
   geojson_name <- deparse(substitute(x)) # provisional
@@ -109,14 +110,14 @@ gp_map <- function(x, browse_map = TRUE, dest_path = tempdir()) {
                     paste0(prefix, geojson_name, n,".html"))
   result <- add_lines(
     result,                  # target
-    "const geojson = null;", # pattern
+    gv, # pattern
     paste0(                  # what
-      "const geojson = ",
+      "geojson: ",
       geojson, collapse = ""
     )
   )
   # remove placeholder
-  index <- grep(pattern = "const geojson = null;", x = result)
+  index <- grep(pattern = gv, x = result)
   result <- c(
     result[1L:(index - 1L)], # to line before pattern
     result[(index + 1L):length(result)]
