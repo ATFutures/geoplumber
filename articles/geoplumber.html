@@ -75,7 +75,7 @@
     <div class="page-header toc-ignore">
       <h1>geoplumber: R package web framework</h1>
             
-            <h4 class="date">2019-03-27</h4>
+            <h4 class="date">2019-03-28</h4>
       
       
       <div class="hidden name"><code>geoplumber.Rmd</code></div>
@@ -84,7 +84,7 @@
 
     
     
-<p><code>geoplumber</code> depends only on <a href="https://www.rplumber.io"><code>plumber</code></a> R package to enable building web applicaitons using R and currently ReactJS. It uses <code>npm</code> but this is by no means a preference. It is a rapid developmened available skill utilisation choice.</p>
+<p><code>geoplumber</code> depends only on <a href="https://www.rplumber.io"><code>plumber</code></a> R package to enable building web applications using R and currently ReactJS. It uses <code>npm</code> but this is by no means a preference. It is a rapid development available skill utilisation choice.</p>
 <p>Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the <code>flux</code> one. That is data flow should be one directional and follow the “React” paradigm.</p>
 <p>In terms of npm pacakges, it relies on Facebook’s <a href="https://github.com/facebook/create-react-app">“create-react-app”</a> (CRA) <code>npm</code> package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.</p>
 <p>In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of <a href="https://leafletjs.com/"><code>Leaflet</code></a>. Thanks to <a href="https://react-leaflet.js.org/"><code>react-leaflet</code></a> this was straightforward to integrate into a <a href="https://github.com/facebook/react">ReactJS</a> app.</p>
@@ -413,13 +413,14 @@
 ## [5] "#' @assets ./build /"                                                
 ## [6] "list()"</code></pre>
 <p>We can add the following to the end of the file and rerun <code>gp_plumb</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">#' Serve geoplumber::traffic from /api/data</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#' @get /api/data</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">get_traffic &lt;-<span class="st"> </span><span class="cf">function</span>(res) {</a>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">#' Serve geoplumber::traffic from /api/data           </span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#' @get /api/data   </span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">get_traffic &lt;-<span class="st"> </span><span class="cf">function</span>(res) {                        </a>
 <a class="sourceLine" id="cb19-4" data-line-number="4">  geojson &lt;-<span class="st"> </span>geojsonsf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(geoplumber<span class="op">::</span>traffic)</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">  res<span class="op">$</span>body &lt;-<span class="st"> </span>geojson</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">  res<span class="op">$</span>body &lt;-<span class="st"> </span>geojson </a>
 <a class="sourceLine" id="cb19-6" data-line-number="6">  res</a>
 <a class="sourceLine" id="cb19-7" data-line-number="7">}</a></code></pre></div>
+<p>For a break down of the above chunk go to the section (<a href="#end-point-explained">End-point explained</a>) explaining it.</p>
 <p>Let us use a helper function from <code>geoplumber</code> called <code>gp_endpoint_from_clip</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
 <a class="sourceLine" id="cb20-2" data-line-number="2">old_clip &lt;-<span class="st"> </span>clipr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/clipr/topics/read_clip">read_clip</a></span>()</a>
@@ -452,7 +453,7 @@
 <a class="sourceLine" id="cb23-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="dt">run =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb23-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(r<span class="op">$</span>endpoints[[<span class="dv">1</span>]]) <span class="co"># it should now be 6</span></a></code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<p>Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run <code>gp_plumb</code>, you should now have <code>geojson</code> object returned to you if you visist <code>localhost:8000/api/data</code> URL on your browser or <code>curl</code> it.</p>
+<p>Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run <code>gp_plumb</code>, you should now have <code>geojson</code> object returned to you if you visit <code>localhost:8000/api/data</code> URL on your browser or <code>curl</code> it.</p>
 <p>What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called <code>gp_add_geojson</code> which takes a URL and can “render” the data from it:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">ow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(path)</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="dt">endpoint =</span> <span class="st">"/api/data"</span>) <span class="co"># which is the default</span></a></code></pre></div>
@@ -476,7 +477,7 @@
 <a class="sourceLine" id="cb30-6" data-line-number="6">## Now trying to build: npm run build</a>
 <a class="sourceLine" id="cb30-7" data-line-number="7">## Standard output from create-react-app above works.</a>
 <a class="sourceLine" id="cb30-8" data-line-number="8">## To run the geoplumber app: gp_plumb()</a></code></pre></div>
-<p>Now, we have installed the required dependancies of the npm package and we can run the application using:</p>
+<p>Now, we have installed the required dependencies of the npm package and we can run the application using:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/gp_plumb.html">gp_plumb</a></span>()</a>
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># visit localhost:8000 to see the application</span></a></code></pre></div>
 </div>
@@ -553,6 +554,25 @@ World’s rivers coloured and random linewidth assigned using code in above chun
 <h2 class="hasAnchor">
 <a href="#underlying-stack" class="anchor"></a>Underlying stack</h2>
 <p>As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook’s <code>create-react-app</code> is. For instructions on installing node on your OS please refer to the <a href="https://nodejs.org/en/download/package-manager/">NodeJS official docs</a>.</p>
+<div id="end-point-explained" class="section level3">
+<h3 class="hasAnchor">
+<a href="#end-point-explained" class="anchor"></a>End-point explained</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co">#' Serve geoplumber::traffic from /api/data             (1)</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">#' @get /api/data                                       </span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">get_traffic &lt;-<span class="st"> </span><span class="cf">function</span>(res) {                        <span class="co"># (3)</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">  geojson &lt;-<span class="st"> </span>geojsonsf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(geoplumber<span class="op">::</span>traffic)</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">  res<span class="op">$</span>body &lt;-<span class="st"> </span>geojson                                 <span class="co"># (5)</span></a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">  res</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">}</a></code></pre></div>
+<p>Let us go through this, though you would need a better understanding of <code>pulmber</code> to be able to understand exactly what is going on.</p>
+<ol style="list-style-type: decimal">
+<li><p>Just a comment using conventional R style.</p></li>
+<li><p><code>plumber</code> markup, <code>@get</code> is translated into a http GET request, the space allows the parser to recognise what is coming next which is the URL or the local path to the root URL. In this case <code>/api/data</code>. Current version of <code>plumber</code> is sensitive to the ending slash.</p></li>
+<li><p>Conventional R function definition but has <code>res</code> parameter in it. This is passed down by <code>plumber</code> and stands for the http <code>response</code> to be sent back to the client.</p></li>
+<li><p>R package <code>geojsonsf</code> lightening fast converts our <code>dataframe</code> object <code>traffic</code> into a single string <code>geojson</code> object.</p></li>
+<li><p>We implicitly make the response a <code>json</code> response by populating the body of the response with the object from (4). Finally, we return the response so that <code>plumber</code> can return it to the client.</p></li>
+</ol>
+</div>
 </div>
   </div>
 
