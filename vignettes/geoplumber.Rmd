@@ -181,6 +181,68 @@ gp_plumb()
 # visit localhost:8000 to see the application
 ```
 
+## Adding colour and linewidth to a remote geojson data.
+There is a geojson [file](https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_rivers_lake_centerlines.geojson) which includes world's rivers. Please run this example remembering to have `colourvalues` R package. 
+
+We can read it into a dataframe, add a "colour" column, then add another "lwd" column and tell `geoplumber` to use them to colour and draw them accordingly.
+
+```{r add_geojson_rivers, eval=FALSE}
+path = file.path(tempdir(), "rivers") # new geoplumber app 
+dir.create(path)
+gp_is_wd_geoplumber(path)
+#> [1] FALSE
+gp_cra_init(path = path)
+gp_is_wd_geoplumber(path)
+#> [1] TRUE
+
+od = setwd(path)
+
+# adding the necessary code to the plumber.R file.
+write(c("#' Rivers example", 
+        "rivers <- geojsonsf::geojson_sf('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_rivers_lake_centerlines.geojson')",
+        "rivers <- rivers[, c('name', 'geometry')]",
+        "n <- nrow(rivers)",
+        "m <- grDevices::colorRamp(c('red', 'green'))( (1:n)/n )",
+        "rivers$col <- colourvalues::colour_values(rivers$name, palette = m, include_alpha = F)",
+        "rivers$lwd <- seq(5, 8, 0.5)",
+        "#' now serve `rivers` object from /api/rivers",
+        "#' @get /api/rivers",
+        "get_rivers <- function(res) {",
+        "geojson <- geojsonsf::sf_geojson(rivers, factors_as_string = TRUE)",
+        "res$body <- geojson",
+        "res",
+        "}"), file = "R/plumber.R", append = TRUE)
+tail(readLines("R/plumber.R"))
+#> [1] "#' @get /api/rivers"                                               
+#> [2] "get_rivers <- function(res) {"                                     
+#> [3] "geojson <- geojsonsf::sf_geojson(rivers, factors_as_string = TRUE)"
+#> [4] "res$body <- geojson"                                               
+#> [5] "res"                                                               
+#> [6] "}"
+gp_add_geojson(endpoint = "/api/rivers",
+               color = "col", # matching above rivers$col
+               line_weight = "lwd",
+               properties = TRUE)
+#> Remember to rebuild frontend: gp_build()
+#> Success.
+
+gp_build()
+#> Running: npm run build
+#> Looks like first run, installing npm packages...
+#> Running: gp_npm_install()
+#> Now trying to build: npm run build
+#> Standard output from create-react-app above works.
+#> To run the geoplumber app: gp_plumb()
+# gp_plumb()
+setwd(od)
+```
+
+If you now run the `gp_plumb` function you should see something similar to the following image in your browser. The reason, you could guess, is that the front end JavaScript code takes into account a colour value and also passes the `lwd` to the appropriate styling to the underlying Leaflet API.
+```{r rivers-image, fig.keep=TRUE, out.width="100%", echo=FALSE, fig.cap="World's rivers coloured and random linewidth assigned using code in above chunk"}
+knitr::include_graphics("https://user-images.githubusercontent.com/408568/52061758-f80cef80-2566-11e9-9a0c-d9db6aa044a9.png")
+```
+
+
 ## Analysing an sf object
 
 ## Adding front end React components
@@ -193,7 +255,6 @@ unlink(path, recursive = TRUE)
 ## Underlying stack
 
 As geoplumber uses both R and Node, currently R v3.4 is the minimum, we will do all we can to make it backward compatible both in R and node. As for node, whatever the needs of Facebook's `create-react-app` is. For instructions on installing node on your OS please refer to the [NodeJS official docs](https://nodejs.org/en/download/package-manager/).
-
 
 ### End-point explained
 ```{r eval=FALSE}
