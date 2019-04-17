@@ -219,10 +219,15 @@ curl localhost:8000/api/helloworld
 #> {"msg":["The message is: 'nothing given'"]}
 ```
 
-## Test
+## Tests
 
-Tests currently only apply to very restricted components of full functionality.
+Tests currently only apply to restricted components of full functionality.
 
 ```{r, eval=FALSE}
 devtools::test()
 ```
+
+## Travis cron
+There is a monthly cron travis build.
+
+
