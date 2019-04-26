@@ -137,7 +137,7 @@ This dataset represents travel levels at the point locations stored in
 <span class='no'>traffic_volumes</span> <span class='kw'>=</span> <span class='kw pkg'>readxl</span><span class='kw ns'>::</span><span class='fu'>read_excel</span>(<span class='no'>f</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>traffic_volumes</span>$<span class='no'>ID</span> <span class='kw'>%in%</span> <span class='no'>traffic</span>$<span class='no'>cp</span>)
 <span class='kw pkg'>pryr</span><span class='kw ns'>::</span><span class='fu'>object_size</span>(<span class='no'>traffic_volumes</span>)
-<span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/usethis/topics/use_data'>use_data</a></span>(<span class='no'>traffic_volumes</span>)
+<span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://usethis.r-lib.org/reference/use_data.html'>use_data</a></span>(<span class='no'>traffic_volumes</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='no'>traffic_agg</span> <span class='kw'>=</span> <span class='no'>traffic_volumes</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>cp</span> <span class='kw'>=</span> <span class='no'>ID</span>) <span class='kw'>%&gt;%</span>
@@ -149,7 +149,7 @@ This dataset represents travel levels at the point locations stored in
     )
 <span class='kw'>if</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>traffic</span>) <span class='kw'>&lt;</span> <span class='fl'>8</span>) {
   <span class='no'>traffic</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/join.html'>left_join</a></span>(<span class='no'>traffic</span>, <span class='no'>traffic_agg</span>)
-  <span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/usethis/topics/use_data'>use_data</a></span>(<span class='no'>traffic</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://usethis.r-lib.org/reference/use_data.html'>use_data</a></span>(<span class='no'>traffic</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 }
 <span class='kw pkg'>mapview</span><span class='kw ns'>::</span><span class='fu'>mapview</span>(<span class='no'>traffic</span>, <span class='kw'>zcol</span> <span class='kw'>=</span> <span class='st'>"total"</span>)
 <span class='kw pkg'>sf</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot.sf</a></span>(<span class='no'>traffic</span>)
