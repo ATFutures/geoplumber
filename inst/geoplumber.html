@@ -33,8 +33,6 @@
       const React = window.React
       const { Map, TileLayer, Marker, Popup, GeoJSON, MapControl, withLeaflet } = window.ReactLeaflet
 
-      const geojson = null;
-
       const DumbControl = L.Control.extend({
         options: {
           className: "",
@@ -86,25 +84,25 @@
       );
       // Base layers
       //  .. OpenStreetMap
-      const osm = {url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png', 
+      const osm = {url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors' };
       //  .. CartoDB Positron
-      const cartodb = {url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', 
+      const cartodb = {url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>' };
       //  .. OSM Toner
-      const toner = {url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+      const toner = {url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
       attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
       //  .. White background
       const white = {url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg=="};
 
-      const terrain = {url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', 
+      const terrain = {url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png',
       attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
 
-      const basemaps = { 
+      const basemaps = {
           "Stamen Terrain": terrain,
-          "OpenStreetMap": osm, 
-          "CartoDB Positron": cartodb, 
-          "Stamen Toner": toner, 
+          "OpenStreetMap": osm,
+          "CartoDB Positron": cartodb,
+          "Stamen Toner": toner,
           "Without background": white }
 
       class TilesBasemap extends React.Component {
@@ -128,10 +126,10 @@
           render() {
               return (
                   <Control position="bottomleft">
-                      <div > 
+                      <div >
                           {
                             this.state.layers ?
-                                  <div 
+                                  <div
                                       onMouseLeave={() => this.setState({ layers: !this.state.layers })}
                                       className="leaflet-control-layers-expanded">
                                       <form>
@@ -162,8 +160,7 @@
       }
       class GeoJSONComponent extends React.Component {
       render() {
-          let { radius, style } = this.props;
-
+          let { radius, style, geojson } = this.props;
           if (!geojson) {
               return (null) // as per React docs
           }
@@ -232,26 +229,20 @@
               })
           )}
       }
-      const geojsonLayer = L.geoJson(geojson)      
-      const bbox = geojsonLayer.getBounds()
-      const position = bbox.getSouthWest() ? bbox.getCenter() : [53.8078, -1.5534]      
       class Geoplumber extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                baseURL: terrain.url,
-                attribution: terrain.attribution
-            }
-        }
         componentDidMount() {
             const map = this.refs.map.leafletElement
             // add the scale here
             L.control.scale().addTo(map)
             this.setState({ map })
         }
-        render() {          
+        render() {
+          const {geojson} = this.state;
+          const geojsonLayer = L.geoJson(geojson)
+          const bbox = geojsonLayer.getBounds()
+          const position = bbox.getSouthWest() ? bbox.getCenter() : [53.8078, -1.5534]
           return (
-            <Map 
+            <Map
             ref='map'
             bounds={bbox.getSouthWest() ? bbox : [position, [52.78,-1.65]]}
             center={position} >
@@ -276,11 +267,19 @@
               maxZoom: base.maxZoom,
               subdomains: base.subdomains
               })}/>
-            <GeoJSONComponent />
+            <GeoJSONComponent geojson={geojson}/>
           </Map>
           )
         }
-      }      
+        constructor(props) {
+            super(props);
+            this.state = {
+                baseURL: terrain.url,
+                attribution: terrain.attribution,
+                geojson: null // anchor
+            }
+        }
+      }
       window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
     </script>
   </body>

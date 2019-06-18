@@ -199,22 +199,21 @@ rproj_file_exists <- function(path) {
 #'  gp_rstudio()
 #' }
 gp_rstudio <- function(path = ".") {
-  proj_name <- "" # path could be missing
-  if(identical(path, "."))
-    if(gp_is_wd_geoplumber()) {
-      proj_name <- basename(getwd())
-    } else {
-      stop("A geoplumber app's path is required.")
-    }
-  if (length(path) != 1L)
+  if (length(path) != 1L) # if and only if 1
     stop("'path' must be of length 1")
-  if (is.na(path) || (path == ""))
-    stop("invalid project name")
+  if (is.na(path) || (path == "") || is.null(path))
+    stop("A geoplumber app's path is required.")
   stopifnot(gp_is_wd_geoplumber(path))
+  proj_name <- path
+  if(identical(path, ".")) {
+    proj_name <- basename(getwd())
+  } else {
+    proj_name <- basename(path)
+  }
   if(rproj_file_exists(path))
     stop("There is a .Rproj file already")# already exists
-  res <- file.copy(system.file("template.Rproj", package = "geoplumber"),
-            paste0(proj_name, ".Rproj"))
+  res <- file.copy(system.file("rproj_template", package = "geoplumber"),
+            file.path(path, paste0(proj_name, ".Rproj")))
   return(res)
 }
 
