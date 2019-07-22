@@ -8,6 +8,7 @@ r_packages:
   - pkgdown
 r_github_packages:
   - jimhester/covr
+r_check_args: --no-build-vignettes
 
 addons:
   apt:
