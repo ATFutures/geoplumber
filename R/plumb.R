@@ -4,6 +4,7 @@
 #' @param file location of plumber.R file used by plumber
 #' @param run should plumber run the server or return it as an object
 #' @param front should geoplumber start the front dev server? Defaults
+#' @param host host to pass to plumber default `http://127.0.0.1`
 #' to `FALSE`.
 #' @seealso [gp_plumb_front()]
 #'
@@ -16,7 +17,8 @@
 gp_plumb <- function(run = TRUE,
                      port = 8000,
                      file = "R/plumber.R",
-                     front = FALSE) {
+                     front = FALSE,
+                     host = "127.0.0.1") {
   wd <- change_to_proj_dir ()
   stop_ifnot_geoplumber()
 
@@ -45,11 +47,11 @@ gp_plumb <- function(run = TRUE,
   if(run) {
     viewer <- getOption("viewer")
     if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
-      viewer(paste0("http://localhost:", port))
+      viewer(paste0("http://",host,":",port))
     } else {
-      utils::browseURL(paste0("http://localhost:", port))
+      utils::browseURL(paste0("http://",host,":",port))
     }
-    server$run(port = port, swagger = TRUE)
+    server$run(port = port, host = host)
   } else {
     return(server)
   }

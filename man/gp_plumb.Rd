@@ -5,7 +5,7 @@
 \title{Launch a webserver via plumber to serve data}
 \usage{
 gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R",
-  front = FALSE)
+  front = FALSE, host = "http://localhost:")
 }
 \arguments{
 \item{run}{should plumber run the server or return it as an object}
@@ -14,7 +14,9 @@ gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R",
 
 \item{file}{location of plumber.R file used by plumber}
 
-\item{front}{should geoplumber start the front dev server? Defaults
+\item{front}{should geoplumber start the front dev server? Defaults}
+
+\item{host}{host to pass to plumber
 to \code{FALSE}.}
 }
 \description{
