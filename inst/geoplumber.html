@@ -1,286 +1,300 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>geoplumber front ReactLeaflet standalone example</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script>
-    <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
-    <style>
-      body {
-        padding: 0;
-      }
-      .leaflet-container {
-        height: 400px;
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script type="text/babel" data-presets="es2015,react">
-      const React = window.React
-      const { Map, TileLayer, Marker, Popup, GeoJSON, MapControl, withLeaflet } = window.ReactLeaflet
 
-      const DumbControl = L.Control.extend({
-        options: {
-          className: "",
-          onOff: "",
-          handleOff: function noop() {}
-        },
+<head>
+  <meta charset="utf-8" />
+  <title>geoplumber | output</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.5.2/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.5.2/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-leaflet/2.2.1/react-leaflet.min.js"></script>
+  <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
+  <style>
+    body {
+      padding: 0;
+    }
 
-        onAdd(/* map */) {
-          var _controlDiv = L.DomUtil.create("div", this.options.className);
-          L.DomEvent.disableClickPropagation(_controlDiv);
-          return _controlDiv;
-        },
+    .leaflet-container {
+      height: 100vh;
+      width: 100%;
+    }
+    .title {
+      background-color: white;
+      padding: 5px;
+      border-radius: 2px;
+      max-width: 320px;
+    }
+  </style>
+</head>
 
-        onRemove(map) {
-          if (this.options.onOff) {
-            map.off(this.options.onOff, this.options.handleOff, this);
-          }
+<body>
+  <div id="container"></div>
+  <script type="text/babel" data-presets="es2015,react">
+    const React = window.React
+    const { Map, TileLayer, Marker, Popup, GeoJSON, MapControl, withLeaflet } = window.ReactLeaflet
 
-          return this;
+    const DumbControl = L.Control.extend({
+      options: {
+        className: "",
+        onOff: "",
+        handleOff: function noop() { }
+      },
+
+      onAdd(/* map */) {
+        var _controlDiv = L.DomUtil.create("div", this.options.className);
+        L.DomEvent.disableClickPropagation(_controlDiv);
+        return _controlDiv;
+      },
+
+      onRemove(map) {
+        if (this.options.onOff) {
+          map.off(this.options.onOff, this.options.handleOff, this);
         }
-      });
+        return this;
+      }
+    });
 
-      const Control = withLeaflet(
-        class LeafletControl extends MapControl {
-          createLeafletElement(props) {
-            return new DumbControl(Object.assign({}, props));
-          }
-
-          componentDidMount() {
-            super.componentDidMount();
-
-            // This is needed because the control is only attached to the map in
-            // MapControl's componentDidMount, so the container is not available
-            // until this is called. We need to now force a render so that the
-            // portal and children are actually rendered.
-            this.forceUpdate();
-          }
-
-          render() {
-            if (!this.leafletElement || !this.leafletElement.getContainer()) {
-              return null;
-            }
-            return ReactDOM.createPortal(
-              this.props.children,
-              this.leafletElement.getContainer()
-            );
-          }
+    const Control = withLeaflet(
+      class LeafletControl extends MapControl {
+        createLeafletElement(props) {
+          return new DumbControl(Object.assign({}, props));
         }
-      );
-      // Base layers
-      //  .. OpenStreetMap
-      const osm = {url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors' };
-      //  .. CartoDB Positron
-      const cartodb = {url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>' };
-      //  .. OSM Toner
-      const toner = {url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
-      attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
-      //  .. White background
-      const white = {url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg=="};
 
-      const terrain = {url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png',
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.' };
-
-      const basemaps = {
-          "Stamen Terrain": terrain,
-          "OpenStreetMap": osm,
-          "CartoDB Positron": cartodb,
-          "Stamen Toner": toner,
-          "Without background": white }
-
-      class TilesBasemap extends React.Component {
-          constructor(props) {
-              super(props);
-              this.state = {
-                  selectedOption: 'Stamen Terrain',
-                  layers: false,
-              }
-          }
-          _handleChange(e) {
-              console.log(e.target.value)
-              this.setState({ selectedOption: e.target.value })
-              //tell parent
-              if(this.props.returnSourceURL) {
-                  this.props.returnSourceURL(basemaps[e.target.value])
-              }
-              //die gracefully
-          }
-
-          render() {
-              return (
-                  <Control position="bottomleft">
-                      <div >
-                          {
-                            this.state.layers ?
-                                  <div
-                                      onMouseLeave={() => this.setState({ layers: !this.state.layers })}
-                                      className="leaflet-control-layers-expanded">
-                                      <form>
-                                          {
-                                              Object.keys(basemaps).map((key) => {
-                                                  return (
-                                                      <p><input type="radio"
-                                                          checked={this.state.selectedOption === key}
-                                                          value={key}
-                                                          key={key}
-                                                          onChange={this._handleChange.bind(this)}
-                                                          style={{marginRight: '5px'}}
-                                                      ></input>{key}</p>
-                                                  )
-                                              })
-                                          }
-                                      </form>
-                                  </div>
-                                  :
-                                  <div
-                                      onMouseEnter={() => this.setState({ layers: !this.state.layers })}
-                                      className="leaflet-control-layers-toggle">
-                                  </div>                          }
-                      </div>
-                  </Control>
-              )
-          }
-      }
-      class GeoJSONComponent extends React.Component {
-      render() {
-          let { radius, style, geojson } = this.props;
-          if (!geojson) {
-              return (null) // as per React docs
-          }
-
-          // get radius from parent, or is it above 100 markers? 2 else 8
-          radius = radius ? radius : geojson.features && geojson.features.length > 100 ? 2 : 8
-
-          if(!geojson.features || geojson.type !== "FeatureCollection") {
-              if(geojson.coordinates) { //single feature.
-                  return(
-                  <GeoJSON //react-leaflet component
-                      key={JSON.stringify(geojson)}
-                      data={geojson}
-                  />
-                  )
-              } else {
-                  return(null) //nothing is passed to me.
-              }
-          }
-          // we have type: "FeatureCollection"
-          return (
-              geojson.features.map((feature, i) => {
-                  return (
-                      <GeoJSON //react-leaflet component
-                          key={JSON.stringify(feature) + radius}
-                          // gp_add_geojson can define values from `feature`
-                          style={typeof(style) === 'function' ?
-                          style(feature) : style }
-                          /**
-                           * https://leafletjs.com/examples/geojson/
-                           * style for leaflet is
-                           * {"color": "#hexstr", "weight": 5, "opacity": 0.65}
-                           * or of course a function returning these.
-                           */
-                          data={feature}
-                          onEachFeature={(feature, layer) => {
-                              const properties = Object.keys(feature.properties).map((key) => {
-                                  return (key + " : " + feature.properties[key])
-                              })
-                              layer.bindPopup(
-                                  properties.join('<br/>')
-                              );
-                          }}
-                          pointToLayer={
-                              // use cricles prop if not 10 markers is enough
-                              this.props.circle || geojson.features.length > 10 ?
-                                  (_, latlng) => {
-                                      // Change the values of these options to change the symbol's appearance
-                                      let options = {
-                                          radius: radius,
-                                          fillColor: "green",
-                                          color: "black",
-                                          weight: 1,
-                                          opacity: 1,
-                                          fillOpacity: 0.8
-                                      }
-                                      return L.circleMarker(latlng, options);
-                                  }
-                                  :
-                                  (_, latlng) => {
-                                      return L.marker(latlng);
-                                  }
-                          }
-                      />
-                  )
-              })
-          )}
-      }
-      class Geoplumber extends React.Component {
         componentDidMount() {
-            const map = this.refs.map.leafletElement
-            // add the scale here
-            L.control.scale().addTo(map)
-            this.setState({ map })
+          super.componentDidMount();
+          this.forceUpdate();
         }
+
         render() {
-          const {geojson} = this.state;
-          const geojsonLayer = L.geoJson(geojson)
-          const bbox = geojsonLayer.getBounds()
-          const position = bbox.getSouthWest() ? bbox.getCenter() : [53.8078, -1.5534]
-          return (
-            <Map
+          if (!this.leafletElement || !this.leafletElement.getContainer()) {
+            return null;
+          }
+          return ReactDOM.createPortal(
+            this.props.children,
+            this.leafletElement.getContainer()
+          );
+        }
+      }
+    );
+    // Base layers
+    //  .. OpenStreetMap
+    const osm = {
+      url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+    };
+    //  .. CartoDB Positron
+    const cartodb = {
+      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+    };
+    //  .. OSM Toner
+    const toner = {
+      url: 'https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
+      attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.'
+    };
+    //  .. White background
+    const white = { url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==" };
+
+    const terrain = {
+      url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png',
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="https://openstreetmap.org">OpenStreetMap</a>, under <a href="https://www.openstreetmap.org/copyright">ODbL</a>.'
+    };
+
+    const basemaps = {
+      "Stamen Terrain": terrain,
+      "OpenStreetMap": osm,
+      "CartoDB Positron": cartodb,
+      "Stamen Toner": toner,
+      "Without background": white
+    }
+
+    class TilesBasemap extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          selectedOption: 'Stamen Terrain',
+          layers: false,
+        }
+      }
+      _handleChange(e) {
+        console.log(e.target.value)
+        this.setState({ selectedOption: e.target.value })
+        //tell parent
+        if (this.props.returnSourceURL) {
+          this.props.returnSourceURL(basemaps[e.target.value])
+        }
+        //die gracefully
+      }
+
+      render() {
+        return (
+          <Control position="bottomleft">
+            <div >
+              {
+                this.state.layers ?
+                  <div
+                    onMouseLeave={() => this.setState({ layers: !this.state.layers })}
+                    className="leaflet-control-layers-expanded">
+                    <form>
+                      {
+                        Object.keys(basemaps).map((key) => {
+                          return (
+                            <p><input type="radio"
+                              checked={this.state.selectedOption === key}
+                              value={key}
+                              key={key}
+                              onChange={this._handleChange.bind(this)}
+                              style={{ marginRight: '5px' }}
+                            ></input>{key}</p>
+                          )
+                        })
+                      }
+                    </form>
+                  </div>
+                  :
+                  <div
+                    onMouseEnter={() => this.setState({ layers: !this.state.layers })}
+                    className="leaflet-control-layers-toggle">
+                  </div>}
+            </div>
+          </Control>
+        )
+      }
+    }
+    class GeoJSONComponent extends React.Component {
+      render() {
+        let { radius, style, geojson } = this.props;
+        if (!geojson) {
+          return (null) // as per React docs
+        }
+
+        // get radius from parent, or is it above 100 markers? 2 else 8
+        radius = radius ? radius : geojson.features && geojson.features.length > 100 ? 2 : 8
+
+        if (!geojson.features || geojson.type !== "FeatureCollection") {
+          if (geojson.coordinates) { //single feature.
+            return (
+              <GeoJSON //react-leaflet component
+                key={JSON.stringify(geojson)}
+                data={geojson}
+              />
+            )
+          } else {
+            return (null) //nothing is passed to me.
+          }
+        }
+        // we have type: "FeatureCollection"
+        return (
+          geojson.features.map((feature, i) => {
+            return (
+              <GeoJSON //react-leaflet component
+                key={JSON.stringify(feature) + radius}
+                // gp_add_geojson can define values from `feature`
+                style={typeof (style) === 'function' ?
+                  style(feature) : style}
+                /**
+                 * https://leafletjs.com/examples/geojson/
+                 * style for leaflet is
+                 * {"color": "#hexstr", "weight": 5, "opacity": 0.65}
+                 * or of course a function returning these.
+                 */
+                data={feature}
+                onEachFeature={(feature, layer) => {
+                  const properties = Object.keys(feature.properties).map((key) => {
+                    return (key + " : " + feature.properties[key])
+                  })
+                  layer.bindPopup(
+                    properties.join('<br/>')
+                  );
+                }}
+                pointToLayer={
+                  // use cricles prop if not 10 markers is enough
+                  this.props.circle || geojson.features.length > 10 ?
+                    (_, latlng) => {
+                      // Change the values of these options to change the symbol's appearance
+                      let options = {
+                        radius: radius,
+                        fillColor: "green",
+                        color: "black",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                      }
+                      return L.circleMarker(latlng, options);
+                    }
+                    :
+                    (_, latlng) => {
+                      return L.marker(latlng);
+                    }
+                }
+              />
+            )
+          })
+        )
+      }
+    }
+    class Geoplumber extends React.Component {
+      componentDidMount() {
+        const map = this.refs.map.leafletElement
+        // add the scale here
+        L.control.scale().addTo(map)
+        this.setState({ map })
+      }
+      render() {
+        const { geojson, dataDescription } = this.state;
+        const geojsonLayer = L.geoJson(geojson)
+        const bbox = geojsonLayer.getBounds()
+        const position = bbox.getSouthWest() ? bbox.getCenter() : [53.8078, -1.5534]
+        return (
+          <Map
             ref='map'
-            bounds={bbox.getSouthWest() ? bbox : [position, [52.78,-1.65]]}
+            bounds={bbox.getSouthWest() ? bbox : [position, [52.78, -1.65]]}
             center={position} >
+            <Control position="topright">
+              <div className="title"> 
+                {dataDescription && <p>Data: {dataDescription}</p>}
+                With {geojson && geojson.features.length} features.
+              </div>
+            </Control>
             {
               this.state.baseURL.includes("google") ?
-              <TileLayer
-                key={this.state.baseURL}
-                url={this.state.baseURL}
-                attribution={this.state.attribution}
-                maxZoom={this.state.maxZoom}
-                subdomains={this.state.subdomains}
+                <TileLayer
+                  key={this.state.baseURL}
+                  url={this.state.baseURL}
+                  attribution={this.state.attribution}
+                  maxZoom={this.state.maxZoom}
+                  subdomains={this.state.subdomains}
                 /> :
-              <TileLayer
-                url={this.state.baseURL}
-                attribution={this.state.attribution}
+                <TileLayer
+                  url={this.state.baseURL}
+                  attribution={this.state.attribution}
                 />
             }
             <TilesBasemap
               returnSourceURL={(base) => this.setState({
-              baseURL: base.url,
-              attribution: base.attribution,
-              maxZoom: base.maxZoom,
-              subdomains: base.subdomains
-              })}/>
-            <GeoJSONComponent geojson={geojson}/>
+                baseURL: base.url,
+                attribution: base.attribution,
+                maxZoom: base.maxZoom,
+                subdomains: base.subdomains
+              })} />
+            <GeoJSONComponent geojson={geojson} />
           </Map>
-          )
-        }
-        constructor(props) {
-            super(props);
-            this.state = {
-                baseURL: terrain.url,
-                attribution: terrain.attribution,
-                geojson: null // anchor
-            }
+        )
+      }
+      constructor(props) {
+        super(props);
+        this.state = {
+          baseURL: terrain.url,
+          attribution: terrain.attribution,
+          dataDescription: null,
+          geojson: null // anchor
         }
       }
-      window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
-    </script>
-  </body>
+    }
+    window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
+  </script>
+</body>
 </html>

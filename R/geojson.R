@@ -84,7 +84,9 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
 #' "fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"), browse_map = FALSE)
 #' }
 #' @export
-gp_map <- function(x, browse_map = TRUE, dest_path = tempdir()) {
+gp_map <- function(x,
+                   browse_map = TRUE,
+                   dest_path = tempdir()) {
   if(missing(x))
     stop("gp_map needs either a URL or sf object to pull data from.")
   gv <- "geojson: null // anchor"
@@ -108,20 +110,14 @@ gp_map <- function(x, browse_map = TRUE, dest_path = tempdir()) {
   n <- length(list)
   path <- file.path(dest_path,
                     paste0(prefix, geojson_name, n,".html"))
-  result <- add_lines(
-    result,                  # target
-    gv, # pattern
-    paste0(                  # what
-      "geojson: ",
-      geojson, collapse = ""
-    )
-  )
-  # remove placeholder
-  index <- grep(pattern = gv, x = result)
-  result <- c(
-    result[1L:(index - 1L)], # to line before pattern
-    result[(index + 1L):length(result)]
-  )
+  # add description
+  result <- gsub("dataDescription: null",
+                 paste0("dataDescription: '", geojson_name, "'"),
+                 result)
+  # replace placeholder
+  result <- gsub(gv,
+                 paste0("geojson: ",geojson, collapse = ""),
+                 result)
   write(result, path)
   if(browse_map) {
     utils::browseURL(path)

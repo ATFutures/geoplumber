@@ -1,5 +1,5 @@
 ---
-title: "Geographic data analysis and geospatial web applications with R and ReactJS"
+title: "Geospatial web applications with R and ReactJS"
 author:
 - Dr Layik Hama^[l.hama@leeds.ac.uk] --- University of Leeds, Leeds Institute for Data Analytics (LIDA)
 - Dr Robin Lovelace^[r.lovelace@leeds.ac.uk] --- University of Leeds, Institute for Transport Studies (ITS) and Leeds Institute for Data Analytics (LIDA)
@@ -84,8 +84,9 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 ```
 ```{r gp_create, echo=TRUE, eval=TRUE}
 dir_name = file.path(tempdir(), "my_app")
+dir.create(dir_name)
 library(geoplumber)
-gp_create(dir_name)
+gp_cra_init(dir_name)
 setwd(dir_name)
 gp_build()
 ```
