@@ -29,13 +29,13 @@ htmltools::includeHTML(html_file)
 file.remove(html_file)
 ```
 
-As the default `gp_create` function uses `create-react-app`, let us assemble an app using `gp_cra_init`:
+Let us assemble an app using `gp_create`:
 
-```{r gp_cra_init}
+```{r gp_create}
 path = file.path(tempdir(), "new_app")
 # make sure that exists
 dir.create(path)
-gp_cra_init(path = path)
+gp_create(path = path)
 # check if that is the case
 gp_is_wd_geoplumber(path = path)
 
@@ -191,7 +191,7 @@ path = file.path(tempdir(), "rivers") # new geoplumber app
 dir.create(path)
 gp_is_wd_geoplumber(path)
 #> [1] FALSE
-gp_cra_init(path = path)
+gp_create(path = path)
 gp_is_wd_geoplumber(path)
 #> [1] TRUE
 

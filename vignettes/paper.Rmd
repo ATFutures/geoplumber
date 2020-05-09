@@ -86,7 +86,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 dir_name = file.path(tempdir(), "my_app")
 dir.create(dir_name)
 library(geoplumber)
-gp_cra_init(dir_name)
+gp_create(dir_name)
 setwd(dir_name)
 gp_build()
 ```

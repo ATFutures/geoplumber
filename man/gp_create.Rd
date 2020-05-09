@@ -2,18 +2,16 @@
 % Please edit documentation in R/create.R
 \name{gp_create}
 \alias{gp_create}
-\title{Initialize a new create-react-app and add add required packages.}
+\title{Simulate CRA without create-react-app}
 \usage{
-gp_create(path = "geoplumber")
+gp_create(path = getwd())
 }
 \arguments{
-\item{path}{path of the new app, will be passed to \code{npx create-react-app }}
+\item{path}{character: existing path of the target gp app.}
 }
 \description{
-Warning: may take several minutes depending on system and internet connection.
+This function assembles the required npm package files to then build from.
 }
 \examples{
-\dontrun{
-gp_create()
-}
+gp_create(tempdir()) # it would simulate an app in tempdir()
 }
