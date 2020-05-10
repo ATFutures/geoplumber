@@ -132,10 +132,14 @@
     <p>Utility function to make changes to a source file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gp_change_file</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"js/src/App.js"</span>, <span class='kw'>package</span> <span class='kw'>=</span>
-  <span class='st'>"geoplumber"</span>), <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>" * geoplumber R package code."</span>,
-  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>" * geoplumber R package code."</span>, <span class='kw'>before</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>gp_change_file</span>(
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"js/src/App.js"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"geoplumber"</span>),
+  <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>" * geoplumber R package code."</span>,
+  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>" * geoplumber R package code."</span>,
+  <span class='kw'>before</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
