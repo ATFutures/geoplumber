@@ -19,9 +19,9 @@ BugReports: https://github.com/ATFutures/geoplumber/issues
 LazyData: true
 Imports: 
     plumber,
+    geojsonsf
 Suggests: 
     clipr,
-    geojsonsf (>= 1.2),
     testthat,
     knitr,
     rmarkdown,
