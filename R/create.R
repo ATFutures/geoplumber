@@ -68,7 +68,7 @@ gp_erase <- function(dir_name = NULL) {
   wd <- getwd ()
   setwd (dir_name)
   setwd ("..")
-  message("Erasing ", dir_name)
+  message("Erasing '", dir_name, "' ...")
   unlink (dir_name, recursive = TRUE)
   if (file.exists (tempfile_name ()))
     invisible (file.remove (tempfile_name ()))

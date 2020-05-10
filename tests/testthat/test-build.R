@@ -20,11 +20,15 @@ test_that("gp_build errs for non geoplumber path", {
 })
 
 test_that("full create", {
-  skip_build()
   # tolower is used to respect CRA rules.
   gp <- tolower(tempdir())
   expect_error(gp_rstudio())
   expect_error(gp_rstudio("NOT_GP_DIR"))
+  f <- file.path(gp, "test.txt")
+  dir.create(gp) # must create in test before file.create
+  file.create(f)
+  expect_error(gp_create (gp))
+  unlink(gp, recursive = TRUE) # so that gp_create doe it
   # create full
   # dir.create(gp) less covr if used
   expect_message(gp_create (gp))
@@ -36,7 +40,7 @@ test_that("full create", {
   setwd(proj_dir) # we are in the new app dir
   expect_false(rproj_file_exists(""))
   expect_true(gp_is_wd_geoplumber())
-  gp_rstudio()  #L34
+  gp_rstudio()
   expect_error(gp_rstudio(""))
   expect_error(gp_rstudio(c(NA,NA)))
   # expect_true(rproj_file_exists())
@@ -45,7 +49,7 @@ test_that("full create", {
   tmp <- file.path(tolower(tempdir()), "my_app")
   dir.create(tmp)
   file.create(file.path(tmp, "my_app.Rproj"))
-  expect_error(gp_create (tmp)) # should not take long
+  expect_error(gp_create (tmp))
   teardown(unlink(tmp, recursive = TRUE))
 })
 
