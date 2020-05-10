@@ -27,6 +27,15 @@ gp_create <- function(path = getwd()) {
   ow <- setwd(path)
   rename_package.json(basename(path))
   setwd(ow)
+  # we are done
+  message(paste0("To build/run app, set working directory to: ", path))
+  message("Standard output from create-react-app works.\n",
+          "You can run gp_ functions from directory: ", path,
+          "\nTo build the front end run: gp_build()\n",
+          "To run the geoplumber app: gp_plumb()\n",
+          "Happy coding.")
+  # write path to `tempfile_name()`
+  write_tempfile(path)
 }
 
 
