@@ -20,7 +20,7 @@ gp_create <- function(path = getwd()) {
     if(length(dir(path)) !=0) {
       if(interactive()) {
         print(list.files(path))
-        reply = menu(c("Yes", "No"), title="Directory not empty, proceed?")
+        reply = utils::menu(c("Yes", "No"), title="Directory not empty, proceed?")
         if(reply == 2) {
           stop("OK leaving '", path, "' untouched.")
         }

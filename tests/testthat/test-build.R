@@ -26,7 +26,7 @@ test_that("full create", {
   expect_error(gp_rstudio())
   expect_error(gp_rstudio("NOT_GP_DIR"))
   # create full
-  dir.create(gp)
+  # dir.create(gp) less covr if used
   expect_message(gp_create (gp))
   proj_dir <- read_tempfile ()
   expect_true(file.exists (proj_dir))
