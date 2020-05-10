@@ -6,7 +6,7 @@
 #'
 #' @param sf a valid sf object that can be converted to geojson
 #' @param props_list one named list of menuitmes to explore sf object with.
-#' @param with_slider WIP example might be removed anytime.
+#' @param build whether to build the front-end.
 #'
 #' @examples \dontrun{
 #' gp_sf()
@@ -14,7 +14,7 @@
 #' @export
 gp_sf <- function(sf = geoplumber::traffic,
                   props_list = list(road = geoplumber::traffic$road),
-                  with_slider = FALSE) {
+                  build = FALSE) {
   # no more than one param for now
   if(length(props_list) > 1)
     stop("gp_sf is young, can only take one variable. WIP.")
@@ -102,17 +102,21 @@ gp_sf <- function(sf = geoplumber::traffic,
       parent[param.index] <- param.line
     }
   }
-  # we could pass min max from sf object
-  # TODO: WIP and no package strategy.
-  if(with_slider)
-    parent <- gp_add_slider(to_vector = parent)
   # finally write before building
   write(parent, "src/Welcome.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
-    # TODO: gp_build is not made for this or refactor it.
-    gp_build()
-    message("Serving data on at ", "http://localhost:8000", "/api/gp")
+    if(build) {
+      # TODO: gp_build is not made for this or refactor it.
+      gp_build()
+      utils::browseURL("http://localhost:8000")
+    } else {
+      gp_plumb_front()
+    }
+    # TODO: is it free?
+    # is_port_engated(port = 8000)
+    # attempt starting backend in any case
+    message("Serving data on at ", "http://localhost:8000/api/gp")
     server$run(port = 8000)
   } else {
     return(TRUE)

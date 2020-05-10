@@ -71,15 +71,14 @@ test_that ("full build", {
 
 test_that("npm start works", {
   skip_build()
-  # test wont work on Windows
   setup({
-    system("kill -9 $(lsof -ti tcp:3000)") # no harm
+    gp_kill_process() # no harm
   })
-  expect_message(gp_plumb_front())
+  expect_false(is_port_engated())
   expect_message(gp_plumb_front())
   expect_message(gp_clean())
   teardown(
-    system("kill -9 $(lsof -ti tcp:3000)")
+    gp_kill_process()
   )
 })
 

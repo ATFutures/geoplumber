@@ -4,10 +4,14 @@
 \alias{gp_change_file}
 \title{Change a source file in place}
 \usage{
-gp_change_file(path = system.file("js/src/App.js", package =
-  "geoplumber"), what = " * geoplumber R package code.",
-  pattern = " * geoplumber R package code.", before = TRUE,
-  replace = FALSE, verbose = FALSE)
+gp_change_file(
+  path = system.file("js/src/App.js", package = "geoplumber"),
+  what = " * geoplumber R package code.",
+  pattern = " * geoplumber R package code.",
+  before = TRUE,
+  replace = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{path}{path of file to change, used in readLines()}

@@ -5,7 +5,9 @@
 \alias{uni_point}
 \alias{uni_poly}
 \title{sf object representing the university of Leeds}
-\format{An object of class \code{sf} (inherits from \code{data.frame}) with 1 rows and 5 columns.}
+\format{
+An object of class \code{sf} (inherits from \code{data.frame}) with 1 rows and 5 columns.
+}
 \usage{
 uni_point
 }

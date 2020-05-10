@@ -4,8 +4,11 @@
 \alias{gp_remove_lines}
 \title{Remove lines from a source file in place}
 \usage{
-gp_remove_lines(path, pattern = " * geoplumber R package code.",
-  lines_count = 1L)
+gp_remove_lines(
+  path,
+  pattern = " * geoplumber R package code.",
+  lines_count = 1L
+)
 }
 \arguments{
 \item{path}{path of file to change, used in readLines()}

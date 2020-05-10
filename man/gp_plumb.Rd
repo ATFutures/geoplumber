@@ -4,8 +4,13 @@
 \alias{gp_plumb}
 \title{Launch a webserver via plumber to serve data}
 \usage{
-gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R",
-  front = FALSE, host = "127.0.0.1")
+gp_plumb(
+  run = TRUE,
+  port = 8000,
+  file = "R/plumber.R",
+  front = FALSE,
+  host = "127.0.0.1"
+)
 }
 \arguments{
 \item{run}{should plumber run the server or return it as an object}
@@ -16,7 +21,7 @@ gp_plumb(run = TRUE, port = 8000, file = "R/plumber.R",
 
 \item{front}{should geoplumber start the front dev server? Defaults}
 
-\item{host}{host to pass to plumber default \code{http://127.0.0.1}
+\item{host}{host to pass to plumber default \verb{http://127.0.0.1}
 to \code{FALSE}.}
 }
 \description{

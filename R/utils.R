@@ -227,3 +227,70 @@ rename_package.json <- function(project_name) {
   # as it could be path or .
   write(pkg_json, "package.json") # project name reset.
 }
+
+
+#' Wrapper function to kill what is listening on a particular port.
+#'
+#' Detect sysytem and run command based on OS. This function supports
+#' Linux, MacOS and Windows. There is no guarantee to kill the process.
+#'
+#' @param port targted port to kill process for defaults to `3000`
+#'
+#' @examples {
+#' gp_kill_process()
+#' }
+#'
+#' @export
+gp_kill_process <- function(port = 3000) {
+  stopifnot(exists("port"))
+  # detect OS
+  os <- get_os()
+  # must use system
+  if(os == "windows") {
+    pid <- system(paste0('netstat -ano | findstr :', port))
+    system(paste0('taskkill /PID', pid,' /F'))
+  } else if(os == "linux") {
+    # linux
+    system(paste0("kill -9 $(lsof -ti tcp:", port,")"))
+  } else {
+    # osx
+    system(paste0("lsof -ti:", port, " | xargs kill -9"))
+  }
+}
+
+#' Internal function to determine if port is engaed.
+#'
+#' @param port to check.
+is_port_engated <- function(port = 3000) {
+  stopifnot(exists("port"))
+  # detect OS
+  os <- get_os()
+  # windows
+  cmd <- paste0('netstat -ano | findstr :', port)
+  cmd <- switch (os,
+    "osx" = paste0("lsof -ti:", port),
+    "linux" = paste0("lsof -ti tcp:", port)
+  )
+  # must use stystem
+  pid <- system(cmd, ignore.stdout = TRUE)
+  if(pid == 0) return(TRUE)
+  FALSE
+}
+
+#' Internal helper function to determine OS in a consistent way.
+#'
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}

@@ -16,10 +16,6 @@ This function must be called from a geoplumber app.
 }
 \examples{
 \dontrun{
-# WARNING: to exit pluse ctrl+c twice to exit on Linux machines.
 gp_plumb_front()
-#> geoplumber@0.1.0 start /tmp/geoplumber
-#> react-scripts start
-# Starting the development server...
 }
 }

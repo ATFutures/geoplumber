@@ -4,7 +4,9 @@
 \name{traffic_casualties_2014}
 \alias{traffic_casualties_2014}
 \title{Road traffic casualties}
-\format{An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 1652 rows and 3 columns.}
+\format{
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 1652 rows and 3 columns.
+}
 \usage{
 traffic_casualties_2014
 }

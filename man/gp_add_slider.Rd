@@ -4,9 +4,13 @@
 \alias{gp_add_slider}
 \title{Adds a basic slider with a callback function to parent.}
 \usage{
-gp_add_slider(min = 1L, max = 10L, step = 1L,
+gp_add_slider(
+  min = 1L,
+  max = 10L,
+  step = 1L,
   js_on_change_function = "onChange={(sliderInput) => this.setState({sliderInput})}",
-  to_vector = "NA")
+  to_vector = "NA"
+)
 }
 \arguments{
 \item{min}{min to pass to the slider}
@@ -16,7 +20,7 @@ gp_add_slider(min = 1L, max = 10L, step = 1L,
 \item{step}{step changes for min & max}
 
 \item{js_on_change_function}{the function to run on React parent (Welcome). By default,
-\code{onChange={(sliderInput) => this.setState({sliderInput})}} sets the state of parent
+\verb{onChange=\{(sliderInput) => this.setState(\{sliderInput\})\}} sets the state of parent
 with value returned from the html input's onChange function.}
 
 \item{to_vector}{instead of reading default Welcome.js}

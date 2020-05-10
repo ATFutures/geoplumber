@@ -9,18 +9,17 @@
 #' @param background run the command in the background, default `TRUE`
 #' @examples
 #' \dontrun{
-#' # WARNING: to exit pluse ctrl+c twice to exit on Linux machines.
 #' gp_plumb_front()
-#' #> geoplumber@0.1.0 start /tmp/geoplumber
-#' #> react-scripts start
-#' # Starting the development server...
 #' }
 #' @export
 gp_plumb_front <- function(background = TRUE) {
   stop_ifnot_geoplumber()
 
   message("Attempting: ", "npm start")
-  # TOD: check port before running
+  if(is_port_engated()) {
+    # TODO: choice of different port
+    stop("Something is running on port 3000.")
+  }
   npm_start(background = background)
-  utils::browseURL("http://localhost:3000")
+  # if(r) utils::browseURL("http://localhost:3000")
 }

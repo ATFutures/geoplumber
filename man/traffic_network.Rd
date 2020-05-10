@@ -4,7 +4,9 @@
 \name{traffic_network}
 \alias{traffic_network}
 \title{Small sample of road network in an sf object.}
-\format{An object of class \code{sf} (inherits from \code{data.frame}) with 361 rows and 1 columns.}
+\format{
+An object of class \code{sf} (inherits from \code{data.frame}) with 361 rows and 1 columns.
+}
 \usage{
 traffic_network
 }

@@ -4,7 +4,9 @@
 \name{traffic}
 \alias{traffic}
 \title{Traffic data from CDRC data sets}
-\format{An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 572 rows and 11 columns.}
+\format{
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 572 rows and 11 columns.
+}
 \usage{
 traffic
 }
