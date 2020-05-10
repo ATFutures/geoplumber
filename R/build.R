@@ -69,6 +69,7 @@ gp_build <- function(clean = FALSE) {
 gp_clean <- function(background = FALSE,
                      rebuild = FALSE, reinstall = TRUE) {
   stop_ifnot_geoplumber()
+  message("clear install and buil...")
   command <- "rm -rf node_modules"
   if(reinstall)
     command <- "npm run clean && npm install"

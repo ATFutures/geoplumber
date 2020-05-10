@@ -21,6 +21,7 @@ test_that("gp_build errs for non geoplumber path", {
 
 test_that("full create", {
   skip_build()
+  # tolower is used to respect CRA rules.
   gp <- tolower(tempdir())
   expect_error(gp_rstudio())
   expect_error(gp_rstudio("NOT_GP_DIR"))
@@ -102,5 +103,5 @@ context("test-gp_erase")
 
 test_that ("full erase", {
   skip_build()
-  expect_silent (gp_erase ())
+  expect_message (gp_erase ())
 })

@@ -2,20 +2,37 @@
 #'
 #' This function assembles the required npm package files to then build from.
 #'
-#' @param path character: existing path of the target gp app.
+#' @param path character: new/existing path of the target gp app.
 #'
 #' @export
 #' @examples
-#' gp_create(tempdir()) # it would simulate an app in tempdir()
+#' p = file.path(tempdir(), "gp_app")
+#' gp_create(p)
+#' gp_erase()
 gp_create <- function(path = getwd()) {
   if(gp_is_wd_geoplumber())
     stop("Directory seems to be a gp app already.")
-  if(!dir.exists(path))
-    stop(paste0('Directory ', path, "' does not exist."))
+  if(!dir.exists(path)) {
+    message("Creating directory: ", path)
+    dir.create(path)
+  } else {
+    # check to proceed if other files exist
+    if(length(dir(path)) !=0) {
+      if(interactive()) {
+        print(list.files(path))
+        reply = menu(c("Yes", "No"), title="Directory not empty, proceed?")
+        if(reply == 2) {
+          stop("OK leaving '", path, "' untouched.")
+        }
+      } else {
+        # TODO: could use force=TRUE param
+        stop("Directory '", path, "' not empty.")
+      }
+    }
+  }
   # simulate an app
   dir.create(file.path(path, "R"))
-  # cross platform of doing:
-  # system(paste0("cp -R ", system.file("js", package = "geoplumber"), "/* ", path))
+  # copy CRA files over
   gp_temp_files <- list.files(
     system.file("js", package="geoplumber"))
   sapply(gp_temp_files, function(x){
@@ -51,6 +68,7 @@ gp_erase <- function(dir_name = NULL) {
   wd <- getwd ()
   setwd (dir_name)
   setwd ("..")
+  message("Erasing ", dir_name)
   unlink (dir_name, recursive = TRUE)
   if (file.exists (tempfile_name ()))
     invisible (file.remove (tempfile_name ()))

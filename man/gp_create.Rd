@@ -7,11 +7,13 @@
 gp_create(path = getwd())
 }
 \arguments{
-\item{path}{character: existing path of the target gp app.}
+\item{path}{character: new/existing path of the target gp app.}
 }
 \description{
 This function assembles the required npm package files to then build from.
 }
 \examples{
-gp_create(tempdir()) # it would simulate an app in tempdir()
+p = file.path(tempdir(), "gp_app")
+gp_create(p)
+gp_erase()
 }
