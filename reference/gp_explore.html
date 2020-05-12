@@ -147,7 +147,8 @@ component. The rest is managed by <code><a href='gp_plumb.html'>gp_plumb()</a></
   <span class='kw'>sf</span> <span class='kw'>=</span> <span class='kw pkg'>geoplumber</span><span class='kw ns'>::</span><span class='no'><a href='traffic.html'>traffic</a></span>,
   <span class='kw'>run</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
-  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8000</span>
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8000</span>,
+  <span class='kw'>browser</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -168,6 +169,11 @@ component. The rest is managed by <code><a href='gp_plumb.html'>gp_plumb()</a></
     <tr>
       <th>port</th>
       <td><p>port to use</p></td>
+    </tr>
+    <tr>
+      <th>browser</th>
+      <td><p>a logical value, default is <code>FALSE</code> with priority given to
+availability of Rstudio environemnt.</p></td>
     </tr>
     </table>
 
