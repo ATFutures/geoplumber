@@ -6,15 +6,13 @@
 #'
 #' @param sf a valid sf object that can be converted to geojson
 #' @param props_list one named list of menuitmes to explore sf object with.
-#' @param build whether to build the front-end.
 #'
 #' @examples \dontrun{
 #' gp_sf()
 #' }
 #' @export
 gp_sf <- function(sf = geoplumber::traffic,
-                  props_list = list(road = geoplumber::traffic$road),
-                  build = FALSE) {
+                  props_list = list(road = geoplumber::traffic$road)) {
   # no more than one param for now
   if(length(props_list) > 1)
     stop("gp_sf is young, can only take one variable. WIP.")
@@ -106,13 +104,9 @@ gp_sf <- function(sf = geoplumber::traffic,
   write(parent, "src/Welcome.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
-    if(build) {
-      # TODO: gp_build is not made for this or refactor it.
-      gp_build()
-      utils::browseURL("http://localhost:8000")
-    } else {
-      gp_plumb_front()
-    }
+    # TODO: gp_build is not made for this or refactor it.
+    gp_build()
+    utils::browseURL("http://localhost:8000")
     # TODO: is it free?
     # is_port_engated(port = 8000)
     # attempt starting backend in any case
