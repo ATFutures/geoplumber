@@ -1,6 +1,7 @@
 ^README\.Rmd$
 ^geoplumber$
 ^my_app$
+^my-app$
 ^Dockerfile$
 ^DONT_COMMIT\.r$
 ^.*\.Rproj$

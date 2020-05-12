@@ -106,7 +106,7 @@ gp_sf <- function(sf = geoplumber::traffic,
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
     # TODO: gp_build is not made for this or refactor it.
     gp_build()
-    utils::browseURL("http://localhost:8000")
+    openURL()
     # TODO: is it free?
     # is_port_engated(port = 8000)
     # attempt starting backend in any case

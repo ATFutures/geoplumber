@@ -6,16 +6,13 @@
 \usage{
 gp_sf(
   sf = geoplumber::traffic,
-  props_list = list(road = geoplumber::traffic$road),
-  build = FALSE
+  props_list = list(road = geoplumber::traffic$road)
 )
 }
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}
 
 \item{props_list}{one named list of menuitmes to explore sf object with.}
-
-\item{build}{whether to build the front-end.}
 }
 \description{
 The function (for now) takes one parameter to bounce back

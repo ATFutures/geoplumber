@@ -28,7 +28,7 @@ test_that("full create", {
   dir.create(gp) # must create in test before file.create
   file.create(f)
   expect_error(gp_create (gp))
-  unlink(gp, recursive = TRUE) # so that gp_create doe it
+  unlink(gp, recursive = TRUE) # so that gp_create does it
   # create full
   # dir.create(gp) less covr if used
   expect_message(gp_create (gp))
@@ -94,8 +94,6 @@ test_that ("default endpoints", {
 context("test-gp_sf")
 
 test_that ("gp_sf can serve default sf object", {
-  skip_build()
-  expect_message (gp_build ())
   Sys.setenv(DO_NOT_PLUMB = 'false')
   on.exit(Sys.unsetenv("DO_NOT_PLUMB"))
   expect_equal(gp_sf(), TRUE)

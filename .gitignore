@@ -24,5 +24,6 @@ yarn-error.log*
 # default app
 /geoplumber
 /my_app
+/my-app
 # special
 DONT_COMMIT.R

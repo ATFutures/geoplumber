@@ -2,14 +2,14 @@
 % Please edit documentation in R/create.R
 \name{gp_erase}
 \alias{gp_erase}
-\title{Remove a plumber project and clean associated directories}
+\title{Remove a geoplumber project and clean associated directories}
 \usage{
 gp_erase(dir_name = NULL)
 }
 \arguments{
-\item{dir_name}{Name of project directory (if NULL, previously-built
+\item{dir_name}{name of gp project directory (if NULL, previously-built
 directory will be erased)}
 }
 \description{
-Remove a plumber project and clean associated directories
+Remove a geoplumber project and clean associated directories
 }

@@ -7,6 +7,7 @@
 #'
 #'
 #' @param background run the command in the background, default `TRUE`
+#'
 #' @examples
 #' \dontrun{
 #' gp_plumb_front()
@@ -20,6 +21,6 @@ gp_plumb_front <- function(background = TRUE) {
     # TODO: choice of different port
     stop("Something is running on port 3000.")
   }
-  npm_start(background = background)
+  system("npm start", wait = !background)
   # if(r) utils::browseURL("http://localhost:3000")
 }

@@ -19,8 +19,10 @@ gp_create <- function(path = getwd()) {
     # check to proceed if other files exist
     if(length(dir(path)) !=0) {
       if(interactive()) {
-        print(list.files(path))
-        reply = utils::menu(c("Yes", "No"), title="Directory not empty, proceed?")
+        message("Path: ", path)
+        message(list.files(path))
+        reply = utils::menu(c("Yes", "No"),
+                            title="Directory not empty, proceed?")
         if(reply == 2) {
           stop("OK leaving '", path, "' untouched.")
         }
@@ -56,24 +58,28 @@ gp_create <- function(path = getwd()) {
 }
 
 
-#' Remove a plumber project and clean associated directories
+#' Remove a geoplumber project and clean associated directories
 #'
-#' @param dir_name Name of project directory (if NULL, previously-built
+#' @param dir_name name of gp project directory (if NULL, previously-built
 #' directory will be erased)
 #'
 #' @export
 gp_erase <- function(dir_name = NULL) {
-  if (is.null (dir_name))
+  if (is.null(dir_name))
     dir_name <- read_tempfile() # from R/utils.R
-  wd <- getwd ()
-  setwd (dir_name)
-  setwd ("..")
-  message("Erasing '", dir_name, "' ...")
-  unlink (dir_name, recursive = TRUE)
-  if (file.exists (tempfile_name ()))
-    invisible (file.remove (tempfile_name ()))
-  if (file.exists (wd))
-    setwd (wd)
+  wd <- getwd()
+  # only a gp directory, could check with user
+  # if not interactive, wont be so useful
+  if(gp_is_wd_geoplumber(dir_name)) {
+    setwd (dir_name)
+    setwd ("..")
+    message("Erasing '", dir_name, "' ...")
+    unlink (dir_name, recursive = TRUE)
+    if (file.exists(tempfile_name()))
+      invisible(file.remove(tempfile_name()))
+    if (file.exists(wd)) # dir_name might have been wd itself
+      setwd(wd)
+  }
 }
 
 #' Essential checks for certain functions of geoplumber.
