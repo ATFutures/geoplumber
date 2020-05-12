@@ -9,7 +9,8 @@ gp_explore(
   sf = geoplumber::traffic,
   run = TRUE,
   host = "127.0.0.1",
-  port = 8000
+  port = 8000,
+  browser = FALSE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ gp_explore(
 \item{host}{host to pass to plumber default \verb{http://127.0.0.1}}
 
 \item{port}{port to use}
+
+\item{browser}{a logical value, default is \code{FALSE} with priority given to
+availability of Rstudio environemnt.}
 }
 \description{
 Currently the function works only with Turing eAtlas npm

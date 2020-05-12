@@ -12,6 +12,8 @@
 #' @param run if `TRUE` run geoplumber
 #' @param host host to pass to plumber default `http://127.0.0.1`
 #' @param port port to use
+#' @param browser a logical value, default is `FALSE` with priority given to
+#' availability of Rstudio environemnt.
 #'
 #' @examples \dontrun{
 #' gp_explore()
@@ -20,7 +22,8 @@
 gp_explore <- function(sf = geoplumber::traffic,
                   run = TRUE,
                   host = "127.0.0.1",
-                  port = 8000) {
+                  port = 8000,
+                  browser = FALSE) {
   # gp_plumb checks project availability
   server <- gp_plumb(run = FALSE)
   # convert sf to geojson
@@ -71,7 +74,7 @@ gp_explore <- function(sf = geoplumber::traffic,
   if(run) {
     gp_install_npm_package(tolower(component.name))
     # TODO: gp_build is not made for this or refactor it.
-    message("building ...")
+    message("Building ...")
     gp_build()
     openURL(host, port)
     # TODO: is it free?
@@ -79,7 +82,6 @@ gp_explore <- function(sf = geoplumber::traffic,
     # attempt starting backend in any case
     message("Serving data on at ", "http://localhost:8000/api/gp")
     server$run(port = 8000)
-    print("fiqlush")
   }
 }
 
