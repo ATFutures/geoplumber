@@ -65,24 +65,40 @@ add_lines <- function (target, pattern, what, before = TRUE) {
 
 #' takes a vector of strings, adds a Babel style import statement
 #'
-#' @param target vector to add import in
-#' @param component.name Raect name of component
-#' @param component.path path to "import" from
+#' @param target vector to add import statement in.
+#' @param component.name name of component to import.
+#' @param component.path path to "import" from.
+#' @param keyword to use as anchor to add import statement.
+#' @param package is the import statement for a package?
+#' TODO: multiple or `const {}` JS way of importing.
 #'
-add_import_component <- function(target, component.name, component.path) {
+add_import_component <- function(
+  target,
+  component.name,
+  component.path,
+  keyword = "export default",
+  package = FALSE) {
+  r <- target
   # Import new component
   # Above 'export default'
-  export.index <- grep("export default", target)
+  export.index <- grep(keyword, target)
   # check for duplicate
   component.name.added <- grepl(paste0("import ", component.name), target)
   if(!any(component.name.added)) {
-    target <- c(target[1:export.index - 1],
-                 # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
-                 paste0("import ", component.name, " from './", component.path, "';"),
+    # import GeoJSONComponent from '/components/GeoJSONComponent.jsx';
+    # or
+    # import Component from 'component' for npm packages
+    line <- paste0("import ", component.name, " from './",
+                   component.path, "';")
+    if(package) {
+      line <- paste0("import ", component.name, " from '",
+                     component.path, "';")
+    }
+    r <- c(target[1:export.index - 1], line,
                  target[export.index:length(target)]
     )
   }
-  target
+  r
 }
 
 #' Remove lines from a source file in place
@@ -165,19 +181,6 @@ next_spaces <- function(x, count = 4) {
   spaces <- rep(" ",  spaces + count)
   spaces <- paste(spaces, collapse = "")
   spaces
-}
-
-# run npm in the background?
-npm_start <- function(background = TRUE) {
-  command <- "npm start &"
-  if(!background)
-    command <- "npm start" # run it in front
-  npm_start_success <- system(command)
-  if(npm_start_success != 0) {
-    message("There was an error running ", command, ".")
-    return(FALSE)
-  }
-  return(TRUE)
 }
 
 # checks if Rproj file exists in current working dir
@@ -293,4 +296,13 @@ get_os <- function(){
       os <- "linux"
   }
   tolower(os)
+}
+
+openURL <- function(host = "127.0.0.1", port = 8000) {
+  viewer <- getOption("viewer")
+  if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
+    viewer(paste0("http://",host,":",port))
+  } else {
+    utils::browseURL(paste0("http://",host,":",port))
+  }
 }

@@ -19,7 +19,6 @@ gp_plumb <- function(run = TRUE,
                      file = "R/plumber.R",
                      front = FALSE,
                      host = "127.0.0.1") {
-  wd <- change_to_proj_dir ()
   stop_ifnot_geoplumber()
 
   # todo: when initiating project copy plumber.R file to somewhere sensible
@@ -41,16 +40,11 @@ gp_plumb <- function(run = TRUE,
   # run front
   # TODO: specify front port
   if(front) {
-    npm_start()
+    gp_plumb_front()
   }
   # run plumb
   if(run) {
-    viewer <- getOption("viewer")
-    if(identical(.Platform$GUI, "RStudio") && !is.null(viewer)) {
-      viewer(paste0("http://",host,":",port))
-    } else {
-      utils::browseURL(paste0("http://",host,":",port))
-    }
+    openURL(host, port)
     server$run(port = port, host = host)
   } else {
     return(server)
