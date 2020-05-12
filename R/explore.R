@@ -1,8 +1,14 @@
-#' Explore an sf R object using Turing eAtlas.
+#' Explore an sf R object using a JS front-end tool such as
+#' Turing eAtlas or Kepler.gl.
+#'
+#' Currently the function works only with Turing eAtlas npm
+#' package and required more work to get a smooth result.
+#' The function simply adds the import statements and preceeds the Route
+#' in the main App.js module so that root path "/" hits the new
+#' component. The rest is managed by [gp_plumb()].
 #'
 #'
 #' @param sf a valid sf object that can be converted to geojson
-#' @param build if `TRUE` build the front-end.
 #' @param run if `TRUE` run geoplumber
 #' @param host host to pass to plumber default `http://127.0.0.1`
 #' @param port port to use
@@ -12,7 +18,6 @@
 #' }
 #' @export
 gp_explore <- function(sf = geoplumber::traffic,
-                  build = FALSE,
                   run = TRUE,
                   host = "127.0.0.1",
                   port = 8000) {

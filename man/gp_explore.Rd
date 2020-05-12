@@ -2,11 +2,11 @@
 % Please edit documentation in R/explore.R
 \name{gp_explore}
 \alias{gp_explore}
-\title{Explore an sf R object using Turing eAtlas.}
+\title{Explore an sf R object using a JS front-end tool such as
+Turing eAtlas or Kepler.gl.}
 \usage{
 gp_explore(
   sf = geoplumber::traffic,
-  build = FALSE,
   run = TRUE,
   host = "127.0.0.1",
   port = 8000
@@ -15,8 +15,6 @@ gp_explore(
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}
 
-\item{build}{if \code{TRUE} build the front-end.}
-
 \item{run}{if \code{TRUE} run geoplumber}
 
 \item{host}{host to pass to plumber default \verb{http://127.0.0.1}}
@@ -24,7 +22,11 @@ gp_explore(
 \item{port}{port to use}
 }
 \description{
-Explore an sf R object using Turing eAtlas.
+Currently the function works only with Turing eAtlas npm
+package and required more work to get a smooth result.
+The function simply adds the import statements and preceeds the Route
+in the main App.js module so that root path "/" hits the new
+component. The rest is managed by \code{\link[=gp_plumb]{gp_plumb()}}.
 }
 \examples{
 \dontrun{
