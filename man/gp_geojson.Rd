@@ -4,12 +4,14 @@
 \alias{gp_geojson}
 \title{Explore a geojson object from a remote URL on a map.}
 \usage{
-gp_geojson(geojson_url, colour_pal = "")
+gp_geojson(geojson_url, colour_pal = "", build = TRUE)
 }
 \arguments{
 \item{geojson_url}{URL or path to read geojson from}
 
 \item{colour_pal}{the value to use when colouring each feature}
+
+\item{build}{whether to build React front-end, defaults to \code{TRUE}.}
 }
 \description{
 Explore a geojson object from a remote URL on a map.

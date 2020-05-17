@@ -3,13 +3,16 @@
 #'
 #' @param geojson_url URL or path to read geojson from
 #' @param colour_pal the value to use when colouring each feature
+#' @param build whether to build React front-end, defaults to `TRUE`.
 #'
 #' @examples \dontrun{
 #' gp_geojson(paste0("http://opendata.canterburymaps.govt.nz/datasets/",
 #' "fb00b553120b4f2fac49aa76bc8d82aa_26.geojson"))
 #' }
 #' @export
-gp_geojson <- function(geojson_url, colour_pal = "") {
+gp_geojson <- function(geojson_url,
+                       colour_pal = "",
+                       build = TRUE) {
   stop_ifnot_geoplumber()
   if(missing(geojson_url))
     stop("gp_geojson needs a geojson_url to pull .geojson from.")
@@ -63,8 +66,10 @@ gp_geojson <- function(geojson_url, colour_pal = "") {
   write(parent, "src/Welcome.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
-    gp_build()
+    if(build) gp_build()
     message("Serving data on at ", "http://localhost:8000/api/gp")
+    openURL()
+    # blocking by design
     server$run(port = 8000)
   } else {
     return(TRUE)

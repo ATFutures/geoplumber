@@ -50,7 +50,7 @@ gp_explore <- function(sf = geoplumber::traffic,
     "<Route", # pattern
     c(        # what
       # <Route exact path="/" component={
-      paste0('<Route exact path="/" component={'),
+      paste0('<Route exact path="/explore" component={'),
       # () => <Eatlas defaultURL="http://localhost:8000/api/explore"/>
       paste0('() => <Eatlas defaultURL="http://localhost:8000', endpoint,'"/>'),
       '}/>'
@@ -64,7 +64,6 @@ gp_explore <- function(sf = geoplumber::traffic,
     if(build) {
       # TODO: gp_build is not made for this or refactor it.
       gp_build()
-      utils::browseURL("http://localhost:8000")
     } else {
       gp_plumb_front()
     }
@@ -74,6 +73,7 @@ gp_explore <- function(sf = geoplumber::traffic,
     message("Serving data on at ", "http://localhost:8000/api/gp")
     f <- function(s, p) s$run(port = p)
     ps <- callr::r_bg(f, list(s = server, p = 8000))
+    openURL(path = "explore")
     return(ps)
   }
 }

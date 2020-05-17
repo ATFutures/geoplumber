@@ -300,13 +300,15 @@ get_os <- function(){
 
 openURL <- function(host = "127.0.0.1",
                     port = 8000,
-                    browser = FALSE) {
+                    browser = FALSE,
+                    path = "") {
+  u = paste0("http://",host,":",port, "/", path)
   viewer <- getOption("viewer")
   if(identical(.Platform$GUI, "RStudio") &&
      !is.null(viewer) &&
      !browser) {
-    viewer(paste0("http://",host,":",port))
+    viewer(u)
   } else {
-    utils::browseURL(paste0("http://",host,":",port))
+    utils::browseURL(u)
   }
 }
