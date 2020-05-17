@@ -11,9 +11,12 @@ test_that("import added", {
   expect_true(any(grepl("eatlas", cont)))
   expect_true(any(grepl("<Route", cont)))
   expect_true(any(grepl("defaultURL=", cont)))
+  # run = TRUE
+  gp_explore(build = TRUE)
   teardown({
     gp_erase() # should do it
     setwd(od)
+    gp_kill_process
   })
 })
 
