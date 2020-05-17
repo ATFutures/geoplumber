@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Explore an sf R object using a JS front-end tool such as
-Turing eAtlas or Kepler.gl. — gp_explore • geoplumber</title>
+<title>Explore an sf R object using Turing eAtlas. — gp_explore • geoplumber</title>
 
 
 <!-- jquery -->
@@ -40,13 +39,8 @@ Turing eAtlas or Kepler.gl. — gp_explore • geoplumber</title>
 
 
 
-<meta property="og:title" content="Explore an sf R object using a JS front-end tool such as
-Turing eAtlas or Kepler.gl. — gp_explore" />
-<meta property="og:description" content="Currently the function works only with Turing eAtlas npm
-package and required more work to get a smooth result.
-The function simply adds the import statements and preceeds the Route
-in the main App.js module so that root path &quot;/&quot; hits the new
-component. The rest is managed by gp_plumb()." />
+<meta property="og:title" content="Explore an sf R object using Turing eAtlas. — gp_explore" />
+<meta property="og:description" content="Explore an sf R object using Turing eAtlas." />
 
 
 
@@ -129,27 +123,16 @@ component. The rest is managed by gp_plumb()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Explore an sf R object using a JS front-end tool such as
-Turing eAtlas or Kepler.gl.</h1>
+    <h1>Explore an sf R object using Turing eAtlas.</h1>
     <small class="dont-index">Source: <a href='https://github.com/ATFutures/geoplumber/blob/master/R/explore.R'><code>R/explore.R</code></a></small>
     <div class="hidden name"><code>gp_explore.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Currently the function works only with Turing eAtlas npm
-package and required more work to get a smooth result.
-The function simply adds the import statements and preceeds the Route
-in the main App.js module so that root path "/" hits the new
-component. The rest is managed by <code><a href='gp_plumb.html'>gp_plumb()</a></code>.</p>
+    <p>Explore an sf R object using Turing eAtlas.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gp_explore</span>(
-  <span class='kw'>sf</span> <span class='kw'>=</span> <span class='kw pkg'>geoplumber</span><span class='kw ns'>::</span><span class='no'><a href='traffic.html'>traffic</a></span>,
-  <span class='kw'>run</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
-  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8000</span>,
-  <span class='kw'>browser</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>gp_explore</span>(<span class='kw'>sf</span> <span class='kw'>=</span> <span class='kw pkg'>geoplumber</span><span class='kw ns'>::</span><span class='no'><a href='traffic.html'>traffic</a></span>, <span class='kw'>build</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>run</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,21 +142,12 @@ component. The rest is managed by <code><a href='gp_plumb.html'>gp_plumb()</a></
       <td><p>a valid sf object that can be converted to geojson</p></td>
     </tr>
     <tr>
+      <th>build</th>
+      <td><p>if <code>TRUE</code> build the front-end.</p></td>
+    </tr>
+    <tr>
       <th>run</th>
       <td><p>if <code>TRUE</code> run geoplumber</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>host to pass to plumber default <code>http://127.0.0.1</code></p></td>
-    </tr>
-    <tr>
-      <th>port</th>
-      <td><p>port to use</p></td>
-    </tr>
-    <tr>
-      <th>browser</th>
-      <td><p>a logical value, default is <code>FALSE</code> with priority given to
-availability of Rstudio environemnt.</p></td>
     </tr>
     </table>
 
