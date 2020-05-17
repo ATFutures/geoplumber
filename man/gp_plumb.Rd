@@ -9,7 +9,8 @@ gp_plumb(
   port = 8000,
   file = "R/plumber.R",
   front = FALSE,
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  background = TRUE
 )
 }
 \arguments{
@@ -23,15 +24,34 @@ gp_plumb(
 
 \item{host}{host to pass to plumber default \verb{http://127.0.0.1}
 to \code{FALSE}.}
+
+\item{background}{run the R process in the background using callr,
+defaults to \code{TRUE}.}
+}
+\value{
+an instance of plumber::plumb if \code{run} is set to \code{FALSE},
+a process id from \code{callr::r_bg} to easily destroy if parameter
+\code{background} is default \code{TRUE}.
 }
 \description{
 Launch a webserver via plumber to serve data
 }
 \examples{
-\dontrun{
-gp_install_react() # install react
-gp_build() # build frond-end
-gp_plumb()
+{
+d <- file.path(tempdir(), "gp")
+gp_create(d)
+old <- setwd(d)
+ps <- gp_plumb()
+ps
+Sys.sleep(1) # just in case
+ps
+require(RCurl)
+webpage <- getURL("http://localhost:8000")
+webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+tail(webpage)
+ps$kill()
+setwd(old)
+unlink(d, recursive = TRUE)
 }
 }
 \seealso{

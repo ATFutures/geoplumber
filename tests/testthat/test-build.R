@@ -36,8 +36,7 @@ test_that("full create", {
   expect_true(file.exists (proj_dir))
   js_file <- file.path (proj_dir, "package.json")
   expect_true(file.exists (js_file))
-
-  setwd(proj_dir) # we are in the new app dir
+  old <- setwd(proj_dir) # we are in the new app dir
   expect_false(rproj_file_exists(""))
   expect_true(gp_is_wd_geoplumber())
   gp_rstudio()
@@ -45,6 +44,7 @@ test_that("full create", {
   expect_error(gp_rstudio(c(NA,NA)))
   # expect_true(rproj_file_exists())
   teardown(unlink(gp, recursive = TRUE))
+  teardown(setwd(old))
   # rproj before create
   tmp <- file.path(tolower(tempdir()), "my_app")
   dir.create(tmp)
@@ -56,10 +56,19 @@ test_that("full create", {
 # test before build test
 test_that("gp_plumb can serve API only", {
   # needs to skip as gp_is_wd_geoplumber == FALSE
-  skip_build()
+  # skip_build()
   expect_message(gp_plumb(run = FALSE, file = "R/plumber.R"))
   r <- gp_plumb(run = FALSE, file = "R/plumber.R")
   expect_equal(length(r$endpoints[[1]]), 5) # added extra endpoint
+  # print(gp_is_wd_geoplumber())
+  ps <- gp_plumb()
+  expect_true(inherits(ps, "r_process"))
+  # require(RCurl)
+  # webpage <- getURL("http://localhost:8000")
+  # webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+  # print(tail(webpage))
+  ps$kill()
+  on.exit(tryCatch(ps$kill, error = function(e) NULL), add = TRUE)
 })
 
 test_that ("full build", {

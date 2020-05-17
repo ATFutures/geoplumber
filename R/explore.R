@@ -1,29 +1,17 @@
-#' Explore an sf R object using a JS front-end tool such as
-#' Turing eAtlas or Kepler.gl.
-#'
-#' Currently the function works only with Turing eAtlas npm
-#' package and required more work to get a smooth result.
-#' The function simply adds the import statements and preceeds the Route
-#' in the main App.js module so that root path "/" hits the new
-#' component. The rest is managed by [gp_plumb()].
+#' Explore an sf R object using Turing eAtlas.
 #'
 #'
 #' @param sf a valid sf object that can be converted to geojson
+#' @param build if `TRUE` build the front-end.
 #' @param run if `TRUE` run geoplumber
-#' @param host host to pass to plumber default `http://127.0.0.1`
-#' @param port port to use
-#' @param browser a logical value, default is `FALSE` with priority given to
-#' availability of Rstudio environemnt.
 #'
 #' @examples \dontrun{
 #' gp_explore()
 #' }
 #' @export
 gp_explore <- function(sf = geoplumber::traffic,
-                  run = TRUE,
-                  host = "127.0.0.1",
-                  port = 8000,
-                  browser = FALSE) {
+                       build = FALSE,
+                       run = TRUE) {
   # gp_plumb checks project availability
   server <- gp_plumb(run = FALSE)
   # convert sf to geojson
@@ -54,7 +42,7 @@ gp_explore <- function(sf = geoplumber::traffic,
   parent <- add_import_component(parent,
                                  component.name,
                                  tolower(component.name),
-                                 keyword = "class App",
+                                 keyword="class App",
                                  package = TRUE)
   # add component
   parent <- add_lines(
@@ -73,15 +61,20 @@ gp_explore <- function(sf = geoplumber::traffic,
   # build & serve
   if(run) {
     gp_install_npm_package(tolower(component.name))
-    # TODO: gp_build is not made for this or refactor it.
-    message("Building ...")
-    gp_build()
-    openURL(host, port)
+    if(build) {
+      # TODO: gp_build is not made for this or refactor it.
+      gp_build()
+      utils::browseURL("http://localhost:8000")
+    } else {
+      gp_plumb_front()
+    }
     # TODO: is it free?
     # is_port_engated(port = 8000)
     # attempt starting backend in any case
     message("Serving data on at ", "http://localhost:8000/api/gp")
-    server$run(port = 8000)
+    f <- function(s, p) s$run(port = p)
+    ps <- callr::r_bg(f, list(s = server, p = 8000))
+    return(ps)
   }
 }
 

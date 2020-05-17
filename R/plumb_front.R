@@ -21,6 +21,10 @@ gp_plumb_front <- function(background = TRUE) {
     # TODO: choice of different port
     stop("Something is running on port 3000.")
   }
-  system("npm start", wait = !background)
+  if(background) {
+    ps <- callr::r_bg(system, list("npm start"))
+    return(ps)
+  }
+  system("npm start")
   # if(r) utils::browseURL("http://localhost:3000")
 }

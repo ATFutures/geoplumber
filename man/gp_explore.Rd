@@ -2,35 +2,19 @@
 % Please edit documentation in R/explore.R
 \name{gp_explore}
 \alias{gp_explore}
-\title{Explore an sf R object using a JS front-end tool such as
-Turing eAtlas or Kepler.gl.}
+\title{Explore an sf R object using Turing eAtlas.}
 \usage{
-gp_explore(
-  sf = geoplumber::traffic,
-  run = TRUE,
-  host = "127.0.0.1",
-  port = 8000,
-  browser = FALSE
-)
+gp_explore(sf = geoplumber::traffic, build = FALSE, run = TRUE)
 }
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}
 
+\item{build}{if \code{TRUE} build the front-end.}
+
 \item{run}{if \code{TRUE} run geoplumber}
-
-\item{host}{host to pass to plumber default \verb{http://127.0.0.1}}
-
-\item{port}{port to use}
-
-\item{browser}{a logical value, default is \code{FALSE} with priority given to
-availability of Rstudio environemnt.}
 }
 \description{
-Currently the function works only with Turing eAtlas npm
-package and required more work to get a smooth result.
-The function simply adds the import statements and preceeds the Route
-in the main App.js module so that root path "/" hits the new
-component. The rest is managed by \code{\link[=gp_plumb]{gp_plumb()}}.
+Explore an sf R object using Turing eAtlas.
 }
 \examples{
 \dontrun{
