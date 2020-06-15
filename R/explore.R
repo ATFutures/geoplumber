@@ -60,12 +60,11 @@ gp_explore <- function(sf = geoplumber::traffic,
   write(parent, "src/App.js")
   # build & serve
   if(run) {
+    # TODO: if already installed skip
     gp_install_npm_package(tolower(component.name))
     if(build) {
       # TODO: gp_build is not made for this or refactor it.
       gp_build()
-    } else {
-      gp_plumb_front()
     }
     # TODO: is it free?
     # is_port_engated(port = 8000)

@@ -18,7 +18,7 @@ gp_create <- function(path = getwd()) {
   } else {
     # check to proceed if other files exist
     if(length(dir(path)) !=0) {
-      if(interactive()) {
+      if(interactive() && force) {
         message("Path: ", path)
         message(list.files(path))
         reply = utils::menu(c("Yes", "No"),
