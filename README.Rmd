@@ -166,7 +166,11 @@ gp_plumb()
 
 Or in the following "export" function a basic `leaflet` map using the "headless" `gp_map` funciton:
 
-```{r, echo=TRUE}
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="<a href='https://www.cdrc.ac.uk/'>CDRC</a> London traffic data on geoplumber"}
+ knitr::include_graphics("man/figures/gp.png")
+```
+
+```{r, echo=TRUE, eval=FALSE}
 # cd into a geoplumber app
 setwd("my-app/")
 library(geoplumber)
@@ -176,7 +180,6 @@ t <- gp_map(geoplumber::traffic, browse_map = FALSE,
 # use includeHTML for markdown
 htmltools::includeHTML(t)
 ```
-<center><a href='https://www.cdrc.ac.uk/'>CDRC</a> London traffic data on `geoplumber`. </center>
 
 You can also now see the raw JSON dataset at  `http://localhost:8000/api/data`,
 and on a map on a browser view the map at `http://localhost:8000`.
