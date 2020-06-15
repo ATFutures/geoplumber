@@ -132,7 +132,13 @@
     <p>Export geojson object on a map.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gp_map</span>(<span class='no'>x</span>, <span class='kw'>browse_map</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dest_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</pre>
+    <pre class="usage"><span class='fu'>gp_map</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>browse_map</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dest_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,10 +154,21 @@ defaults to <code>TRUE</code></p></td>
     </tr>
     <tr>
       <th>dest_path</th>
-      <td><p>character: write output to tempdir (default)?</p></td>
+      <td><p>character: write output to <code>tempdir</code> (default).</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>character: css compatible option for map height.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>character: css compatible option for map width.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>path character of path that html file was written to.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

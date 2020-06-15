@@ -86,7 +86,7 @@
                         <h4 class="author">Dr Layik Hama<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> — University of Leeds, Leeds Institute for Data Analytics (LIDA)</h4>
                         <h4 class="author">Dr Robin Lovelace<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> — University of Leeds, Institute for Transport Studies (ITS) and Leeds Institute for Data Analytics (LIDA)</h4>
             
-            <h4 class="date">2020-05-17</h4>
+            <h4 class="date">2020-06-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ATFutures/geoplumber/blob/master/vignettes/paper.Rmd"><code>vignettes/paper.Rmd</code></a></small>
       <div class="hidden name"><code>paper.Rmd</code></div>
@@ -133,9 +133,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">dir_name</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
 <span class="fu"><a href="../reference/gp_create.html">gp_create</a></span>(<span class="no">dir_name</span>)
-<span class="co">#&gt; To build/run app, set working directory to: /tmp/RtmpfgeXOl/my_app</span>
+<span class="co">#&gt; To build/run app, set working directory to: /tmp/RtmpDbS63h/my_app</span>
 <span class="co">#&gt; Standard output from create-react-app works.</span>
-<span class="co">#&gt; You can run gp_ functions from directory: /tmp/RtmpfgeXOl/my_app</span>
+<span class="co">#&gt; You can run gp_ functions from directory: /tmp/RtmpDbS63h/my_app</span>
 <span class="co">#&gt; To build the front end run: gp_build()</span>
 <span class="co">#&gt; To run the geoplumber app: gp_plumb()</span>
 <span class="co">#&gt; Happy coding.</span>
@@ -157,7 +157,7 @@
 <p>We can then do all our data processing straight from R and serve the data using API end-points. <code>plumber</code> works by adding tags in front of standard R functions. Lets get some data using <code>stats19</code> package.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stats19</span>)
 <span class="no">accidents</span> <span class="kw">=</span> <span class="kw pkg">stats19</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/stats19/reference/get_stats19.html">get_stats19</a></span>(<span class="kw">year</span> <span class="kw">=</span> <span class="fl">2017</span>, <span class="kw">ask</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="no">accidents</span> <span class="kw">=</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="no">accidents</span>, <span class="fl">500</span>)
+<span class="no">accidents</span> <span class="kw">=</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">accidents</span>, <span class="fl">500</span>)
 <span class="no">accidents</span> <span class="kw">=</span> <span class="kw pkg">stats19</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/stats19/reference/format_sf.html">format_sf</a></span>(<span class="no">accidents</span>, <span class="kw">lonlat</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>For example, to geneate an end-point that returns an R object which contains JSON data in a parameter called <code>accidents_geojson</code>, we could write a function like this and add into a <code>geoplumber</code> app’s <code>R/plumber.R</code> file:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">#' @get /api/stats19                             # 1</span>
