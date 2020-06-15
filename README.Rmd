@@ -24,7 +24,7 @@ In other words, geoplumber is a lightweight geographic data server, like a bareb
 
 It can be installed with the following command as it is not yet on CRAN:
 
-```{r install_github, message=FALSE, results=FALSE}
+```{r install_github, message=FALSE, eval=FALSE}
 devtools::install_github("ATFutures/geoplumber")
 #> got the lastest dev version
 ```
@@ -56,19 +56,19 @@ The following are included by default, the versions are just from old .Rmd file.
 data <- read.csv(text=
     "package                , Usage
     create-react-app        , main package to manage front end
-    enzyme                  , test suite
-    enzyme-adapter-react-16 , test suite adapter for React
+    prop-types              , React propTypes
+    react                   , React main
+    react-dom               , React DOM
+    react-bootstrap         , bootstrapZ
     leaflet                 , current default web mapping library 
-    prop-types              , React bits and pieces
-    react                   , React
-    react-bootstrap         , bootstrap is current choice.
-    react-dom               , React
     react-leaflet           , React wrapper around leaflet above
     react-leaflet-control   , React map control
     react-router            , React router (RR) 
     react-router-dom        , React dom for RR
     react-scripts           , main package to manage front end
     react-test-renderer     , test suite
+    enzyme                  , test suite
+    enzyme-adapter-react-16 , test suite adapter for React
     sinon                   , test suite")
 ```
 
@@ -81,8 +81,8 @@ knitr::kable(data)
 * For more detailed introduction see the [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)*
 
 To create a new web application:
-```{r hidden1, echo=FALSE, eval=TRUE}
-knitr::opts_knit$set(root.dir = tempdir())
+```{r hidden1, echo=FALSE, eval=FALSE}
+# knitr::opts_knit$set(root.dir = tempdir())
 ```
 ```{r create-example, eval=FALSE}
 library(geoplumber)
@@ -155,7 +155,7 @@ This has now added a new endpoint at: `/api/data`. To consume it, we can simply 
 
 ```{r add-geojson, eval=FALSE}
 setwd("my_app")
-gp_add_geojson("/api/data") # param value is default
+gp_add_geojson("/api/data")
 ```
 
 You can now see the data by running:
@@ -163,9 +163,21 @@ You can now see the data by running:
 gp_build() # build changes
 gp_plumb()
 ```
-```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="<a href='https://www.cdrc.ac.uk/'>CDRC</a> London traffic data on geoplumber"}
-knitr::include_graphics("man/figures/gp.png")
+
+Or in the following "export" function a basic `leaflet` map using the "headless" `gp_map` funciton:
+
+```{r, echo=TRUE}
+# cd into a geoplumber app
+setwd("my-app/")
+library(geoplumber)
+# view a dataset such as the `traffic` sf object bundled 
+t <- gp_map(geoplumber::traffic, browse_map = FALSE,
+            height = "320px", width = "90%")
+# use includeHTML for markdown
+htmltools::includeHTML(t)
 ```
+<center><a href='https://www.cdrc.ac.uk/'>CDRC</a> London traffic data on `geoplumber`. </center>
+
 You can also now see the raw JSON dataset at  `http://localhost:8000/api/data`,
 and on a map on a browser view the map at `http://localhost:8000`.
 
@@ -195,10 +207,11 @@ gp_change_file(
 Run the project (this time at `tempdir()` location) by:
 ```{r eval=FALSE}
 gp_build() # build changes
-gp_plumb()
+r <- gp_plumb() # run in bg
+r¢kill()
 ```
 
-Now you can see (latest version is slightly improved than following GIF):
+Now you can see:
 ```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side."}
 knitr::include_graphics("https://user-images.githubusercontent.com/1825120/46699371-7f79d000-cc11-11e8-9716-e1223296c7d6.gif")
 ```

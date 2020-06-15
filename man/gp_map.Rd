@@ -4,7 +4,13 @@
 \alias{gp_map}
 \title{Export geojson object on a map.}
 \usage{
-gp_map(x, browse_map = TRUE, dest_path = tempdir())
+gp_map(
+  x,
+  browse_map = TRUE,
+  dest_path = tempdir(),
+  height = NULL,
+  width = NULL
+)
 }
 \arguments{
 \item{x}{character or sf object: URL or sf object to view on map}
@@ -12,7 +18,14 @@ gp_map(x, browse_map = TRUE, dest_path = tempdir())
 \item{browse_map}{logical: should the outcome be viewed in a browser?
 defaults to \code{TRUE}}
 
-\item{dest_path}{character: write output to tempdir (default)?}
+\item{dest_path}{character: write output to \code{tempdir} (default).}
+
+\item{height}{character: css compatible option for map height.}
+
+\item{width}{character: css compatible option for map width.}
+}
+\value{
+path character of path that html file was written to.
 }
 \description{
 Export geojson object on a map.

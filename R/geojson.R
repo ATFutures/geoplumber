@@ -82,7 +82,10 @@ gp_geojson <- function(geojson_url,
 #' @param x character or sf object: URL or sf object to view on map
 #' @param browse_map logical: should the outcome be viewed in a browser?
 #' defaults to `TRUE`
-#' @param dest_path character: write output to tempdir (default)?
+#' @param dest_path character: write output to `tempdir` (default).
+#' @param height character: css compatible option for map height.
+#' @param width character: css compatible option for map width.
+#' @return path character of path that html file was written to.
 #'
 #' @examples \dontrun{
 #' gp_map(paste0("http://opendata.canterburymaps.govt.nz/datasets/",
@@ -91,7 +94,9 @@ gp_geojson <- function(geojson_url,
 #' @export
 gp_map <- function(x,
                    browse_map = TRUE,
-                   dest_path = tempdir()) {
+                   dest_path = tempdir(),
+                   height = NULL,
+                   width = NULL) {
   if(missing(x))
     stop("gp_map needs either a URL or sf object to pull data from.")
   gv <- "geojson: null // anchor"
@@ -120,9 +125,15 @@ gp_map <- function(x,
                  paste0("dataDescription: '", geojson_name, "'"),
                  result)
   # replace placeholder
-  result <- gsub(gv,
-                 paste0("geojson: ",geojson, collapse = ""),
-                 result)
+  result <- gsub(gv, paste0("geojson: ",geojson, collapse = ""), result)
+  # edit map height and width
+  if(!is.null(height)) {
+    result <- gsub("height: 100vh", paste0("height: ", height), result)
+  }
+  if(!is.null(width)) {
+    result <- gsub("width: 100%", paste0("width: ", width), result)
+  }
+  # finally
   write(result, path)
   if(browse_map) {
     utils::browseURL(path)
