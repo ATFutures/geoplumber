@@ -19,8 +19,8 @@ gp_explore <- function(sf = geoplumber::traffic,
   # TODO try catch?
   geojson <- geojsonsf::sf_geojson(sf, factors_as_string=FALSE)
 
-  # prepare backend
-  # TODO: reserve api url for this or generate temp one.
+  # prepare back-end
+  # add endpoint to object not to file
   endpoint <- "/api/explore"
   # variable name here "road" must be used in the React component.
   # flexible variable names
@@ -29,6 +29,10 @@ gp_explore <- function(sf = geoplumber::traffic,
     res$headers$`Content-type` <- "application/json"
     res$body <- geojson
     res
+  })
+  server$handle("GET", "/explore", function(req, res){
+    fname <- file.path("build", "index.html")
+    plumber::include_html(fname, res)
   })
   # prepare frontend
   # must be done on clean Welcome.js
@@ -69,7 +73,7 @@ gp_explore <- function(sf = geoplumber::traffic,
     # TODO: is it free?
     # is_port_engated(port = 8000)
     # attempt starting backend in any case
-    message("Serving data on at ", "http://localhost:8000/api/gp")
+    message("Serving data at ", "http://localhost:8000/api/explore")
     f <- function(s, p) s$run(port = p)
     ps <- callr::r_bg(f, list(s = server, p = 8000))
     openURL(path = "explore")
