@@ -13,36 +13,12 @@ for creating web APIs with R which is Swagger compliant. It supports
 frontend frameworks such as VueJS in the future) and geographic data,
 building on [`sf`](https://github.com/r-spatial/sf).
 
-In other words, geoplumber is a lightweight geographic data server, like
-a barebones version of [GeoServer](http://geoserver.org/) but with a
-smaller footprint (\< 5MB rather than \> 50MB download size) and easier
-installation, especially if you are already an R user. There is internal
-discussions on the choice of a spatial database (PostgreSQL, MongoDB
-etc) but the package is just too young for this.
-
 It can be installed with the following command as it is not yet on CRAN:
 
 ``` r
 devtools::install_github("ATFutures/geoplumber")
-#> got the lastest dev version
+#> the latest dev version
 ```
-
-## geoplumber stack
-
-We have worked with Shiny and
-[`plumber`](https://github.com/trestletech/plumber/) and we consider
-ourselves experienced in ReactJS, too. In order to put together a web
-application powered at the backend with R and React at the front-end,
-there is a lot of setup and boilerplate to put together. This would be
-also correct for other front end stack such as Angular or VueJS.
-
-Currently geoplumber uses Facebook’s `create-react-app` (CRA) npm
-package to deal with underlying app management (including building and
-running) to keep you up to date with updates. `geoplumber` will
-generally provide detailed installation instructions for all required
-`npm` packages, but if not, the following are minimally required:
-
-    sudo npm i -g create-react-app
 
 <!-- ## Installation -->
 
@@ -50,38 +26,10 @@ generally provide detailed installation instructions for all required
 
 <!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
 
-### npm packages used
-
-The following are included by default, the versions are just from old
-.Rmd file. geoplumber updates these as the package is developed. Feel
-free to replace it with your own .json package definer as and when.
-
-``` r
-knitr::kable(data)
-```
-
-| package                 | Usage                               |
-| :---------------------- | :---------------------------------- |
-| create-react-app        | main package to manage front end    |
-| prop-types              | React propTypes                     |
-| react                   | React main                          |
-| react-dom               | React DOM                           |
-| react-bootstrap         | bootstrapZ                          |
-| leaflet                 | current default web mapping library |
-| react-leaflet           | React wrapper around leaflet above  |
-| react-leaflet-control   | React map control                   |
-| react-router            | React router (RR)                   |
-| react-router-dom        | React dom for RR                    |
-| react-scripts           | main package to manage front end    |
-| react-test-renderer     | test suite                          |
-| enzyme                  | test suite                          |
-| enzyme-adapter-react-16 | test suite adapter for React        |
-| sinon                   | test suite                          |
-
 ## Usage
 
   - For more detailed introduction see the
-    [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)\*
+    [vignette](https://atfutures.github.io/geoplumber/articles/geoplumber.html)
 
 To create a new web application:
 
@@ -94,21 +42,6 @@ This will create a `my_app` folder at your current working directory.
 Suppose you started an R session from a folder with path
 `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine.
 
-Please note that the folder should be either non-existent (it will then
-be created by `gp_create()`) or empty. If your working directory is an
-empty directory, you can create a geoplumber app using:
-`geoplumber::gp_create(".")`.
-
-After running `gp_create()` you might want to use
-`gp_rstudio("project_name")` to create an RStudio project from R’s
-command line. You could also use RStudio’s default way of creating a
-project within an existing directory – or just don’t create an RStudio
-project.
-
-You can also give geoplumber a path including one ending with a new
-directory. Currently, geoplumber does not do any checks on this but the
-underlying CRA does.
-
 You can then build the new project
 
 ``` r
@@ -116,28 +49,10 @@ setwd("my_app")
 gp_build() # the front end and create minified js files.
 ```
 
-Please note, `gp_build()` produces a production ready minifed front end.
-It does not have to be used everytime a little change is done to the
-front end, as the package is still very young, it does not have the
-proper development “serve” function which would use `gp_plumb_front()`
-but would have to also use `gp_plumb()` to serve the backend.
-
-At this point, if you created an app using the above examples or set
-your working directory to a geoplumber app. You can then serve all
-endpoints and front end with one command: `gp_plumb()` \# provide custom
-port if you wish, default is 8000
+You can then serve endpoints and front end with: `gp_plumb()` \# provide
+custom port if you wish, default is 8000
 
 Then visit `localhost:8000` to see your app.
-
-### Front end
-
-Once the geoplumber app `my_app` has been created. It will have a
-`create-react-app` directory structure with an extra `R` folder to hold
-the backend R code. The React components, as they are in CRA apps, are
-in the `src` folder and ready to be customised and developed for your
-own purposes. So, a React developer could run `npm start` on the root
-directory and run the built in CRA development server which is what
-`gp_plumb_front()` does too.
 
 ## Example (1)
 
@@ -276,6 +191,61 @@ server side.
 
 </div>
 
+## geoplumber stack
+
+We have worked with Shiny and
+[`plumber`](https://github.com/trestletech/plumber/) and we consider
+ourselves experienced in ReactJS, too. In order to put together a web
+application powered at the backend with R and React at the front-end,
+there is a lot of setup and boilerplate to put together. This would be
+also correct for other front end stack such as Angular or VueJS.
+
+Currently geoplumber uses Facebook’s `create-react-app` (CRA) npm
+package to deal with underlying app management (including building and
+running) to keep you up to date with updates. `geoplumber` will
+generally provide detailed installation instructions for all required
+`npm` packages, but if not, the following are minimally required:
+
+    sudo npm i -g create-react-app
+
+### Front end
+
+Once the geoplumber app `my_app` has been created. It will have a
+`create-react-app` directory structure with an extra `R` folder to hold
+the backend R code. The React components, as they are in CRA apps, are
+in the `src` folder and ready to be customised and developed for your
+own purposes. So, a React developer could run `npm start` on the root
+directory and run the built in CRA development server which is what
+`gp_plumb_front()` does too.
+
+### npm packages used
+
+The following are included by default, the versions are just from old
+.Rmd file. geoplumber updates these as the package is developed. Feel
+free to replace it with your own .json package definer as and when.
+
+``` r
+knitr::kable(data)
+```
+
+| package                 | Usage                               |
+| :---------------------- | :---------------------------------- |
+| create-react-app        | main package to manage front end    |
+| prop-types              | React propTypes                     |
+| react                   | React main                          |
+| react-dom               | React DOM                           |
+| react-bootstrap         | bootstrapZ                          |
+| leaflet                 | current default web mapping library |
+| react-leaflet           | React wrapper around leaflet above  |
+| react-leaflet-control   | React map control                   |
+| react-router            | React router (RR)                   |
+| react-router-dom        | React dom for RR                    |
+| react-scripts           | main package to manage front end    |
+| react-test-renderer     | test suite                          |
+| enzyme                  | test suite                          |
+| enzyme-adapter-react-16 | test suite adapter for React        |
+| sinon                   | test suite                          |
+
 ## Showcase
 
 An example application is deployed at
@@ -307,19 +277,10 @@ functionality.
 devtools::test()
 ```
 
-## Travis cron
-
-There is a monthly cron travis build.
-
 ## Roadmap
 
 What I (Layik) think will work for a version 0.1 to hit CRAN is
 geoplumber would be able to have:
 
-1.  Basic HTML input elements for data exploration (thinking baseweb).
-    This is Shiny’s widgets in React (as Angular/Vue would be
-    unrealistic in 0.1)
-2.  Basic sidepanel to use (1) in.
-
-Future can be different. That should suffice to get goeplumber hitting
-CRAN.
+  - basic structure of a R + React app running
+  - basics of a production environment via Docker

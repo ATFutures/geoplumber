@@ -10,18 +10,52 @@ vignette: >
 
 `geoplumber` depends only on [`plumber`](https://www.rplumber.io) R package to enable building web applications using R and currently ReactJS. It uses `npm` but this is by no means a preference. It is a rapid development available skill utilisation choice.
 
-Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm.
+Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the `flux` one. That is data flow should be one directional and follow the "React" paradigm. 
 
-In terms of npm pacakges, it relies on Facebook's ["create-react-app"](https://github.com/facebook/create-react-app) (CRA) `npm` package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.
+In other words, in future `geoplumber` could be a lightweight geographic data server, like a barebones version of [GeoServer](http://geoserver.org/) but with a smaller footprint (< 5MB rather than > 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.
+
+In terms of npm packages, it relies on Facebook's ["create-react-app"](https://github.com/facebook/create-react-app) (CRA) `npm` package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.
 
 In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of [`Leaflet`](https://leafletjs.com/). Thanks to [`react-leaflet`](https://react-leaflet.js.org/) this was straightforward to integrate into a [ReactJS](https://github.com/facebook/react) app.
 
 ## Getting started
-So given some dataset such as the `traffic` included in this package let us get a web application up and running where we can see some `geojson` data on a map.
+To create a new web application:
+```{r hidden1, echo=FALSE, eval=FALSE}
+# knitr::opts_knit$set(root.dir = tempdir())
+```
+```{r create-example, eval=FALSE}
+library(geoplumber)
+gp_create("my_app")
+```
+This will create a `my_app` folder at your current working directory. Suppose you started an R session from a folder with path `/Users/ruser/`, you will have `/Users/ruser/my_app` on your machine. 
+
+You can then build the new project
+```{r build-example, eval=FALSE}
+setwd("my_app")
+gp_build() # the front end and create minified js files.
+
+```
+Note: `gp_build()` produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development "serve" function which would use `gp_plumb_front()` but would have to also use `gp_plumb()` to serve the backend.
+
+At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with:
+`gp_plumb()` \# provide custom port if you wish, default is 8000
+
+Please note that the folder should be either non-existent (it will then be created by `gp_create()`) or empty.
+If your working directory is an empty directory, you can create a geoplumber app using:
+`geoplumber::gp_create(".")`.
+
+After running `gp_create()` you might want to use `gp_rstudio("project_name")` to create an RStudio project from R's command line. You could also use RStudio's default way of creating a project within an existing directory -- or just don't create an RStudio project.
+
+You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.
+
+### Basic mapping function
+`geoplumber` is not built to do mapping or more low level rendering, that should happen on the front end. The function is there to showcase how that is possible using modern packages such as React.
+
+Given some dataset such as the `traffic` included in this package let us get a web application up and running where we can see some `geojson` data on a map.
 
 ```{r traffic}
 library(geoplumber)
-html_file = gp_map(traffic, browse_map = FALSE, dest_path = getwd())
+html_file = gp_map(traffic, browse_map = FALSE, dest_path = getwd(), height = "260px")
 htmltools::includeHTML(html_file)
 ```
 

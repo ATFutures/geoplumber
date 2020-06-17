@@ -21,7 +21,7 @@
       height: 100vh;
       width: 100%;
     }
-    .title {
+    .leaflet-control .title {
       background-color: white;
       padding: 5px;
       border-radius: 2px;
@@ -254,7 +254,7 @@
             bounds={bbox.getSouthWest() ? bbox : [position, [52.78, -1.65]]}
             center={position} >
             <Control position="topright">
-              <div className="title"> 
+              <div className="title">
                 {dataDescription && <p>Data: {dataDescription}</p>}
                 With {geojson && geojson.features.length} features.
               </div>
