@@ -19,7 +19,8 @@ BugReports: https://github.com/ATFutures/geoplumber/issues
 LazyData: true
 Imports: 
     plumber,
-    geojsonsf
+    geojsonsf,
+    callr
 Suggests: 
     clipr,
     testthat,
@@ -30,7 +31,6 @@ Suggests:
     remotes,
     htmltools,
     devtools,
-    callr,
     RCurl
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)

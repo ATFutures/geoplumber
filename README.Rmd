@@ -64,7 +64,7 @@ Then visit `localhost:8000` to see your app.
 library(geoplumber)
 d <- file.path(tempdir(), "gp")
 gp_create(d)
-setwd(d)
+ow <- setwd(d)
 ps <- gp_plumb()
 Sys.sleep(1) # needed on automated build machines :)
 ps
@@ -73,6 +73,7 @@ webpage <- getURL("http://localhost:8000")
 webpage <- readLines(tc <- textConnection(webpage)); close(tc)
 tail(webpage)
 ps$kill()
+setwd(ow)
 # should fail
 # getURL("http://localhost:8000")
 ```
