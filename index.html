@@ -87,24 +87,130 @@
 </h1></div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <p>geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application “framework”. It utilizes <a href="https://github.com/trestletech/plumber"><code>plumber</code></a>, which was designed for creating web APIs with R which is Swagger compliant. It supports <a href="https://reactjs.org/">React</a> frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
-<p>In other words, geoplumber is a lightweight geographic data server, like a barebones version of <a href="http://geoserver.org/">GeoServer</a> but with a smaller footprint (&lt; 5MB rather than &gt; 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.</p>
 <p>It can be installed with the following command as it is not yet on CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"ATFutures/geoplumber"</span>)
-<span class="co">#&gt; got the lastest dev version</span></pre></div>
+<span class="co">#&gt; the latest dev version</span></pre></div>
+<!-- ## Installation -->
+<!-- Currently repo is available only on github. To install the package using `devtools`: -->
+<!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<ul>
+<li>For more detailed introduction see the <a href="https://atfutures.github.io/geoplumber/articles/geoplumber.html">vignette</a>
+</li>
+</ul>
+<p>To create a new web application:</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
+<span class="fu"><a href="reference/gp_create.html">gp_create</a></span>(<span class="st">"my_app"</span>)</pre></div>
+<p>This will create a <code>my_app</code> folder at your current working directory. Suppose you started an R session from a folder with path <code>/Users/ruser/</code>, you will have <code>/Users/ruser/my_app</code> on your machine.</p>
+<p>You can then build the new project</p>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
+<span class="fu"><a href="reference/gp_build.html">gp_build</a></span>() <span class="co"># the front end and create minified js files.</span></pre></div>
+<p>You can then serve endpoints and front end with: <code><a href="reference/gp_plumb.html">gp_plumb()</a></code> # provide custom port if you wish, default is 8000</p>
+<p>Then visit <code>localhost:8000</code> to see your app.</p>
+</div>
+<div id="example-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-1" class="anchor"></a>Example (1)</h2>
+<p>Serve the <code><a href="reference/traffic.html">geoplumber::traffic</a></code> dataset (data.frame) at a “/api/data” endpoint, and view it on the front end.</p>
+<p>The <code>traffic</code> <a href="https://data.cdrc.ac.uk/dataset/southwark-traffic-counts">dataset</a> is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.</p>
+<p>To achive this copy the following endpoint/API to the clipboard of your machine. If you like to understand the function, you need to learn <code>plumber</code> package.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data</span>
+<span class="co">#' @get /api/data</span>
+<span class="no">get_traffic</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">res</span>) {
+  <span class="no">geojson</span> <span class="kw">&lt;-</span> <span class="kw pkg">geojsonsf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="reference/traffic.html">traffic</a></span>)
+  <span class="no">res</span>$<span class="no">body</span> <span class="kw">&lt;-</span> <span class="no">geojson</span>
+  <span class="no">res</span>
+}</pre></div>
+<p>Then run (re-copied into clipboard just in case):</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
+<span class="no">old_clip</span> <span class="kw">&lt;-</span> <span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip.html">read_clip</a></span>()
+<span class="co"># adding above to clipboard</span>
+<span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+ <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,
+ <span class="st">"#' @get /api/data"</span>,
+ <span class="st">"get_traffic &lt;- function(res) {"</span>,
+ <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,
+ <span class="st">"  res$body &lt;- geojson"</span>,
+ <span class="st">"  res"</span>,
+ <span class="st">"}"</span>
+ ))
+<span class="fu"><a href="reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()
+<span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="no">old_clip</span>)</pre></div>
+<p>This has now added a new endpoint at: <code>/api/data</code>. To consume it, we can simply run:</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
+<span class="fu"><a href="reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="st">"/api/data"</span>)</pre></div>
+<p>You can now see the data by running:</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/gp_build.html">gp_build</a></span>() <span class="co"># build changes</span>
+<span class="fu"><a href="reference/gp_plumb.html">gp_plumb</a></span>()</pre></div>
+<p>Or in the following “export” function a basic <code>leaflet</code> map using the “headless” <code>gp_map</code> funciton:</p>
+<div class="figure" style="text-align: center">
+<p><img src="reference/figures/gp.png" alt="&lt;a href='https://www.cdrc.ac.uk/'&gt;CDRC&lt;/a&gt; London traffic data on geoplumber" width="70%"></p>
+<p class="caption">
+</p>
+<p><a href="https://www.cdrc.ac.uk/">CDRC</a> London traffic data on geoplumber</p>
+
+</div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># cd into a geoplumber app</span>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my-app/"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
+<span class="co"># view a dataset such as the `traffic` sf object bundled </span>
+<span class="no">t</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gp_map.html">gp_map</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="reference/traffic.html">traffic</a></span>, <span class="kw">browse_map</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+            <span class="kw">height</span> <span class="kw">=</span> <span class="st">"320px"</span>, <span class="kw">width</span> <span class="kw">=</span> <span class="st">"90%"</span>)
+<span class="co"># use includeHTML for markdown</span>
+<span class="kw pkg">htmltools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span>(<span class="no">t</span>)</pre></div>
+<p>You can also now see the raw JSON dataset at <code>http://localhost:8000/api/data</code>, and on a map on a browser view the map at <code>http://localhost:8000</code>.</p>
+</div>
+<div id="example-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-2" class="anchor"></a>Example (2)</h2>
+<p>We would like to see default University of Leeds <code>uni_poly</code> grow/shrink using <code><a href="https://rdrr.io/pkg/sf/man/geos_unary.html">sf::st_buffer()</a></code> function. Here is a reproducible example (please take a look at the default <code>plumber.R</code> file in your <code>my_app</code> project):</p>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="reference/gp_create.html">gp_create</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()))
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()))
+<span class="fu"><a href="reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>()
+<span class="fu"><a href="reference/gp_add_slider.html">gp_add_slider</a></span>(
+  <span class="kw">min</span> <span class="kw">=</span> <span class="fl">0.001</span>,
+  <span class="kw">max</span> <span class="kw">=</span> <span class="fl">0.01</span>,
+  <span class="kw">step</span> <span class="kw">=</span> <span class="fl">0.001</span>
+)
+<span class="fu"><a href="reference/gp_change_file.html">gp_change_file</a></span>(
+  <span class="kw">path</span> <span class="kw">=</span> <span class="st">"src/Welcome.js"</span>,
+  <span class="kw">what</span> <span class="kw">=</span> <span class="st">'&lt;GeoJSONComponent fetchURL={"http://localhost:8000/api/uol?grow=" + this.state.sliderInput} /&gt;
+'</span>,
+  <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">'&lt;GeoJSONComponent fetchURL="http://localhost:8000/api/uol" /&gt;'</span>,
+  <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+  <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+)</pre></div>
+<p>Run the project (this time at <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code> location) by:</p>
+<div class="sourceCode" id="cb10"><pre class="r">gp_build() # build changes
+r &lt;- gp_plumb() # run in bg
+r¢kill()</pre></div>
+<p>Now you can see:</p>
+<div class="figure" style="text-align: center">
+<p><img src="https://user-images.githubusercontent.com/1825120/46699371-7f79d000-cc11-11e8-9716-e1223296c7d6.gif" alt="geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side." width="70%"></p>
+<p class="caption">
+</p>
+<p>geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side.</p>
+
+</div>
+</div>
 <div id="geoplumber-stack" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geoplumber-stack" class="anchor"></a>geoplumber stack</h2>
 <p>We have worked with Shiny and <a href="https://github.com/trestletech/plumber/"><code>plumber</code></a> and we consider ourselves experienced in ReactJS, too. In order to put together a web application powered at the backend with R and React at the front-end, there is a lot of setup and boilerplate to put together. This would be also correct for other front end stack such as Angular or VueJS.</p>
 <p>Currently geoplumber uses Facebook’s <code>create-react-app</code> (CRA) npm package to deal with underlying app management (including building and running) to keep you up to date with updates. <code>geoplumber</code> will generally provide detailed installation instructions for all required <code>npm</code> packages, but if not, the following are minimally required:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">sudo npm i <span class="op">-</span>g create<span class="op">-</span>react<span class="op">-</span>app</a></code></pre></div>
-<!-- ## Installation -->
-<!-- Currently repo is available only on github. To install the package using `devtools`: -->
-<!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">sudo npm i <span class="op">-</span>g create<span class="op">-</span>react<span class="op">-</span>app</a></code></pre></div>
+<div id="front-end" class="section level3">
+<h3 class="hasAnchor">
+<a href="#front-end" class="anchor"></a>Front end</h3>
+<p>Once the geoplumber app <code>my_app</code> has been created. It will have a <code>create-react-app</code> directory structure with an extra <code>R</code> folder to hold the backend R code. The React components, as they are in CRA apps, are in the <code>src</code> folder and ready to be customised and developed for your own purposes. So, a React developer could run <code>npm start</code> on the root directory and run the built in CRA development server which is what <code><a href="reference/gp_plumb_front.html">gp_plumb_front()</a></code> does too.</p>
+</div>
 <div id="npm-packages-used" class="section level3">
 <h3 class="hasAnchor">
 <a href="#npm-packages-used" class="anchor"></a>npm packages used</h3>
 <p>The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">data</span>)</pre></div>
+<div class="sourceCode" id="cb12"><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">package</th>
@@ -175,116 +281,6 @@
 </table>
 </div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<ul>
-<li>For more detailed introduction see the <a href="https://atfutures.github.io/geoplumber/articles/geoplumber.html">vignette</a>*</li>
-</ul>
-<p>To create a new web application:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
-<span class="fu"><a href="reference/gp_create.html">gp_create</a></span>(<span class="st">"my_app"</span>)</pre></div>
-<p>This will create a <code>my_app</code> folder at your current working directory. Suppose you started an R session from a folder with path <code>/Users/ruser/</code>, you will have <code>/Users/ruser/my_app</code> on your machine.</p>
-<p>Please note that the folder should be either non-existent (it will then be created by <code><a href="reference/gp_create.html">gp_create()</a></code>) or empty. If your working directory is an empty directory, you can create a geoplumber app using: <code><a href="reference/gp_create.html">geoplumber::gp_create(".")</a></code>.</p>
-<p>After running <code><a href="reference/gp_create.html">gp_create()</a></code> you might want to use <code><a href="reference/gp_rstudio.html">gp_rstudio("project_name")</a></code> to create an RStudio project from R’s command line. You could also use RStudio’s default way of creating a project within an existing directory – or just don’t create an RStudio project.</p>
-<p>You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.</p>
-<p>You can then build the new project</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
-<span class="fu"><a href="reference/gp_build.html">gp_build</a></span>() <span class="co"># the front end and create minified js files.</span></pre></div>
-<p>Please note, <code><a href="reference/gp_build.html">gp_build()</a></code> produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development “serve” function which would use <code><a href="reference/gp_plumb_front.html">gp_plumb_front()</a></code> but would have to also use <code><a href="reference/gp_plumb.html">gp_plumb()</a></code> to serve the backend.</p>
-<p>At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with one command: <code><a href="reference/gp_plumb.html">gp_plumb()</a></code> # provide custom port if you wish, default is 8000</p>
-<p>Then visit <code>localhost:8000</code> to see your app.</p>
-<div id="front-end" class="section level3">
-<h3 class="hasAnchor">
-<a href="#front-end" class="anchor"></a>Front end</h3>
-<p>Once the geoplumber app <code>my_app</code> has been created. It will have a <code>create-react-app</code> directory structure with an extra <code>R</code> folder to hold the backend R code. The React components, as they are in CRA apps, are in the <code>src</code> folder and ready to be customised and developed for your own purposes. So, a React developer could run <code>npm start</code> on the root directory and run the built in CRA development server which is what <code><a href="reference/gp_plumb_front.html">gp_plumb_front()</a></code> does too.</p>
-</div>
-</div>
-<div id="example-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-1" class="anchor"></a>Example (1)</h2>
-<p>Serve the <code><a href="reference/traffic.html">geoplumber::traffic</a></code> dataset (data.frame) at a “/api/data” endpoint, and view it on the front end.</p>
-<p>The <code>traffic</code> <a href="https://data.cdrc.ac.uk/dataset/southwark-traffic-counts">dataset</a> is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.</p>
-<p>To achive this copy the following endpoint/API to the clipboard of your machine. If you like to understand the function, you need to learn <code>plumber</code> package.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data</span>
-<span class="co">#' @get /api/data</span>
-<span class="no">get_traffic</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">res</span>) {
-  <span class="no">geojson</span> <span class="kw">&lt;-</span> <span class="kw pkg">geojsonsf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="reference/traffic.html">traffic</a></span>)
-  <span class="no">res</span>$<span class="no">body</span> <span class="kw">&lt;-</span> <span class="no">geojson</span>
-  <span class="no">res</span>
-}</pre></div>
-<p>Then run (re-copied into clipboard just in case):</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
-<span class="no">old_clip</span> <span class="kw">&lt;-</span> <span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip.html">read_clip</a></span>()
-<span class="co"># adding above to clipboard</span>
-<span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
- <span class="st">"#' Serve geoplumber::traffic from /api/data"</span>,
- <span class="st">"#' @get /api/data"</span>,
- <span class="st">"get_traffic &lt;- function(res) {"</span>,
- <span class="st">"  geojson &lt;- geojsonsf::sf_geojson(geoplumber::traffic)"</span>,
- <span class="st">"  res$body &lt;- geojson"</span>,
- <span class="st">"  res"</span>,
- <span class="st">"}"</span>
- ))
-<span class="fu"><a href="reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()
-<span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="no">old_clip</span>)</pre></div>
-<p>This has now added a new endpoint at: <code>/api/data</code>. To consume it, we can simply run:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
-<span class="fu"><a href="reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="st">"/api/data"</span>)</pre></div>
-<p>You can now see the data by running:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="reference/gp_build.html">gp_build</a></span>() <span class="co"># build changes</span>
-<span class="fu"><a href="reference/gp_plumb.html">gp_plumb</a></span>()</pre></div>
-<p>Or in the following “export” function a basic <code>leaflet</code> map using the “headless” <code>gp_map</code> funciton:</p>
-<div class="figure" style="text-align: center">
-<p><img src="reference/figures/gp.png" alt="&lt;a href='https://www.cdrc.ac.uk/'&gt;CDRC&lt;/a&gt; London traffic data on geoplumber" width="70%"></p>
-<p class="caption">
-</p>
-<p><a href="https://www.cdrc.ac.uk/">CDRC</a> London traffic data on geoplumber</p>
-
-</div>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># cd into a geoplumber app</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my-app/"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
-<span class="co"># view a dataset such as the `traffic` sf object bundled </span>
-<span class="no">t</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gp_map.html">gp_map</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="reference/traffic.html">traffic</a></span>, <span class="kw">browse_map</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-            <span class="kw">height</span> <span class="kw">=</span> <span class="st">"320px"</span>, <span class="kw">width</span> <span class="kw">=</span> <span class="st">"90%"</span>)
-<span class="co"># use includeHTML for markdown</span>
-<span class="kw pkg">htmltools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span>(<span class="no">t</span>)</pre></div>
-<p>You can also now see the raw JSON dataset at <code>http://localhost:8000/api/data</code>, and on a map on a browser view the map at <code>http://localhost:8000</code>.</p>
-</div>
-<div id="example-2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-2" class="anchor"></a>Example (2)</h2>
-<p>We would like to see default University of Leeds <code>uni_poly</code> grow/shrink using <code><a href="https://rdrr.io/pkg/sf/man/geos_unary.html">sf::st_buffer()</a></code> function. Here is a reproducible example (please take a look at the default <code>plumber.R</code> file in your <code>my_app</code> project):</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="reference/gp_create.html">gp_create</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()))
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()))
-<span class="fu"><a href="reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>()
-<span class="fu"><a href="reference/gp_add_slider.html">gp_add_slider</a></span>(
-  <span class="kw">min</span> <span class="kw">=</span> <span class="fl">0.001</span>,
-  <span class="kw">max</span> <span class="kw">=</span> <span class="fl">0.01</span>,
-  <span class="kw">step</span> <span class="kw">=</span> <span class="fl">0.001</span>
-)
-<span class="fu"><a href="reference/gp_change_file.html">gp_change_file</a></span>(
-  <span class="kw">path</span> <span class="kw">=</span> <span class="st">"src/Welcome.js"</span>,
-  <span class="kw">what</span> <span class="kw">=</span> <span class="st">'&lt;GeoJSONComponent fetchURL={"http://localhost:8000/api/uol?grow=" + this.state.sliderInput} /&gt;
-'</span>,
-  <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">'&lt;GeoJSONComponent fetchURL="http://localhost:8000/api/uol" /&gt;'</span>,
-  <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-)</pre></div>
-<p>Run the project (this time at <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code> location) by:</p>
-<div class="sourceCode" id="cb12"><pre class="r">gp_build() # build changes
-r &lt;- gp_plumb() # run in bg
-r¢kill()</pre></div>
-<p>Now you can see:</p>
-<div class="figure" style="text-align: center">
-<p><img src="https://user-images.githubusercontent.com/1825120/46699371-7f79d000-cc11-11e8-9716-e1223296c7d6.gif" alt="geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side." width="70%"></p>
-<p class="caption">
-</p>
-<p>geoplumber::uni_poly grow/shrinking using sf::st_buffer function on server side.</p>
-
-</div>
-</div>
 <div id="showcase" class="section level2">
 <h2 class="hasAnchor">
 <a href="#showcase" class="anchor"></a>Showcase</h2>
@@ -304,20 +300,14 @@ r¢kill()</pre></div>
 <p>Tests currently only apply to restricted components of full functionality.</p>
 <div class="sourceCode" id="cb14"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/test.html">test</a></span>()</pre></div>
 </div>
-<div id="travis-cron" class="section level2">
-<h2 class="hasAnchor">
-<a href="#travis-cron" class="anchor"></a>Travis cron</h2>
-<p>There is a monthly cron travis build.</p>
-</div>
 <div id="roadmap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#roadmap" class="anchor"></a>Roadmap</h2>
 <p>What I (Layik) think will work for a version 0.1 to hit CRAN is geoplumber would be able to have:</p>
-<ol>
-<li>Basic HTML input elements for data exploration (thinking baseweb). This is Shiny’s widgets in React (as Angular/Vue would be unrealistic in 0.1)</li>
-<li>Basic sidepanel to use (1) in.</li>
-</ol>
-<p>Future can be different. That should suffice to get goeplumber hitting CRAN.</p>
+<ul>
+<li>basic structure of a R + React app running</li>
+<li>basics of a production environment via Docker</li>
+</ul>
 </div>
 </div>
   </div>

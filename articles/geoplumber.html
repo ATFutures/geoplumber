@@ -84,7 +84,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>geoplumber: R package web framework</h1>
             
-            <h4 class="date">2020-06-15</h4>
+            <h4 class="date">2020-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ATFutures/geoplumber/blob/master/vignettes/geoplumber.Rmd"><code>vignettes/geoplumber.Rmd</code></a></small>
       <div class="hidden name"><code>geoplumber.Rmd</code></div>
@@ -95,14 +95,31 @@
     
 <p><code>geoplumber</code> depends only on <a href="https://www.rplumber.io"><code>plumber</code></a> R package to enable building web applications using R and currently ReactJS. It uses <code>npm</code> but this is by no means a preference. It is a rapid development available skill utilisation choice.</p>
 <p>Currently there is no database at the backend, this is simply because we are at the beginning of this process and there will be need to use one or more. Therefore, as things stand it is a two tier architecture and prefers the <code>flux</code> one. That is data flow should be one directional and follow the “React” paradigm.</p>
-<p>In terms of npm pacakges, it relies on Facebook’s <a href="https://github.com/facebook/create-react-app">“create-react-app”</a> (CRA) <code>npm</code> package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.</p>
+<p>In other words, in future <code>geoplumber</code> could be a lightweight geographic data server, like a barebones version of <a href="http://geoserver.org/">GeoServer</a> but with a smaller footprint (&lt; 5MB rather than &gt; 50MB download size) and easier installation, especially if you are already an R user. There is internal discussions on the choice of a spatial database (PostgreSQL, MongoDB etc) but the package is just too young for this.</p>
+<p>In terms of npm packages, it relies on Facebook’s <a href="https://github.com/facebook/create-react-app">“create-react-app”</a> (CRA) <code>npm</code> package to create the basic structure of the front end. But there is basic code to replace this and assemble a React package as it will be demonstrated in this vignette.</p>
 <p>In terms of web mapping, the landscape is not huge. Being an open source pacakge, we chose the simplicity of <a href="https://leafletjs.com/"><code>Leaflet</code></a>. Thanks to <a href="https://react-leaflet.js.org/"><code>react-leaflet</code></a> this was straightforward to integrate into a <a href="https://github.com/facebook/react">ReactJS</a> app.</p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>So given some dataset such as the <code>traffic</code> included in this package let us get a web application up and running where we can see some <code>geojson</code> data on a map.</p>
+<p>To create a new web application:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
-<span class="no">html_file</span> <span class="kw">=</span> <span class="fu"><a href="../reference/gp_map.html">gp_map</a></span>(<span class="no">traffic</span>, <span class="kw">browse_map</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">dest_path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>())
+<span class="fu"><a href="../reference/gp_create.html">gp_create</a></span>(<span class="st">"my_app"</span>)</pre></body></html></div>
+<p>This will create a <code>my_app</code> folder at your current working directory. Suppose you started an R session from a folder with path <code>/Users/ruser/</code>, you will have <code>/Users/ruser/my_app</code> on your machine.</p>
+<p>You can then build the new project</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="st">"my_app"</span>)
+<span class="fu"><a href="../reference/gp_build.html">gp_build</a></span>() <span class="co"># the front end and create minified js files.</span></pre></body></html></div>
+<p>Note: <code><a href="../reference/gp_build.html">gp_build()</a></code> produces a production ready minifed front end. It does not have to be used everytime a little change is done to the front end, as the package is still very young, it does not have the proper development “serve” function which would use <code><a href="../reference/gp_plumb_front.html">gp_plumb_front()</a></code> but would have to also use <code><a href="../reference/gp_plumb.html">gp_plumb()</a></code> to serve the backend.</p>
+<p>At this point, if you created an app using the above examples or set your working directory to a geoplumber app. You can then serve all endpoints and front end with: <code><a href="../reference/gp_plumb.html">gp_plumb()</a></code> # provide custom port if you wish, default is 8000</p>
+<p>Please note that the folder should be either non-existent (it will then be created by <code><a href="../reference/gp_create.html">gp_create()</a></code>) or empty. If your working directory is an empty directory, you can create a geoplumber app using: <code><a href="../reference/gp_create.html">geoplumber::gp_create(".")</a></code>.</p>
+<p>After running <code><a href="../reference/gp_create.html">gp_create()</a></code> you might want to use <code><a href="../reference/gp_rstudio.html">gp_rstudio("project_name")</a></code> to create an RStudio project from R’s command line. You could also use RStudio’s default way of creating a project within an existing directory – or just don’t create an RStudio project.</p>
+<p>You can also give geoplumber a path including one ending with a new directory. Currently, geoplumber does not do any checks on this but the underlying CRA does.</p>
+<div id="basic-mapping-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#basic-mapping-function" class="anchor"></a>Basic mapping function</h3>
+<p><code>geoplumber</code> is not built to do mapping or more low level rendering, that should happen on the front end. The function is there to showcase how that is possible using modern packages such as React.</p>
+<p>Given some dataset such as the <code>traffic</code> included in this package let us get a web application up and running where we can see some <code>geojson</code> data on a map.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">geoplumber</span>)
+<span class="no">html_file</span> <span class="kw">=</span> <span class="fu"><a href="../reference/gp_map.html">gp_map</a></span>(<span class="no">traffic</span>, <span class="kw">browse_map</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">dest_path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>(), <span class="kw">height</span> <span class="kw">=</span> <span class="st">"260px"</span>)
 <span class="kw pkg">htmltools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span>(<span class="no">html_file</span>)</pre></body></html></div>
 
 
@@ -118,10 +135,10 @@
     }
 
     .leaflet-container {
-      height: 100vh;
+      height: 260px;
       width: 100%;
     }
-    .title {
+    .leaflet-control .title {
       background-color: white;
       padding: 5px;
       border-radius: 2px;
@@ -351,7 +368,7 @@
             bounds={bbox.getSouthWest() ? bbox : [position, [52.78, -1.65]]}
             center={position} >
             <Control position="topright">
-              <div className="title"> 
+              <div className="title">
                 {dataDescription && <p>Data: {dataDescription}</p>}
                 With {geojson && geojson.features.length} features.
               </div>
@@ -394,50 +411,51 @@
     window.ReactDOM.render(<Geoplumber />, document.getElementById('container'))
   </script><pre><code>## [1] TRUE</code></pre>
 <p>Let us assemble an app using <code>gp_create</code>:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"new_app"</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"new_app"</span>)
 <span class="co"># make sure that exists</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="../reference/gp_create.html">gp_create</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">path</span>)</pre></body></html></div>
-<pre><code>## To build/run app, set working directory to: /tmp/RtmpwMqZWG/new_app</code></pre>
+<pre><code>## To build/run app, set working directory to: /tmp/RtmpNGvnXd/new_app</code></pre>
 <pre><code>## Standard output from create-react-app works.
-## You can run gp_ functions from directory: /tmp/RtmpwMqZWG/new_app
+## You can run gp_ functions from directory: /tmp/RtmpNGvnXd/new_app
 ## To build the front end run: gp_build()
 ## To run the geoplumber app: gp_plumb()
 ## Happy coding.</code></pre>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># check if that is the case</span>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># check if that is the case</span>
 <span class="fu"><a href="../reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">path</span>)</pre></body></html></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Now that <code>path</code> is a valid <code>geoplumber</code> application, quick look into it:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="no">path</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="no">path</span>)</pre></body></html></div>
 <pre><code>## [1] "package.json" "public"       "R"            "src"</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">path</span>, <span class="st">"R"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">path</span>, <span class="st">"R"</span>))</pre></body></html></div>
 <pre><code>## [1] "plumber.R"</code></pre>
 <p>Quickly, the <code>package.json</code> file is standard <code>yarn</code> or <code>npm</code> node package file where various settings live for Node to manager our package, as the directory is now a valid node package. The <code>public</code> is the static “public” directory for <code>css</code>, custom <code>js</code> and conventionally the entry point <code>index.html</code> to live and in future possibly for our deployed front-end to live. Finally, the <code>src</code> is where all React components and our <code>geoplumber</code> front-end will be built from. Again, this could all change as <code>geoplumber</code> flourishes.</p>
 <p>Quick peek:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">path</span>, <span class="st">"src"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">path</span>, <span class="st">"src"</span>))</pre></body></html></div>
 <pre><code>##  [1] "App.css"                  "App.js"                  
 ##  [3] "App.test.js"              "components"              
 ##  [5] "img"                      "index.js"                
 ##  [7] "logo.svg"                 "registerServiceWorker.js"
 ##  [9] "utils.js"                 "Welcome.js"</code></pre>
 <p>The <code>R/plumber.R</code> is the only backend script that would be executed in a fresh geoplumber app. This could change, based on the documentations in <a href="https://www.rplumber.io"><code>plumber</code></a> and also as <code>geoplumber</code> grows. Using the underlying <code>plumber</code> package, we can inspect what is in the <code>R/plumber.R</code> file:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># we must change dir into a gp path</span>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="co"># we must change dir into a gp path</span>
 <span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="no">r</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="kw">run</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <pre><code>## WARNING:
 ## Looks like geoplumber was not built, serveing API only.
 ## To serve the front end run gp_build() first.</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">r</span>$<span class="no">endpoints</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="co"># it should be 5</span></pre></body></html></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">r</span>$<span class="no">endpoints</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="co"># it should be 5</span></pre></body></html></div>
 <pre><code>## [1] 5</code></pre>
 <p>There is a default endpoint where a message is echoed by the server, we can test this using:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">response</span> <span class="kw">&lt;-</span> <span class="no">r</span>$<span class="no">endpoints</span><span class="kw">[[</span><span class="fl">1</span>]]<span class="kw">[[</span><span class="fl">1</span>]]$<span class="fu">exec</span>()
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">response</span> <span class="kw">&lt;-</span> <span class="no">r</span>$<span class="no">endpoints</span><span class="kw">[[</span><span class="fl">1</span>]]<span class="kw">[[</span><span class="fl">1</span>]]$<span class="fu">exec</span>()
 <span class="no">response</span>$<span class="no">msg</span> <span class="co"># it should be: "The message is: 'nothing given'"</span></pre></body></html></div>
 <pre><code>## [1] "The message is: 'nothing given'"</code></pre>
+</div>
 <div id="serve-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#serve-data" class="anchor"></a>serve data</h3>
 <p>This is the last lines of the <code>R/plumber.R</code> file, as stated above, makes up the backend:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</pre></body></html></div>
 <pre><code>## [1] ""                                                                    
 ## [2] "#' Tell plumber where our public facing directory is to SERVE."      
@@ -446,7 +464,7 @@
 ## [5] "#' @assets ./build /"                                                
 ## [6] "list()"</code></pre>
 <p>We can add the following to the end of the file and rerun <code>gp_plumb</code>:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data           </span>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data           </span>
 <span class="co">#' @get /api/data   </span>
 <span class="no">get_traffic</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">res</span>) {
   <span class="no">geojson</span> <span class="kw">&lt;-</span> <span class="kw pkg">geojsonsf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="../reference/traffic.html">traffic</a></span>)
@@ -455,7 +473,7 @@
 }</pre></body></html></div>
 <p>For a break down of the above chunk go to the section (<a href="#end-point-explained">End-point explained</a>) explaining it.</p>
 <p>Let us use a helper function from <code>geoplumber</code> called <code>gp_endpoint_from_clip</code>:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="no">old_clip</span> <span class="kw">&lt;-</span> <span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip.html">read_clip</a></span>()
 <span class="co"># adding below to clipboard</span>
 <span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
@@ -472,7 +490,7 @@
 <span class="fu"><a href="../reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span>()
 <span class="kw pkg">clipr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span>(<span class="no">old_clip</span>)</pre></body></html></div>
 <p>check if that worked:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="st">"R/plumber.R"</span>))</pre></body></html></div>
 <pre><code>## [1] "#' @get /api/data"                                      
 ## [2] "get_traffic &lt;- function(res) {"                         
@@ -481,19 +499,19 @@
 ## [5] "  res"                                                  
 ## [6] "}"</code></pre>
 <p>That did work. Now, we should have an extra endpoint:</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="co"># we must change dir into a gp path</span>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># we must change dir into a gp path</span>
 <span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="no">r</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gp_plumb.html">gp_plumb</a></span>(<span class="kw">run</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">r</span>$<span class="no">endpoints</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="co"># it should now be 6</span></pre></body></html></div>
 <pre><code>## [1] 6</code></pre>
 <p>Now, we cannot simulate the last endpoint by executing it as we have done above. But if you would like to run <code>gp_plumb</code>, you should now have <code>geojson</code> object returned to you if you visit <code>localhost:8000/api/data</code> URL on your browser or <code>curl</code> it.</p>
 <p>What about the front end? Well, we need to consume that URL somehow. There is few functions to assist with composing React components. One of them is called <code>gp_add_geojson</code> which takes a URL and can “render” the data from it:</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="../reference/gp_add_geojson.html">gp_add_geojson</a></span>(<span class="kw">endpoint</span> <span class="kw">=</span> <span class="st">"/api/data"</span>) <span class="co"># which is the default</span></pre></body></html></div>
 <pre><code>## Remember to rebuild frontend: gp_build()</code></pre>
 <pre><code>## Success.</code></pre>
 <p>A peek into the main React component called “Welcome” to see if we have a component called <code>GeoJSONComponent</code>:</p>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="st">"src/Welcome.js"</span>))</pre></body></html></div>
 <pre><code>## [1] "                &lt;GeoJSONComponent style={{color:'#3388ff'}} fetchURL='http://localhost:8000/api/data' map={ this.state.map } /&gt;"
 ## [2] "            &lt;/Map&gt;"                                                                                                             
@@ -502,7 +520,7 @@
 ## [5] "}"                                                                                                                              
 ## [6] ""</code></pre>
 <p>Yep, that looks good. We are now ready to build our front end and consume the data served from the R backend:</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
+<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">ow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="../reference/gp_build.html">gp_build</a></span>()
 <span class="co">## Running: npm run build</span>
 <span class="co">## Looks like first run, installing npm packages...</span>
@@ -511,7 +529,7 @@
 <span class="co">## Standard output from create-react-app above works.</span>
 <span class="co">## To run the geoplumber app: gp_plumb()</span></pre></body></html></div>
 <p>Now, we have installed the required dependencies of the npm package and we can run the application using:</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="../reference/gp_plumb.html">gp_plumb</a></span>()
+<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="../reference/gp_plumb.html">gp_plumb</a></span>()
 <span class="co"># visit localhost:8000 to see the application</span></pre></body></html></div>
 </div>
 </div>
@@ -520,7 +538,7 @@
 <a href="#adding-colour-and-linewidth-to-a-remote-geojson-data-" class="anchor"></a>Adding colour and linewidth to a remote geojson data.</h2>
 <p>There is a geojson <a href="https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_rivers_lake_centerlines.geojson">file</a> which includes world’s rivers. Please run this example remembering to have <code>colourvalues</code> R package.</p>
 <p>We can read it into a dataframe, add a “colour” column, then add another “lwd” column and tell <code>geoplumber</code> to use them to colour and draw them accordingly.</p>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"rivers"</span>) <span class="co"># new geoplumber app </span>
+<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="no">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"rivers"</span>) <span class="co"># new geoplumber app </span>
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">path</span>)
 <span class="fu"><a href="../reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span>(<span class="no">path</span>)
 <span class="co">#&gt; [1] FALSE</span>
@@ -590,7 +608,7 @@ World’s rivers coloured and random linewidth assigned using code in above chun
 <div id="end-point-explained" class="section level3">
 <h3 class="hasAnchor">
 <a href="#end-point-explained" class="anchor"></a>End-point explained</h3>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data             (1)</span>
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="co">#' Serve geoplumber::traffic from /api/data             (1)</span>
 <span class="co">#' @get /api/data                                       </span>
 <span class="no">get_traffic</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">res</span>) {                        <span class="co"># (3)</span>
   <span class="no">geojson</span> <span class="kw">&lt;-</span> <span class="kw pkg">geojsonsf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span>(<span class="kw pkg">geoplumber</span><span class="kw ns">::</span><span class="no"><a href="../reference/traffic.html">traffic</a></span>)
