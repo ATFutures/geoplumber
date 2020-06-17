@@ -54,7 +54,42 @@ custom port if you wish, default is 8000
 
 Then visit `localhost:8000` to see your app.
 
-## Example (1)
+## Example (1) reproducible web app
+
+``` r
+library(geoplumber)
+d <- file.path(tempdir(), "gp")
+gp_create(d)
+#> Creating directory: /var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T//Rtmpee0Wxd/gp
+#> To build/run app, set working directory to: /var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T//Rtmpee0Wxd/gp
+#> Standard output from create-react-app works.
+#> You can run gp_ functions from directory: /var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T//Rtmpee0Wxd/gp
+#> To build the front end run: gp_build()
+#> To run the geoplumber app: gp_plumb()
+#> Happy coding.
+setwd(d)
+ps <- gp_plumb()
+#> WARNING:
+#> Looks like geoplumber was not built, serveing API only.
+#> To serve the front end run gp_build() first.
+Sys.sleep(1) # needed on automated build machines :)
+ps
+#> PROCESS 'R', running, pid 24807.
+require(RCurl)
+#> Loading required package: RCurl
+webpage <- getURL("http://localhost:8000")
+webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+tail(webpage)
+#> [1] "    <p>build missing</p>" "  </div>"                
+#> [3] "</div>"                   ""                        
+#> [5] "</body>"                  "</html>"
+ps$kill()
+#> [1] TRUE
+# should fail
+# getURL("http://localhost:8000")
+```
+
+## Example (2)
 
 Serve the `geoplumber::traffic` dataset (data.frame) at a “/api/data”
 endpoint, and view it on the front end.
@@ -143,7 +178,7 @@ You can also now see the raw JSON dataset at
 `http://localhost:8000/api/data`, and on a map on a browser view the map
 at `http://localhost:8000`.
 
-## Example (2)
+## Example (3)
 
 We would like to see default University of Leeds `uni_poly` grow/shrink
 using `sf::st_buffer()` function. Here is a reproducible example (please

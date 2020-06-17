@@ -59,7 +59,26 @@ You can then serve endpoints and front end with:
 
 Then visit `localhost:8000` to see your app.
 
-## Example (1)
+## Example (1) reproducible web app
+```{r nofuss}
+library(geoplumber)
+d <- file.path(tempdir(), "gp")
+gp_create(d)
+setwd(d)
+ps <- gp_plumb()
+Sys.sleep(1) # needed on automated build machines :)
+ps
+require(RCurl)
+webpage <- getURL("http://localhost:8000")
+webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+tail(webpage)
+ps$kill()
+# should fail
+# getURL("http://localhost:8000")
+```
+
+
+## Example (2)
 Serve the `geoplumber::traffic` dataset (data.frame) at a "/api/data" endpoint, and view it on the front end. 
 
 The `traffic` [dataset](https://data.cdrc.ac.uk/dataset/southwark-traffic-counts) is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.
@@ -129,7 +148,7 @@ htmltools::includeHTML(t)
 You can also now see the raw JSON dataset at  `http://localhost:8000/api/data`,
 and on a map on a browser view the map at `http://localhost:8000`.
 
-## Example (2)
+## Example (3)
 
 We would like to see default University of Leeds `uni_poly` grow/shrink using `sf::st_buffer()` function. Here is a reproducible example (please take a look at the default `plumber.R` file in your `my_app` project):
 
