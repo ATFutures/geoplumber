@@ -50,6 +50,7 @@ uol_geojson <- function(res, grow){
 
 #' Tell plumber where our public facing directory is to SERVE.
 #' No need to map / to the build or public index.html. This will do.
+#' plumber1.0 working directory is current file's parent.
 #'
-#' @assets ./build /
+#' @assets ../build /
 list()
