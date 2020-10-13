@@ -10,7 +10,7 @@
 #' }
 #' @export
 gp_explore <- function(sf = geoplumber::traffic,
-                       build = FALSE,
+                       build = TRUE,
                        run = TRUE) {
   # gp_plumb checks project availability
   server <- gp_plumb(run = FALSE)
@@ -31,7 +31,9 @@ gp_explore <- function(sf = geoplumber::traffic,
     res
   })
   server$handle("GET", "/explore", function(req, res){
-    fname <- file.path("build", "index.html")
+    # plumber 1.0 breaking change
+    # wd is plumber.R from geoplumber::gp_plumb
+    fname <- file.path("..", "build", "index.html")
     plumber::include_html(fname, res)
   })
   # prepare frontend
@@ -64,9 +66,9 @@ gp_explore <- function(sf = geoplumber::traffic,
   write(parent, "src/App.js")
   # build & serve
   if(run) {
-    # TODO: if already installed skip
-    gp_install_npm_package(tolower(component.name))
     if(build) {
+      # TODO: if already installed skip
+      gp_install_npm_package(tolower(component.name))
       # TODO: gp_build is not made for this or refactor it.
       gp_build()
     }

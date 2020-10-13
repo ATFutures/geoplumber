@@ -26,7 +26,11 @@ gp_build <- function(clean = FALSE) {
          getwd(), "\nEither change to directory of previously-created ",
          "geoplumger app,\nor run gp_create() to create one.")
 
-  wd <- change_to_proj_dir ()
+  wd <- getwd()
+  if(!gp_is_wd_geoplumber()) {
+    # try finding the newly created geoplumber app directory
+    wd <- change_to_proj_dir ()
+  }
 
   # TODO: do more checks before actually running the command
   second.build <- 1L
