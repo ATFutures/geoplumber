@@ -18,6 +18,7 @@ addons:
       - libgeos-dev
       - libssl-dev
       - xclip
+      - libsodium-dev
 
 # copy from
 # https://github.com/mdlincoln/clipr/blob/master/.travis.yml
