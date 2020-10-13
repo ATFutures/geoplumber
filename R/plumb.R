@@ -65,7 +65,7 @@ gp_plumb <- function(run = TRUE,
   if(run) {
     openURL(host, port)
     if(background) {
-      f <- function(s, p, h) s$run(port = p, host = h)
+      f <- function(s, p, h) {s$setDocs(FALSE); s$run(port = p, host = h)}
       ps <- callr::r_bg(f, list(s = server, p = port, h = host))
       return(ps)
     }

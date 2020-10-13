@@ -76,7 +76,7 @@ gp_explore <- function(sf = geoplumber::traffic,
     # is_port_engated(port = 8000)
     # attempt starting backend in any case
     message("Serving data at ", "http://localhost:8000/api/explore")
-    f <- function(s, p) s$run(port = p)
+    f <- function(s, p) {s$setDocs(FALSE);s$run(port = p)}
     ps <- callr::r_bg(f, list(s = server, p = 8000))
     openURL(path = "explore")
     return(ps)
