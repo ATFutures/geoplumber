@@ -91,12 +91,23 @@ test_that("npm start works", {
   )
 })
 
+make_req <- function(verb, path, qs="", body=""){
+  req <- new.env()
+  req$REQUEST_METHOD <- toupper(verb)
+  req$PATH_INFO <- path
+  req$QUERY_STRING <- qs
+  req$rook.input <- list(read_lines = function(){ body },
+                         read = function(){ charToRaw(body) },
+                         rewind = function(){ length(charToRaw(body)) })
+  req
+}
+
 test_that ("default endpoints", {
   skip_build()
   r <- gp_plumb(run = FALSE, file = "R/plumber.R",
                 front = TRUE)
   expect_equal(length(r$endpoints[[1]]), 4)
-  expect_equal(r$endpoints[[1]][[1]]$exec(),
+  expect_equal(r$endpoints[[1]][[1]]$exec(make_req("GET", "/"), ""),
                list(msg="The message is: 'nothing given'"))
 })
 
