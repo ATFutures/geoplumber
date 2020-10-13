@@ -4,7 +4,7 @@
 \alias{gp_explore}
 \title{Explore an sf R object using Turing eAtlas.}
 \usage{
-gp_explore(sf = geoplumber::traffic, build = FALSE, run = TRUE)
+gp_explore(sf = geoplumber::traffic, build = TRUE, run = TRUE)
 }
 \arguments{
 \item{sf}{a valid sf object that can be converted to geojson}

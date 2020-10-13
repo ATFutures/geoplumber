@@ -15,7 +15,8 @@ gp_install_npm_package <- function(pkg){
   if (is.na(pkg) || (pkg == ""))
     stop("invalid package name to install")
   if(file.exists("package.json")){
-    system(paste0("npm i -S", pkg))
+    message("Installing npm pacakge '", pkg, "'")
+    system(paste0("npm i -S ", pkg))
   } else {
     message(paste0("Error: working directory '", getwd(),
                    "' does not include a package.json."))
