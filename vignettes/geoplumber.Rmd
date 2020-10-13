@@ -102,7 +102,17 @@ length(r$endpoints[[1]]) # it should be 5
 There is a default endpoint where a message is echoed by the server, we can test this using:
 
 ```{r plumber.R2}
-response <- r$endpoints[[1]][[1]]$exec()
+make_req <- function(verb, path, qs="", body=""){
+  req <- new.env()
+  req$REQUEST_METHOD <- toupper(verb)
+  req$PATH_INFO <- path
+  req$QUERY_STRING <- qs
+  req$rook.input <- list(read_lines = function(){ body },
+                         read = function(){ charToRaw(body) },
+                         rewind = function(){ length(charToRaw(body)) })
+  req
+}
+response <- r$endpoints[[1]][[1]]$exec(make_req("GET", "/"), "")
 response$msg # it should be: "The message is: 'nothing given'"
 ```
 
