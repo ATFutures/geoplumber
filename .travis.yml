@@ -32,8 +32,8 @@ before_script:
 before_install:
   - nvm install 12.18.3
   - npm i -g create-react-app
-  - Rscript -e 'install.packages("pkgdown")'
   - Rscript -e 'install.packages("ragg")'
+  - Rscript -e 'install.packages("pkgdown")'
 
 after_success:
   - Rscript -e "covr::codecov()"
