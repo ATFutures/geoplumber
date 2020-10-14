@@ -17,6 +17,7 @@ addons:
       - libssl-dev
       - xclip
       - libsodium-dev
+      - libharfbuzz-dev 
 
 # copy from
 # https://github.com/mdlincoln/clipr/blob/master/.travis.yml
