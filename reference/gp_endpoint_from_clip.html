@@ -138,7 +138,7 @@ This function uses <code>clipr</code> to write it to the 'plumber.R' file.
 For now only file will be plumber.R</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gp_endpoint_from_clip</span>(<span class='kw'>evaluate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>gp_endpoint_from_clip</span><span class='op'>(</span>evaluate <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,7 +158,7 @@ For now only file will be plumber.R</p>
 add silent param, write to other .R files.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Following is a valid endpoint to serve geoplumber::traffic dataset:</span>
 <span class='co'># = begin ===&gt;</span>
 <span class='co'># Serve geoplumber::traffic from /api/data</span>
@@ -171,9 +171,9 @@ add silent param, write to other .R files.</p>
 <span class='co'># }</span>
 <span class='co'># &lt;==== end =</span>
 <span class='co'># holindg current clipboard</span>
-<span class='no'>old_clip</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>clipr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/read_clip.html'>read_clip</a></span>()
+<span class='va'>old_clip</span> <span class='op'>&lt;-</span> <span class='fu'>clipr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/read_clip.html'>read_clip</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># adding above to clipboard</span>
-<span class='kw pkg'>clipr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/write_clip.html'>write_clip</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+<span class='fu'>clipr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/write_clip.html'>write_clip</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
 <span class='st'>"#' Serve geoplumber::traffic from /api/data"</span>,
 <span class='st'>"@get /api/data"</span>,
 <span class='st'>"get_traffic &lt;- function(res) {"</span>,
@@ -181,11 +181,13 @@ add silent param, write to other .R files.</p>
  <span class='st'>"res$body &lt;- geojson"</span>,
  <span class='st'>"res"</span>,
 <span class='st'>"}"</span>
-))
+<span class='op'>)</span><span class='op'>)</span>
 <span class='co'># clipr::read_clip()</span>
-<span class='fu'>gp_endpoint_from_clip</span>()
-<span class='kw pkg'>clipr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/write_clip.html'>write_clip</a></span>(<span class='no'>old_clip</span>)
-}</div></pre>
+<span class='fu'>gp_endpoint_from_clip</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>clipr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/clipr/man/write_clip.html'>write_clip</a></span><span class='op'>(</span><span class='va'>old_clip</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -201,7 +203,7 @@ add silent param, write to other .R files.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

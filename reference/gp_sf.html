@@ -136,10 +136,10 @@ to the backend. For now just a dropdown list.
 The slider only works with circles.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gp_sf</span>(
-  <span class='kw'>sf</span> <span class='kw'>=</span> <span class='kw pkg'>geoplumber</span><span class='kw ns'>::</span><span class='no'><a href='traffic.html'>traffic</a></span>,
-  <span class='kw'>props_list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>road</span> <span class='kw'>=</span> <span class='kw pkg'>geoplumber</span><span class='kw ns'>::</span><span class='no'><a href='traffic.html'>traffic</a></span>$<span class='no'>road</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>gp_sf</span><span class='op'>(</span>
+  sf <span class='op'>=</span> <span class='fu'>geoplumber</span><span class='fu'>::</span><span class='va'><a href='traffic.html'>traffic</a></span>,
+  props_list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>road <span class='op'>=</span> <span class='fu'>geoplumber</span><span class='fu'>::</span><span class='va'><a href='traffic.html'>traffic</a></span><span class='op'>$</span><span class='va'>road</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,9 +156,10 @@ The slider only works with circles.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>gp_sf</span>()
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>gp_sf</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -174,7 +175,7 @@ The slider only works with circles.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

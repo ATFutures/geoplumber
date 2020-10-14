@@ -132,7 +132,7 @@
     <p>From OpenStreetMap</p>
     </div>
 
-    <pre class="usage"><span class='no'>traffic_casualties_2014</span></pre>
+    <pre class="usage"><span class='va'>traffic_casualties_2014</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -140,24 +140,25 @@
     <p>An object of class <code>sf</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 1652 rows and 3 columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>dl_stats19</span>()
-<span class='no'>ac</span> <span class='kw'>=</span> <span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>read_stats19_ac</span>() <span class='co'># 214 mb compressed data</span>
-<span class='no'>ac</span> <span class='kw'>=</span> <span class='no'>ac</span>[!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>ac</span>$<span class='no'>Latitude</span>), ]
-<span class='no'>ac_few_cols</span> <span class='kw'>=</span> <span class='no'>ac</span>[ <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Accident_Severity"</span>, <span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>, <span class='st'>"Date"</span>)]
-<span class='no'>ac_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_as_sf.html'>st_as_sf</a></span>(<span class='no'>ac_few_cols</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>))
-<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_crs.html'>st_crs</a></span>(<span class='no'>ac_sf</span>) <span class='kw'>=</span> <span class='fl'>4326</span>
-<span class='no'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>stplanr</span><span class='kw ns'>::</span><span class='fu'>bb2poly</span>(<span class='kw'>bb</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/coerce-methods.html'>as_Spatial</a></span>(<span class='no'>traffic</span>))
-<span class='no'>bb_sf</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_as_sf.html'>st_as_sf</a></span>(<span class='no'>bb</span>)
-<span class='no'>traffic_casualties</span> <span class='kw'>=</span> <span class='no'>ac_sf</span>[<span class='no'>bb_sf</span>, ]
-<span class='kw pkg'>pryr</span><span class='kw ns'>::</span><span class='fu'>object_size</span>(<span class='no'>traffic_casualties</span>) <span class='co'># 2 MB</span>
-<span class='no'>traffic_casualties_2014</span> <span class='kw'>=</span> <span class='no'>traffic_casualties</span>[
-  <span class='no'>traffic_casualties</span>$<span class='no'>Date</span> <span class='kw'>&gt;</span> <span class='st'>"2014-01-01"</span>,
-]
-<span class='kw pkg'>pryr</span><span class='kw ns'>::</span><span class='fu'>object_size</span>(<span class='no'>traffic_casualties_2014</span>) <span class='co'># 200 kB</span>
-<span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://usethis.r-lib.org/reference/use_data.html'>use_data</a></span>(<span class='no'>traffic_casualties_2014</span>)
-}
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>traffic_casualties_2014</span>$<span class='no'>Date</span>, <span class='no'>traffic_casualties_2014</span>$<span class='no'>Accident_Severity</span>)</div><div class='img'><img src='traffic_casualties_2014-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>stplanr</span><span class='fu'>::</span><span class='fu'>dl_stats19</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>ac</span> <span class='op'>=</span> <span class='fu'>stplanr</span><span class='fu'>::</span><span class='fu'>read_stats19_ac</span><span class='op'>(</span><span class='op'>)</span> <span class='co'># 214 mb compressed data</span>
+<span class='va'>ac</span> <span class='op'>=</span> <span class='va'>ac</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ac</span><span class='op'>$</span><span class='va'>Latitude</span><span class='op'>)</span>, <span class='op'>]</span>
+<span class='va'>ac_few_cols</span> <span class='op'>=</span> <span class='va'>ac</span><span class='op'>[</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Accident_Severity"</span>, <span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span>, <span class='st'>"Date"</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>ac_sf</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sf.html'>st_as_sf</a></span><span class='op'>(</span><span class='va'>ac_few_cols</span>, coords <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>st_crs</a></span><span class='op'>(</span><span class='va'>ac_sf</span><span class='op'>)</span> <span class='op'>=</span> <span class='fl'>4326</span>
+<span class='va'>bb</span> <span class='op'>=</span> <span class='fu'>stplanr</span><span class='fu'>::</span><span class='fu'>bb2poly</span><span class='op'>(</span>bb <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/coerce-methods.html'>as_Spatial</a></span><span class='op'>(</span><span class='va'>traffic</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>bb_sf</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sf.html'>st_as_sf</a></span><span class='op'>(</span><span class='va'>bb</span><span class='op'>)</span>
+<span class='va'>traffic_casualties</span> <span class='op'>=</span> <span class='va'>ac_sf</span><span class='op'>[</span><span class='va'>bb_sf</span>, <span class='op'>]</span>
+<span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'>object_size</span><span class='op'>(</span><span class='va'>traffic_casualties</span><span class='op'>)</span> <span class='co'># 2 MB</span>
+<span class='va'>traffic_casualties_2014</span> <span class='op'>=</span> <span class='va'>traffic_casualties</span><span class='op'>[</span>
+  <span class='va'>traffic_casualties</span><span class='op'>$</span><span class='va'>Date</span> <span class='op'>&gt;</span> <span class='st'>"2014-01-01"</span>,
+<span class='op'>]</span>
+<span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'>object_size</span><span class='op'>(</span><span class='va'>traffic_casualties_2014</span><span class='op'>)</span> <span class='co'># 200 kB</span>
+<span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'><a href='https://usethis.r-lib.org/reference/use_data.html'>use_data</a></span><span class='op'>(</span><span class='va'>traffic_casualties_2014</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>traffic_casualties_2014</span><span class='op'>$</span><span class='va'>Date</span>, <span class='va'>traffic_casualties_2014</span><span class='op'>$</span><span class='va'>Accident_Severity</span><span class='op'>)</span>
+</div><div class='img'><img src='traffic_casualties_2014-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -173,7 +174,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

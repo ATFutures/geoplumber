@@ -1,8 +1,8 @@
 pandoc: '2.2'
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   geoplumber: geoplumber.html
   paper: paper.html
-last_built: 2020-08-16T14:32Z
+last_built: 2020-10-14T09:47Z
 
