@@ -88,9 +88,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <p>geoplumber is an R package which enables data scientists and developers in general to develop scalable geospatial web applications. It is work in progress, and right now we consider it an R powered web application “framework”. It utilizes <a href="https://github.com/trestletech/plumber"><code>plumber</code></a>, which was designed for creating web APIs with R which is Swagger compliant. It supports <a href="https://reactjs.org/">React</a> frontends at present (it may support other frontend frameworks such as VueJS in the future) and geographic data, building on <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
 <p>It can be installed with the following command as it is not yet on CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"ATFutures/geoplumber"</span><span class="op">)</span>
-<span class="co">#&gt; the latest dev version</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"ATFutures/geoplumber"</span><span class="op">)</span>
+<span class="co">#&gt; the latest dev version</span></code></pre></div>
 <!-- ## Installation -->
 <!-- Currently repo is available only on github. To install the package using `devtools`: -->
 <!-- geoplumber, like `devtools` and similar packages works by working directory. It does not currently create an `.Rproj` file but may do so in future. -->
@@ -102,22 +102,22 @@
 </li>
 </ul>
 <p>To create a new web application:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://atfutures.github.com/geoplumber">geoplumber</a></span><span class="op">)</span>
-<span class="fu"><a href="reference/gp_create.html">gp_create</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://atfutures.github.com/geoplumber">geoplumber</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/gp_create.html">gp_create</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span></code></pre></div>
 <p>This will create a <code>my_app</code> folder at your current working directory. Suppose you started an R session from a folder with path <code>/Users/ruser/</code>, you will have <code>/Users/ruser/my_app</code> on your machine.</p>
 <p>You can then build the new project</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
-<span class="fu"><a href="reference/gp_build.html">gp_build</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># the front end and create minified js files.</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
+<span class="fu"><a href="reference/gp_build.html">gp_build</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># the front end and create minified js files.</span></code></pre></div>
 <p>You can then serve endpoints and front end with: <code><a href="reference/gp_plumb.html">gp_plumb()</a></code> # provide custom port if you wish, default is 8000</p>
 <p>Then visit <code>localhost:8000</code> to see your app.</p>
 </div>
 <div id="example-1-reproducible-web-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-1-reproducible-web-app" class="anchor"></a>Example (1) reproducible web app</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://atfutures.github.com/geoplumber">geoplumber</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://atfutures.github.com/geoplumber">geoplumber</a></span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"gp"</span><span class="op">)</span>
 <span class="fu"><a href="reference/gp_create.html">gp_create</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
 <span class="co">#&gt; Creating directory: /var/folders/z7/l4z5fwqs2ksfv22ghh2n9smh0000gp/T//Rtmpee0Wxd/gp</span>
@@ -146,7 +146,7 @@
 <span class="va">ps</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span>
 <span class="co"># should fail</span>
-<span class="co"># getURL("http://localhost:8000")</span></pre></div>
+<span class="co"># getURL("http://localhost:8000")</span></code></pre></div>
 </div>
 <div id="example-2" class="section level2">
 <h2 class="hasAnchor">
@@ -154,17 +154,17 @@
 <p>Serve the <code><a href="reference/traffic.html">geoplumber::traffic</a></code> dataset (data.frame) at a “/api/data” endpoint, and view it on the front end.</p>
 <p>The <code>traffic</code> <a href="https://data.cdrc.ac.uk/dataset/southwark-traffic-counts">dataset</a> is from CDRC at University of Leeds which is traffic data locations for the larger traffic dataset.</p>
 <p>To achive this copy the following endpoint/API to the clipboard of your machine. If you like to understand the function, you need to learn <code>plumber</code> package.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co">#' Serve geoplumber::traffic from /api/data</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#' Serve geoplumber::traffic from /api/data</span>
 <span class="co">#' @get /api/data</span>
 <span class="va">get_traffic</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">geojson</span> <span class="op">&lt;-</span> <span class="fu">geojsonsf</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span><span class="op">(</span><span class="fu">geoplumber</span><span class="fu">::</span><span class="va"><a href="reference/traffic.html">traffic</a></span><span class="op">)</span>
   <span class="va">res</span><span class="op">$</span><span class="va">body</span> <span class="op">&lt;-</span> <span class="va">geojson</span>
   <span class="va">res</span>
-<span class="op">}</span></pre></div>
+<span class="op">}</span></code></pre></div>
 <p>Then run (re-copied into clipboard just in case):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
 <span class="va">old_clip</span> <span class="op">&lt;-</span> <span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip.html">read_clip</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># adding above to clipboard</span>
 <span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
@@ -177,15 +177,15 @@
  <span class="st">"}"</span>
  <span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="reference/gp_endpoint_from_clip.html">gp_endpoint_from_clip</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span><span class="op">(</span><span class="va">old_clip</span><span class="op">)</span></pre></div>
+<span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span><span class="op">(</span><span class="va">old_clip</span><span class="op">)</span></code></pre></div>
 <p>This has now added a new endpoint at: <code>/api/data</code>. To consume it, we can simply run:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
-<span class="fu"><a href="reference/gp_add_geojson.html">gp_add_geojson</a></span><span class="op">(</span><span class="st">"/api/data"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my_app"</span><span class="op">)</span>
+<span class="fu"><a href="reference/gp_add_geojson.html">gp_add_geojson</a></span><span class="op">(</span><span class="st">"/api/data"</span><span class="op">)</span></code></pre></div>
 <p>You can now see the data by running:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="reference/gp_build.html">gp_build</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># build changes</span>
-<span class="fu"><a href="reference/gp_plumb.html">gp_plumb</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/gp_build.html">gp_build</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># build changes</span>
+<span class="fu"><a href="reference/gp_plumb.html">gp_plumb</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Or in the following “export” function a basic <code>leaflet</code> map using the “headless” <code>gp_map</code> funciton:</p>
 <div class="figure" style="text-align: center">
 <p><img src="reference/figures/gp.png" alt="&lt;a href='https://www.cdrc.ac.uk/'&gt;CDRC&lt;/a&gt; London traffic data on geoplumber" width="70%"></p>
@@ -194,23 +194,23 @@
 <p><a href="https://www.cdrc.ac.uk/">CDRC</a> London traffic data on geoplumber</p>
 
 </div>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># cd into a geoplumber app</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># cd into a geoplumber app</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"my-app/"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://atfutures.github.com/geoplumber">geoplumber</a></span><span class="op">)</span>
 <span class="co"># view a dataset such as the `traffic` sf object bundled </span>
 <span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gp_map.html">gp_map</a></span><span class="op">(</span><span class="fu">geoplumber</span><span class="fu">::</span><span class="va"><a href="reference/traffic.html">traffic</a></span>, browse_map <span class="op">=</span> <span class="cn">FALSE</span>,
             height <span class="op">=</span> <span class="st">"320px"</span>, width <span class="op">=</span> <span class="st">"90%"</span><span class="op">)</span>
 <span class="co"># use includeHTML for markdown</span>
-<span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></pre></div>
+<span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></code></pre></div>
 <p>You can also now see the raw JSON dataset at <code>http://localhost:8000/api/data</code>, and on a map on a browser view the map at <code>http://localhost:8000</code>.</p>
 </div>
 <div id="example-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-3" class="anchor"></a>Example (3)</h2>
 <p>We would like to see default University of Leeds <code>uni_poly</code> grow/shrink using <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">sf::st_buffer()</a></code> function. Here is a reproducible example (please take a look at the default <code>plumber.R</code> file in your <code>my_app</code> project):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="reference/gp_create.html">gp_create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/gp_create.html">gp_create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="reference/gp_is_wd_geoplumber.html">gp_is_wd_geoplumber</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="reference/gp_add_slider.html">gp_add_slider</a></span><span class="op">(</span>
@@ -225,7 +225,7 @@
   pattern <span class="op">=</span> <span class="st">'&lt;GeoJSONComponent fetchURL="http://localhost:8000/api/uol" /&gt;'</span>,
   replace <span class="op">=</span> <span class="cn">TRUE</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>Run the project (this time at <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code> location) by:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">gp_build</span>() <span class="co"># build changes</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">r &lt;-<span class="st"> </span><span class="kw">gp_plumb</span>() <span class="co"># run in bg</span></a>
@@ -254,8 +254,8 @@
 <h3 class="hasAnchor">
 <a href="#npm-packages-used" class="anchor"></a>npm packages used</h3>
 <p>The following are included by default, the versions are just from old .Rmd file. geoplumber updates these as the package is developed. Feel free to replace it with your own .json package definer as and when.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">package</th>
@@ -343,8 +343,8 @@
 <h2 class="hasAnchor">
 <a href="#tests" class="anchor"></a>Tests</h2>
 <p>Tests currently only apply to restricted components of full functionality.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/test.html">test</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/test.html">test</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="roadmap" class="section level2">
 <h2 class="hasAnchor">
