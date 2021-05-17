@@ -4,7 +4,7 @@ test_that("import added", {
   expect_message(gp_create(gp))
   proj_dir <- read_tempfile()
   od <- setwd(proj_dir)
-  # check import in ther
+  # check import in there
   gp_explore(run = FALSE)
   cont <- readLines("src/App.js")
   expect_true(any(grepl("Eatlas", cont)))

@@ -73,7 +73,7 @@ gp_explore <- function(sf = geoplumber::traffic,
       gp_build()
     }
     # TODO: is it free?
-    # is_port_engated(port = 8000)
+    # is_port_engaged(port = 8000)
     # attempt starting backend in any case
     message("Serving data at ", "http://localhost:8000/api/explore")
     f <- function(s, p) {s$setDocs(FALSE);s$run(port = p)}
