@@ -23,7 +23,7 @@ gp_add_slider(
 \verb{onChange=\{(sliderInput) => this.setState(\{sliderInput\})\}} sets the state of parent
 with value returned from the html input's onChange function.}
 
-\item{to_vector}{instead of reading default Welcome.js}
+\item{to_vector}{instead of reading default Home.js}
 }
 \description{
 At this moment, there is no strategy to manage parent <> child

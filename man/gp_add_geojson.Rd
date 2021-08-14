@@ -28,9 +28,9 @@ TODO: either here, or separate function, add my own component.
 \enumerate{
 \item Add a component with ability to fetch geojson from an endpoint to /components
 \item Import it into the App.js (TODO: into any other component)
-Errors: stop execution if either React 'src' folder or for now "Welcome.js" component
+Errors: stop execution if either React 'src' folder or for now "Home.js" component
 does not exist. This is because for now we are adding the ready to use GeoJSONComponent component
-into src/Welcome.js
+into src/Home.js
 }
 }
 \examples{

@@ -33,7 +33,7 @@ swagger <- function(req, res){
 library(geoplumber)
 uol <- rbind(uni_point, uni_poly)
 uol <- geojsonsf::sf_geojson(uol, factors_as_string=FALSE)
-#' Welcome endpoint. Feel free to remove, relevant line in Welcome.js (line 41)
+#' Welcome endpoint. Feel free to remove, relevant line in Home.js (line 41)
 #' @get /api/uol
 uol_geojson <- function(res, grow){
   if(!missing(grow) && !is.na(as.numeric(grow))) {

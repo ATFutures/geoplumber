@@ -42,10 +42,10 @@ gp_sf <- function(sf = geoplumber::traffic,
     res
   })
   # prepare frontend
-  # must be done on clean Welcome.js
+  # must be done on clean Home.js
   # 1. add a GeoJSONComponent
   # 2. dropdown menu items
-  parent <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
+  parent <- readLines(system.file(paste0("js/src/Home.js"), package = "geoplumber"))
   # import first
   component.name <- "RBDropdownComponent"
   component.path <- paste0("components/", component.name, ".jsx")
@@ -101,7 +101,7 @@ gp_sf <- function(sf = geoplumber::traffic,
     }
   }
   # finally write before building
-  write(parent, "src/Welcome.js")
+  write(parent, "src/Home.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
     # TODO: gp_build is not made for this or refactor it.

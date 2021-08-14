@@ -163,7 +163,7 @@ gp_add_slider(
   step = 0.001
 )
 gp_change_file(
-  path = "src/Welcome.js",
+  path = "src/Home.js",
   what = '<GeoJSONComponent fetchURL={"http://localhost:8000/api/uol?grow=" + this.state.sliderInput} />
 ',
   pattern = '<GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />',

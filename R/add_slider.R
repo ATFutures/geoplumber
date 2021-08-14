@@ -11,7 +11,7 @@
 #' @param min min to pass to the slider
 #' @param max max to pass to the slider
 #' @param step step changes for min & max
-#' @param to_vector instead of reading default Welcome.js
+#' @param to_vector instead of reading default Home.js
 #'
 #' @export
 #' @examples \dontrun{
@@ -28,10 +28,10 @@ gp_add_slider <- function(
   # Read the template
   component.name <- "RBSlider"
   component.path <- paste0("components/", component.name, ".jsx")
-  # Add component to geoplumber Welcome.js
+  # Add component to geoplumber Home.js
   target <- to_vector # dont read then check, check then read.
   if("NA" == target)
-     target <- readLines("src/Welcome.js")
+     target <- readLines("src/Home.js")
   # read target compoennt, if not, stop
   if(length(target) < 10) { # TODO: much better check than this
     stop("geoplumber could not insert component into target component.")
@@ -52,7 +52,7 @@ gp_add_slider <- function(
                )
   # now write to project
   if("NA" == to_vector){
-    write(target, "src/Welcome.js")
+    write(target, "src/Home.js")
   } else {
     return(target)
   }

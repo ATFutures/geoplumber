@@ -24,10 +24,10 @@ test_that("geojson works on a geoplumber app path", {
   expect_equal(gp_geojson(geojson_url = geojson_url, colour_pal = "mock"),
                TRUE)
   # we should now have a 'style={(feature) => ({fillColor:feature.properties.'
-  # section in the Welcome.js
+  # section in the Home.js
   expect_true(any(grepl("fillColor:feature.properties.",
                         readLines(file.path(
-                          temp.dir, "src/Welcome.js"
+                          temp.dir, "src/Home.js"
                         )))))
   Sys.unsetenv("DO_NOT_PLUMB")
   setwd(oldwd)

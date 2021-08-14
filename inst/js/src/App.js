@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Welcome from './Welcome';
+import Home from './Home';
 import Header from './components/Header';
 
 import './App.css';
@@ -21,6 +21,8 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path="/" component={Welcome} />
+          <Route exact path="/about" component={() => <p>About...</p>} />
+          <Route exact path="/test" component={() => <p>Test...</p>} />
         </Switch>
       </main>
     )

@@ -47,7 +47,8 @@ change_to_proj_dir <- function () {
 #' @param what vector to add to target
 #' @param before or after the pattern
 add_lines <- function (target, pattern, what, before = TRUE) {
-  where.index <- grep(pattern, target)
+  where.index <- grep(pattern, target) # get the last location in file
+  where.index <- where.index[length(where.index)]
   spaces <- next_spaces(target[where.index])
   if(before) {
     target <- c(target[1:where.index - 1],

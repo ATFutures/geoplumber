@@ -37,7 +37,7 @@ gp_explore <- function(sf = geoplumber::traffic,
     plumber::include_html(fname, res)
   })
   # prepare frontend
-  # must be done on clean Welcome.js
+  # must be done on clean Home.js
   # 1. import eAtlas/kepler
   # 2. install it
   # 3. add to file

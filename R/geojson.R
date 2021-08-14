@@ -19,7 +19,7 @@ gp_geojson <- function(geojson_url,
   endpoint <- "/api/gp"
   component_name <- "GeoJSONComponent"
   component_path <- paste0("components/", component_name, ".jsx")
-  parent <- readLines(system.file(paste0("js/src/Welcome.js"), package = "geoplumber"))
+  parent <- readLines(system.file(paste0("js/src/Home.js"), package = "geoplumber"))
   parent <- add_import_component(parent, component_name, component_path)
 
   colour_function <-  ""
@@ -63,7 +63,7 @@ gp_geojson <- function(geojson_url,
   })
 
   # finally write before building
-  write(parent, "src/Welcome.js")
+  write(parent, "src/Home.js")
   # build & serve
   if(!identical(Sys.getenv("DO_NOT_PLUMB"), "false")) {
     if(build) gp_build()

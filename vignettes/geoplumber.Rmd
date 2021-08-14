@@ -202,7 +202,7 @@ gp_add_geojson(endpoint = "/api/data") # which is the default
 A peek into the main React component called "Welcome" to see if we have a component called `GeoJSONComponent`:
 ```{r cat-plumber.R3}
 ow <- setwd(path)
-tail(readLines("src/Welcome.js"))
+tail(readLines("src/Home.js"))
 ```
 
 Yep, that looks good. We are now ready to build our front end and consume the data served from the R backend:

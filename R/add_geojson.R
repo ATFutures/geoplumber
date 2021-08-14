@@ -5,9 +5,9 @@
 #' TODO: either here, or separate function, add my own component.
 #' 1. Add a component with ability to fetch geojson from an endpoint to /components
 #' 2. Import it into the App.js (TODO: into any other component)
-#' Errors: stop execution if either React 'src' folder or for now "Welcome.js" component
+#' Errors: stop execution if either React 'src' folder or for now "Home.js" component
 #' does not exist. This is because for now we are adding the ready to use GeoJSONComponent component
-#' into src/Welcome.js
+#' into src/Home.js
 #'
 #' @param endpoint where to fetch the geojson from
 #' @param color for now color value for all geojson
@@ -26,7 +26,7 @@ gp_add_geojson <- function(endpoint = "/api/data",
                            color = "#3388ff",
                            line_weight = NA,
                            properties = FALSE){
-  check_welcome <- file.exists("src/Welcome.js")
+  check_welcome <- file.exists("src/Home.js")
   if(!check_welcome) {
     stop("Is current dir a geoplumber app?
          \nTry geoplumber::gp_create() first.")
@@ -37,11 +37,11 @@ gp_add_geojson <- function(endpoint = "/api/data",
   component.path <- paste0("components/", component.name, ".jsx")
   component <- system.file(paste0("js/src/", component.path), package = "geoplumber")
   component <- readLines(component)
-  # Add component to Welcome.js
-  welcome <- readLines("src/Welcome.js")
+  # Add component to Home.js
+  welcome <- readLines("src/Home.js")
   # read welcome compoennt, if not, stop
   if(length(welcome) < 10) { # TODO: much better check than this
-    stop("geoplumber could not insert component into Welcome.js")
+    stop("geoplumber could not insert component into Home.js")
   }
   # import component
   welcome <- add_import_component(welcome, component.name, component.path)
@@ -82,7 +82,7 @@ gp_add_geojson <- function(endpoint = "/api/data",
                )
   # now write to project
   write(component, file = paste0("src/", component.path))
-  write(welcome, "src/Welcome.js")
+  write(welcome, "src/Home.js")
   message("Remember to rebuild frontend: gp_build()")
   message("Success. ")
 }
